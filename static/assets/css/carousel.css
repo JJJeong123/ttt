@@ -111,11 +111,12 @@
 }
 
 .scroll_button {
+  background-color: rgb(256, 256, 256, 0.2);
+  z-index:99;
   position: absolute;
-  background-color: red;
-  height: 150px;
+  height: 339px;
   width: 43px;
-  top: 75px;
+  top: 3px;
   padding: 5px;
   opacity: 0.5;
   display: flex;
@@ -124,18 +125,15 @@
   cursor: pointer;
 }
 .right_arrow {
-  right: 0px;
+  right: 0;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(20%);
-  transition: all 500ms;
 }
 .left_arrow {
-  left: 0px;
+  left: 0;
+  display: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-20%);
-  transition: all 500ms;
 }
 .items:hover .right_arrow {
   opacity: 1;
@@ -146,24 +144,4 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(0%);
-}
-.space {
-  min-width: 155px;
-  height: 126px;
-}
-.arrow {
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-}
-
-.right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-.left {
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
 }
