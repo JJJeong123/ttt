@@ -18,7 +18,8 @@
 #
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.db.models.deletion import CASCADE
+from django.contrib.auth.models import User
 
 
 class DjangoContentType(models.Model):
@@ -162,7 +163,7 @@ class Member(models.Model):
     mem_point = models.IntegerField(blank=True, null=True)
     monthtly_price = models.IntegerField(blank=True, null=True)
     mem_level = models.ForeignKey(Membership, models.CASCADE)
-    user = models.OneToOneField(AuthUser, models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(User, models.CASCADE, blank=True, null=True)
 
     class Meta:
         managed = False

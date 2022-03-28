@@ -43,8 +43,10 @@
           <a class="nav-link scrollto active" href="#"><i class="bi bi-search"></i></a>
         </div>
         <a><i class="bi bi-geo-alt"></i></a>
-        <a class="nav-link scrollto active" href="#"><i class="bi bi-cart2"></i></a>
-        <a class="nav-link scrollto active" href="#"><i class="bi bi-person"></i></a>
+        <a class="nav-link scrollto active" href="{% url 'logout' %}"><i class="bi bi-cart2"></i></a>
+        <a class="nav-link scrollto active" href="{% url 'login' %}"><i class="bi bi-person"></i></a>
+        <a class="nav-link scrollto active" href="{% url 'register' %}"><i class="bi bi-person"></i></a>
+        <p>{{request.user.id}}</p>
       </div>
 
       <i class="bi bi-list mobile-nav-toggle"></i>
