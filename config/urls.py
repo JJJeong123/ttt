@@ -15,5 +15,5 @@ urlpatterns = [
     path('check-same-id', CheckSameId.as_view(), name='check-same-id'),
     path('check-same-email', CheckSameEmail.as_view(), name='check-same-email'),
 
-    #path('product/', include('product.urls')),
+    path('chat/', include('chat.urls')),
 ]

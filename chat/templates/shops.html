@@ -1,0 +1,100 @@
+{% extends 'layouts/base.html' %} {% load static %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid" id="container-wrapper"> 
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 pl-2 text-gray-800">점포 목록(추후엔 테이블이 아닌 그림으로)</h1>
+  </div>
+    
+  <div class="row">
+    <div class="col">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class ="row g-3 needs-validation">
+            <div display="none">
+              <div id="Id" name="Id">{{ i.id }}</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="ShopCategoryId">점포 카테고리</label>
+              <select class="form-control" id="ShopCategoryId" name="ShopCategoryId" required>
+                {% if ShopCategories %}
+                <option value="" disabled selected>점포 카테고리를 선택하세요.</option>
+                {% for i in ShopCategories %}
+                <option value="{{i.name}}">{{i.name}}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+              <div class="valid-feedback">Complete</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="ShopName">점포명</label>
+              <input class=" form-control" id="ShopName" name="ShopName" type="text" placeholder="점표명을 입력하세요." required/>
+              <div class="valid-feedback">Complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card mb-3 p-3">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">점포 목록</h6>
+        </div>
+        <div class="table-responsive p-3" id="aaa">
+          <table class="table align-items-center table-flush table-hover" id="dataTableHover-shop">
+            <thead class="thead-light">
+              <tr>
+                <th>No.</th>
+                <th>점포 카테고리</th>
+                <th>점포명</th>
+                <th>담당자</th>
+                <th>연락처</th>
+                <th>채팅</th>
+              </tr>
+            </thead>
+            <tbody class="list" id="bulk-select-body">
+              {% if ShopList %} 
+              {% for i in ShopList %}
+              <tr>
+                <td class="align-middle" id="Id">{{ i.id }}</td>
+                <td class="align-middle" id="Category">{{ i.shop_category.name }}</td>
+                <td class="align-middle" id="Name">{{ i.shop_name }}</td>
+                <td class="align-middle" id="Manager">{{ i.manager.user.username }}</td>
+                <td type="tel" class="align-middle" id="Phone">{{ i.shop_phone }}</td>
+                <td class="align-middle">
+                  <button class="btn btn-outline-primary pb-1" type="button">
+                    채팅
+                  </button>
+                </td>
+              </tr>
+              {% endfor %} 
+              {% else %}
+              <tr>
+                <td class="align-middle">Data does not exist.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script src="{% static 'jsmeta/chat/script_shop_list.js' %}"></script>
+
+{% endblock javascripts %}
