@@ -20,6 +20,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
+from django_quill.fields import QuillField
 
 
 class DjangoContentType(models.Model):
@@ -177,7 +178,7 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    memeber = models.ForeignKey(Member, models.CASCADE)
+    member = models.ForeignKey(Member, models.CASCADE)
 
     class Meta:
         managed = False
@@ -191,7 +192,7 @@ class Payment(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
     pay_method = models.CharField(max_length=50, blank=True, null=True)
-    memeber = models.ForeignKey(Member, models.CASCADE)
+    member = models.ForeignKey(Member, models.CASCADE)
 
     class Meta:
         managed = False
@@ -251,9 +252,12 @@ class Product(models.Model):
     price = models.CharField(max_length=50, blank=True, null=True)
     stock = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
-    description = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     pro_category = models.ForeignKey(ProCategory, models.CASCADE)
     shop = models.ForeignKey(Shop, models.CASCADE)
+    content = QuillField(blank=True, null=True)
+    main_img = models.ImageField(blank=True, null=True, upload_to='product/main')
+
 
     class Meta:
         managed = False
@@ -334,7 +338,7 @@ class Comment(models.Model):
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
     content = models.CharField(max_length=50, blank=True, null=True)
     rate = models.CharField(max_length=50, blank=True, null=True)
-    memeber = models.ForeignKey(Member, models.CASCADE)
+    member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
 
     class Meta:
