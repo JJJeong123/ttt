@@ -341,6 +341,7 @@ class Comment(models.Model):
     member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
     comment_img = models.ImageField(blank=True, null=True, upload_to='comment/main')
+    reply_flag = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         managed = False
