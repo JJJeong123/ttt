@@ -297,6 +297,7 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(Order, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
     status = models.CharField(max_length=50, blank=True, null=True)
+    review_flag = models.CharField(max_length=10, blank=True, null=True, default='0')
 
     class Meta:
         managed = False
