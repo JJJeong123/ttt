@@ -346,6 +346,19 @@ class Comment(models.Model):
         managed = False
         db_table = 'comment'
 
+class CommentReply(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    content = models.CharField(max_length=50, blank=True, null=True)
+    comment = models.ForeignKey(Comment, models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'comment_reply'
+
 
 
 class QnaCategory(models.Model):
