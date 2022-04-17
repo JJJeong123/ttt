@@ -296,6 +296,7 @@ class OrderProduct(models.Model):
     amount = models.IntegerField(blank=True, null=True)
     order = models.ForeignKey(Order, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
+    status = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -336,7 +337,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     rate = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
