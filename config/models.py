@@ -340,6 +340,7 @@ class Comment(models.Model):
     rate = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
+    comment_img = models.ImageField(blank=True, null=True, upload_to='comment/main')
 
     class Meta:
         managed = False
