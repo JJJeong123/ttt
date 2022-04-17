@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function(){
       },
       columns: [
         {data : 'created_at'},
-        {data : 'product__shop__shop_name'},
-        {data : 'product__name'},
+        {data : 'orderproduct__product__shop__shop_name'},
+        {data : 'orderproduct__product__name'},
         {data : 'rate'},
     ],
 });

@@ -36,7 +36,7 @@ btnSubmit.addEventListener('click', async() => {
     const formData = new FormData(document.getElementById('uploadImgForm'));
     formData.append('rate', document.getElementById('rate').value);
     formData.append('content', document.getElementById('content').value);
-    formData.append('proId', document.getElementById('proId').value);
+    formData.append('orderProId', document.getElementById('orderProId').value);
 
     console.log(content);
    

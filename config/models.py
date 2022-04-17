@@ -341,7 +341,7 @@ class Comment(models.Model):
     content = models.TextField(blank=True, null=True)
     rate = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
-    product = models.ForeignKey(Product, models.CASCADE)
+    orderproduct = models.ForeignKey(OrderProduct, models.CASCADE)
     comment_img = models.ImageField(blank=True, null=True, upload_to='comment/main')
     reply_flag = models.CharField(max_length=10, blank=True, null=True)
 

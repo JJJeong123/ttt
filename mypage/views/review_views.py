@@ -24,8 +24,8 @@ class ReviewTableView(View):
     def get(self, request: HttpRequest):
         user_id=request.user.id
 
-        ReviewProduct = list(OrderProduct.objects.filter(order__member__user_id=user_id, status='4', deleteflag='0').values('id', 'order__date','product__shop__shop_name', 'product__name'))
-        Review = list(Comment.objects.filter(member__user_id=user_id, deleteflag='0').values('id', 'created_at', 'product__shop__shop_name', 'product__name', 'rate'))
+        ReviewProduct = list(OrderProduct.objects.filter(order__member__user_id=user_id, status='4', deleteflag='0', review_flag='0').values('id', 'order__date','product__shop__shop_name', 'product__name'))
+        Review = list(Comment.objects.filter(member__user_id=user_id, deleteflag='0').values('id', 'created_at', 'orderproduct__product__shop__shop_name', 'orderproduct__product__name', 'rate'))
 
         context = {
             'reviewProduct': ReviewProduct,
@@ -44,7 +44,7 @@ class ReviewPostView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context={}
 
-        reviewPro = list(OrderProduct.objects.filter(id=kwargs.get('id')).values('product__id', 'order__date','product__shop__shop_name', 'product__name'))
+        reviewPro = list(OrderProduct.objects.filter(id=kwargs.get('id')).values('id', 'product__id', 'order__date','product__shop__shop_name', 'product__name'))
         context['reviewPro'] = reviewPro[0]
 
         return context
@@ -56,19 +56,23 @@ class ReviewPostView(TemplateView):
         mainImg = request.FILES.getlist('mainImg')
         Rate = request.POST.get('rate')
         Content = request.POST.get('content')
-        proId = request.POST.get('proId')
+        orderProId = request.POST.get('orderProId')
 
         for image in mainImg:
             Comment.objects.create(
                 member = Member.objects.get(user=request.user),
-                product = Product.objects.get(id=proId),
+                orderproduct = OrderProduct.objects.get(id=orderProId),
                 comment_img = image,
                 content = Content,
                 rate = Rate,
                 reply_flag = '0',
                 deleteflag='0'
             )
-
+        
+        OrderProduct.objects.filter(id=orderProId).update(
+            review_flag='1'
+        )
+      
         context['success']=True
         return JsonResponse(context, content_type='application/json')
 
