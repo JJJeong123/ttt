@@ -1,30 +1,58 @@
+{% extends 'layouts/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<body>
-    
-    <form class="user" id="LoginForm">
-        <div class="form-group">
-          <input type="email" class="form-control" for="username" name="username" id="username" 
-            placeholder="아이디">
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호">
-        </div>
-        <div class="form-group">
-          <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
-            <input type="checkbox" class="custom-control-input" id="customCheck">
-            <label class="custom-control-label" for="customCheck">로그인 상태 유지</label>
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/css/login.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container bg-gradient-login">
+  <div class="container-login">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card border-0 my-5">
+          <div class="card-body p-0">
+            <div class="login-form">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-5">로그인</h1>
+              </div>
+              <form class="user col-lg-12" id="LoginForm">
+                <div class="form-group justify-content-center mb-3">
+                  <input type="email" class="form-control input-email" for="username" name="username" id="username" 
+                    placeholder="아이디">
+                </div>
+                <div class="form-group mb-2">
+                  <input type="password" class="form-control input-password" name="password" id="password" placeholder="비밀번호">
+                </div>
+                <div class="form-group mb-3">
+                  <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                    <label class="custom-control-label" for="customCheck">로그인 상태 유지</label>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <button type="button" id="login" >로그인</button>
+                </div>
+              </form>
+              <div class="text-center col-lg-12" >
+                <a href="/register"><button href="/register" type="button" id="register">회원가입</button></a>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" type="button" id="login">로그인</button>
-        </div>
-      </form>
-    
-    
-    <script src="{% static 'jsmeta/user/script_login.js' %}"></script> 
+      </div>
+    </div>
+  </div>
+</div>
+      
+{% endblock %}
 
-</body>
-</html>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/user/script_login.js' %}"></script> 
+{% endblock javascripts %}
+
+    
