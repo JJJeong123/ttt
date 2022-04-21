@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'config',
     'product',
     'chat',
+    'mypage',
     'storages',
 ]
 

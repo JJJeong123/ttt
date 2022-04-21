@@ -17,4 +17,5 @@ urlpatterns = [
     path('check-same-email', CheckSameEmail.as_view(), name='check-same-email'),
 
     path('chat/', include('chat.urls')),
+    path('mypage/', include('mypage.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
