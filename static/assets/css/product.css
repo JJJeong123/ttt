@@ -1,10 +1,136 @@
+@media (max-width: 390px) {
+  .product img {
+    height: 155px;
+  }
+}
+@media (min-width: 390px) {
+  .product img {
+    height: 192px;
+  }
+}
+@media (min-width: 576px) {
+  .product img {
+    height: 192px;
+  }
+}
 @media (min-width: 768px) {
+  .product img {
+    height: 225px;
+  }
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 95% !important;
   }
 }
 @media (min-width: 1400px) {
+  .product img {
+    height: 550px;
+    margin-bottom: 6px;
+  }
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1140px !important;
   }
+}
+.product img {
+  border-radius: 5px;
+}
+
+.product__info-title {
+  font-size: 18pt;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.product__info-desc {
+  font-size: 13pt;
+  margin-bottom: 25px;
+}
+
+.product__info-price {
+  font-size: 19pt;
+  font-weight: 600;
+}
+
+.product__info-price span:first-child {
+  color: #ff5b5b; 
+  margin-right: 8px;
+}
+
+.product__info-price span:last-child {
+  font-size: 15pt;
+  font-weight: 500;
+}
+
+.btn-product {
+  background-color: #1c5d1c;
+  color: white;
+  height: 50px;
+  border: 0px;
+  border-radius: 4px;
+  font-size: 14pt;
+  float: right;
+}
+#product__info {
+  position: relative;
+}
+
+.product__button {
+  display: flex;
+  margin-top: 10px;
+  position: absolute;
+  bottom: 0;
+}
+
+.product__button span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  height: 50px;
+  width: 50px; 
+  margin-right: 10px;
+}
+
+.product__button span i {
+  color: #1c5d1c;
+}
+
+.product__tab {
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 13px;
+  padding: 5px 0;
+  border-radius: 4px;
+
+  vertical-align: top;
+}
+
+.product__tab li {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.product__tab li:nth-child(1) {
+  width: 25%;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.product__tab li:nth-child(2) {
+  width: 25%;
+  height: 100%;
+
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.product__tab li:nth-child(3) {
+  width: 25%;
+  height: 100%;
+
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.product__tab li:nth-child(4) {
+  width: 25%;
+  height: 100%;
 }

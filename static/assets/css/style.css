@@ -166,6 +166,9 @@ h1, h2, h3, h4, h5, h6 {
   list-style-type: none;
 }
 
+li {
+  list-style-type: none;
+}
 .navbar a, .navbar a:focus {
   display: flex;
   align-items: center;

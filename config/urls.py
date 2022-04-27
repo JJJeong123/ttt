@@ -18,4 +18,5 @@ urlpatterns = [
 
     path('chat/', include('chat.urls')),
     path('mypage/', include('mypage.urls')),
+    path('product/', include('product.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
