@@ -9,7 +9,11 @@
         <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
         <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
         <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
-        <a href="#">{{request.user.id}} 님</a>
+        <a href="#">
+          {% if memname %}
+            {{memname}} 님
+          {% endif %}
+        </a>
       </div>
     </div>
   </section>

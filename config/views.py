@@ -9,10 +9,11 @@ from config.models import Member, Membership
 
 class index(View):
     def get(self, request: HttpRequest, *args, **kwargs):
-        context = {}
-        
-        return render(request, 'index.html', context)
+        context={}
+        if request.user.is_authenticated:
+            context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
 
+        return render(request, 'index.html', context)
 
 class LoginView(View):
     '''
