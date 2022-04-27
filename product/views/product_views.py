@@ -3,6 +3,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import F
 
 from config.models import Product, CartProduct, Cart, Member
 
@@ -36,11 +37,18 @@ class ProductDetailView(View):
             )
         
         # Add product to cart
-        CartProduct.objects.create(
-            amount=amount,
-            cart=Cart.objects.filter(member__user_id=request.user.id).first(),
-            product=Product.objects.filter(id=id).first(),
-        )
+        cart_id=list(Cart.objects.filter(member__user_id=request.user.id).values_list('id', flat=True))[0]
+        
+        if(isAlreadyInCart(cart_id, id)):
+            CartProduct.objects.filter(cart=cart_id).update(
+                amount = F('amount')+amount
+            )
+        else:
+            CartProduct.objects.create(
+                amount=amount,
+                cart=Cart.objects.filter(member__user_id=request.user.id).first(),
+                product=Product.objects.filter(id=id).first(),
+            )
 
         context['success']=True
 
@@ -48,5 +56,10 @@ class ProductDetailView(View):
 
 def doesCartExist(id):
     if (Cart.objects.filter(member__user_id=id).count() > 0):
+        return True
+    return False
+
+def isAlreadyInCart(cart_id, product_id):
+    if(CartProduct.objects.filter(cart=cart_id, product=product_id).count() > 0):
         return True
     return False
