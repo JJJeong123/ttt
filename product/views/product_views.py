@@ -42,9 +42,10 @@ class ProductDetailView(View):
         cart_id=list(Cart.objects.filter(member__user_id=request.user.id).values_list('id', flat=True))[0]
         
         if(isAlreadyInCart(cart_id, id)):
-            CartProduct.objects.filter(cart=cart_id).update(
+            CartProduct.objects.filter(cart=cart_id, product=id).update(
                 amount = F('amount')+amount,
                 updated_at = datetime.now(),
+                deleteflag='0',
             )
         else:
             CartProduct.objects.create(
