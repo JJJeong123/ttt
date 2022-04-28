@@ -7,35 +7,61 @@
 {% endblock stylesheets %}
 
 {% block content %}
+{% load humanize %}
 <div class="container">
   <div class="row product">
     <div class="col-md-6">
       <div class="product-img mt-5">
-        <img src="{{product.main_img.url}}" class="item__poster" width="300" height="400" id='product__img' value="{{product.id}}"><br>
+        <img src="{{product.main_img.url}}" class="item__poster" width="500" id='product__img' value="{{product.id}}"><br>
       </div>
     </div>
     <div class="col-md-6" id="product__info">
       <div class="product__info mt-5">
         <div class="product__info-title">[ABC] 제주 주황빛 감귤 1kg</div>
         <div class="product__info-desc">훈연향 가득한 정통 바베큐 폭립</div>
-        <div class="product__info-price">
+        <div class="product__info-price mb-4">
           <span>30%</span>
-          <span>18,470</span>
+          <span>{{product.price | intcomma}}</span>
           <span>원</span>
         </div>
-        <div class="product__info-unit">
-          <label class="col-md-4">판매 단위</label>
-          <span class="col-md-8">1개</span>
+        <dl class="row">
+          <dt class="col-3 mb-3">판매 단위</dt>
+          <dd class="col-9">1개</dd>
+    
+          <dt class="col-3">원산지</dt>
+          <dd class="col-9">대한민국</dd>
+        </dl>
+        <hr>
+      </div>
+      <div class="product__info-amount mb-3">
+        <label class="col-3">구매 수량</label>
+        <div class="input-group input-spinner col-9">
+          <button class="btn btn-icon btn-light" type="button"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
+                <path d="M19 13H5v-2h14v2z"></path>
+              </svg>
+          </button>
+          <input class="form-control text-center" id="product__amount" placeholder="" value="1">
+          <button class="btn btn-icon btn-light" type="button"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+              </svg>
+          </button>
         </div>
-        <div class="product__info-amount">
-          <label>구매 수량</label>
-          <input id="product__amount" />
-          <span> +-</span>
+      </div>
+      <div class="product__option mb-3">
+        <label class="col-3">옵션</label>
+        <div class="input-group input-spinner col-9">
+          <select class="form-select col-6">
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+          </select>
         </div>
       </div>
       <div class="product__total-price">
-        <label>총 상품 금액:</label>
-        <span>18,470원</span>
+        <label class="col-3">총 상품 금액:</label>
+        <span class="col-9">18,470원</span>
       </div>
       <div class="product__button col-md-12 mb-2">
         <span><i class="fas fa-fw fa-heart fa-lg" id="heart"></i></span>
@@ -43,80 +69,246 @@
       </div>
     </div>
   </div>
-  <div class="row col-12">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#product__info-detail">Active</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#product__info-info">Active</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#product__review">Active</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#product__qna">Active</a>
-      </li>
-    </ul>
+  
+  <div class="card border-0 my-5">
+    <header class="card-header my-5">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a href="#" data-bs-target="#product__info-detail" data-bs-toggle="tab" class="nav-link active px-4">상품 설명</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" data-bs-target="#product__info-info" data-bs-toggle="tab" class="nav-link px-4">상품 정보</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" data-bs-target="#product__review" data-bs-toggle="tab" class="nav-link px-4">상품 후기</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" data-bs-target="#product__qna" data-bs-toggle="tab" class="nav-link px-4">상품 문의</a>
+        </li>
+      </ul>
+    </header>
+    <div class="tab-content px-2">
+      <div class="row mb-3" id="product__info-detail">
+        <h3>
+          <small>푹신푹신 달콤한 위안</small>
+          [라메종드아모린] <br />
+          살레위드 솔티드 버터 캐러멜
+        </h3>
+        <p class="words">가끔 기운이 쭉 빠지는 날이 있어요. 괜히 기분이 우울한 날, 그래서 밖으로 한 발 짝도 나가기 싫은 날 말이에요. 이럴 때 좋은 해결책은 온갖 달콤한 것들을 잔뜩 쌓아두고 먹는 거랍니다. 그래서 컬리는 70년 캐러멜의 대가인 라 메종 드 아모린의 제품을 준비했습니다. 1946년, 프랑스 브르타뉴 지방에 문을 연 라 메종 드 아모린은 현재까지 3대에 걸쳐 전통적인 방법으로 캐러멜을 만들어 오고 있어요. 고급스러운 케이스를 열면 우유와 소금이 섞인 듯한 달콤한 향이 확 올라오는데요. 직접 한 번 맛보면 목이 뜨거워질 것만 같은 달콤함, 딱딱하지 않고 푹신한 식감, 코끝에 퍼지는 버터 향을 느낄 수 있습니다. 동시에 딱딱했던 마음도 스르륵 풀릴 거예요.</p>
+        <br />
+        <br />
+        <br />
+    
+        <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
+        <div>훈연향 가득한 정통 바베큐</div>
+        <div class="mb-5">[ABC] 제주 감귤</div>
+        <hr>
+        <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
+          포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
+          그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
+          오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
+          존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
+        </p>
+      </div>
+      <div class="row mb-3" id="product__info-info">
+        <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
+        <div>훈연향 가득한 정통 바베큐</div>
+        <div class="mb-5">[ABC] 제주 감귤</div>
+        <hr>
+        <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
+          포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
+          그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
+          오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
+          존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
+        </p>
+      </div>
+      <div class="row mb-3" id="product__review">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">후기 </h5>
+                <hr>
+              <blockquote class="border-bottom">
+                <div class="float-lg-end d-flex mb-3">
+                  <div class="btn-group d-inline-flex me-2">
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Like"> <i class="fa fa-thumbs-up"></i> </button>
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Dislike"> <i class="fa fa-thumbs-down"></i> </button>
+                  </div>
+                  <button class="btn btn-light btn-sm float-end "> <i class="fa fa-ellipsis-v"></i> </button>
+                </div>
+                <div class="icontext">
+                  <img src="../images/avatars/avatar.jpg" class="img-xs icon rounded-circle">
+                  <div class="text">
+                    <h6 class="mb-0"> Michael Jonathan </h6>
+                    <div class="rating-wrap">
+                      <ul class="rating-stars">
+                        <li style="width:80%" class="stars-active">
+                          <img src="../images/misc/stars-active.svg" alt="">
+                        </li>
+                        <li> <img src="../images/misc/starts-disable.svg" alt=""> </li>
+                      </ul>
+                      <b class="dot"></b>
+                      <small class="label-rating text-muted"> 2022-05-22 작성 </small>
+                    </div>
+                  </div>
+                </div> <!-- icontext.// -->
+                <div class="mt-3">
+                  <p>
+                    It used to be great, finding almost every song, but now i dont know what happened (they might be hacked even) that it can not find any song and it just makes up a different song to thats all and all the best Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi
+                  </p>
+                </div>
+              </blockquote>
+            
+              <blockquote class="border-bottom">
+                <div class="float-lg-end d-flex mb-3">
+                  <div class="btn-group d-inline-flex me-2">
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Like"> <i class="fa fa-thumbs-up"></i> </button>
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Dislike"> <i class="fa fa-thumbs-down"></i> </button>
+                  </div>
+                  <button class="btn btn-light btn-sm float-end "> <i class="fa fa-ellipsis-v"></i> </button>
+                </div>
+                <div class="icontext">
+                  <img src="../images/avatars/avatar1.jpg" class="img-xs icon rounded-circle">
+                  <div class="text">
+                    <h6 class="mb-0"> Michael Jonathan </h6>
+                    <div class="rating-wrap">
+                      <ul class="rating-stars">
+                        <li style="width:80%" class="stars-active">
+                          <img src="../images/misc/stars-active.svg" alt="">
+                        </li>
+                        <li> <img src="../images/misc/starts-disable.svg" alt=""> </li>
+                      </ul>
+                      <b class="dot"></b>
+                      <small class="label-rating text-muted"> Purchased on Wed, May 12 </small>
+                    </div>
+                  </div>
+                </div> <!-- icontext.// -->
+                <div class="mt-3">
+                  <p>
+                    It used to be great, finding almost every song, but now i dont know what happened (they might be hacked even) that it can not find any song and it just makes up a different song to thats all and all the best
+                    Just makes up a different song to thats all and all the best
+                  </p>
+                </div>
+              </blockquote>
+            
+              <blockquote class="border-bottom">
+                <div class="float-lg-end d-flex mb-3">
+                  <div class="btn-group d-inline-flex me-2">
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Like"> <i class="fa fa-thumbs-up"></i> </button>
+                    <button class="btn btn-light btn-sm float-end" data-bs-toggle="tooltip" data-bs-title="Dislike"> <i class="fa fa-thumbs-down"></i> </button>
+                  </div>
+                  <button class="btn btn-light btn-sm float-end "> <i class="fa fa-ellipsis-v"></i> </button>
+                </div>
+                <div class="icontext">
+                  <img src="../images/avatars/avatar3.jpg" class="img-xs icon rounded-circle">
+                  <div class="text">
+                    <h6 class="mb-0"> John Alex </h6>
+                    <div class="rating-wrap">
+                      <ul class="rating-stars">
+                        <li style="width:80%" class="stars-active">
+                          <img src="../images/misc/stars-active.svg" alt="">
+                        </li>
+                        <li> <img src="../images/misc/starts-disable.svg" alt=""> </li>
+                      </ul>
+                      <b class="dot"></b>
+                      <small class="label-rating text-muted"> Purchased on Wed, Apr 30 </small>
+                    </div>
+                  </div>
+                </div> <!-- icontext.// -->
+                <div class="mt-3">
+                  <p>
+                    It used to be great, finding almost every song, but now i dont know what happened (they might be hacked even) that it can not find any song and it just makes up a different song to thats all and all the best It used to be great, finding almost every song, but now i dont know what happened (they might be hacked even) 
+                  </p>
+                </div>
+              </blockquote>
+            
+              </div>
+            </div>
+        
+          </div> <!-- col.// -->
+          <div class="col-lg-4">
+            <article class="card">
+              <div class="card-body">
+                <div class="rating-wrap">
+                <ul class="rating-stars stars-lg">
+                  <li style="width:80%" class="stars-active"> <img src="{% static 'assets/img/misc/stars-active.svg' %}" alt=""> </li>
+                  <li> <img height="520" src="{% static 'assets/img/misc/starts-disable.svg' %}" alt=""> </li>
+                </ul>
+                <b class="label-rating text-lg"> 4.6 / 5 </b>		
+                </div> <!-- rating-wrap.// -->
+                <p class="mt-1 text-muted"> 320개의 후기 </p>
+              
+                <table class="table table-borderless table-sm">
+                  <tr valign="middle">
+                    <td width="50"> 5 점 </td>
+                    <td> 
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 95%;" aria-valuenow="25" aria-valuemax="100"></div>
+                      </div> <!-- progress .// -->
+                    </td>
+                    <td width="50"> 95 % </td>
+                  </tr>
+                  <tr valign="middle">
+                    <td> 4 점 </td>
+                    <td> 
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemax="100"></div>
+                      </div> <!-- progress .// -->
+                    </td>
+                    <td> 80 % </td>
+                  </tr>
+                  <tr valign="middle">
+                    <td> 3 점 </td>
+                    <td> 
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemax="100"></div>
+                      </div> <!-- progress .// -->
+                    </td>
+                    <td> 35 % </td>
+                  </tr>
+                  <tr valign="middle">
+                    <td> 2 점 </td>
+                    <td> 
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 13%;" aria-valuenow="13" aria-valuemax="100"></div>
+                      </div> <!-- progress .// -->
+                    </td>
+                    <td> 13 % </td>
+                  </tr>
+                  <tr valign="middle">
+                    <td> 1 점 </td>
+                    <td> 
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width:15%;" aria-valuenow="5" aria-valuemax="100"></div>
+                      </div> <!-- progress .// -->
+                    </td>
+                    <td> 15 % </td>
+                  </tr>
+                </table>
+                <a href="#" class="btn w-100" style="background-color: #1c5d1c; color: white">후기 쓰기</a>
+              </div>
+            </article>
+          </div> <!-- col.// -->
+        </div> 
+      </div>
+      <div class="row mb-3" id="product__qna">
+        <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
+        <div>훈연향 가득한 정통 바베큐</div>
+        <div class="mb-5">[ABC] 제주 감귤</div>
+        <hr>
+        <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
+          포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
+          그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
+          오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
+          존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="row mb-3" id="product__info-detail">
-    <h3>
-      <small>푹신푹신 달콤한 위안</small>
-      [라메종드아모린] <br />
-      살레위드 솔티드 버터 캐러멜
-    </h3>
-    <p class="words">가끔 기운이 쭉 빠지는 날이 있어요. 괜히 기분이 우울한 날, 그래서 밖으로 한 발 짝도 나가기 싫은 날 말이에요. 이럴 때 좋은 해결책은 온갖 달콤한 것들을 잔뜩 쌓아두고 먹는 거랍니다. 그래서 컬리는 70년 캐러멜의 대가인 라 메종 드 아모린의 제품을 준비했습니다. 1946년, 프랑스 브르타뉴 지방에 문을 연 라 메종 드 아모린은 현재까지 3대에 걸쳐 전통적인 방법으로 캐러멜을 만들어 오고 있어요. 고급스러운 케이스를 열면 우유와 소금이 섞인 듯한 달콤한 향이 확 올라오는데요. 직접 한 번 맛보면 목이 뜨거워질 것만 같은 달콤함, 딱딱하지 않고 푹신한 식감, 코끝에 퍼지는 버터 향을 느낄 수 있습니다. 동시에 딱딱했던 마음도 스르륵 풀릴 거예요.</p>
-    <br />
-    <br />
-    <br />
 
-    <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
-    <div>훈연향 가득한 정통 바베큐</div>
-    <div class="mb-5">[ABC] 제주 감귤</div>
-    <hr>
-    <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
-      포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
-      그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
-      오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
-      존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
-    </p>
-  </div>
-  <div class="row mb-3" id="product__info-info">
-    <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
-    <div>훈연향 가득한 정통 바베큐</div>
-    <div class="mb-5">[ABC] 제주 감귤</div>
-    <hr>
-    <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
-      포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
-      그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
-      오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
-      존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
-    </p>
-  </div>
-  <div class="row mb-3" id="product__review">
-    <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
-    <div>훈연향 가득한 정통 바베큐</div>
-    <div class="mb-5">[ABC] 제주 감귤</div>
-    <hr>
-    <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
-      포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
-      그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
-      오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
-      존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
-    </p>
-  </div>
-  <div class="row mb-3" id="product__qna">
-    <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
-    <div>훈연향 가득한 정통 바베큐</div>
-    <div class="mb-5">[ABC] 제주 감귤</div>
-    <hr>
-    <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
-      포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
-      그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
-      오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
-      존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
-    </p>
-  </div>
 
 </div>
 

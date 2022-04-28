@@ -1,0 +1,123 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row mt-5">
+    <div class="col-lg-9">
+      <div class="card">
+        <div class="content-body">
+          <h4 class="card-title mb-4">장바구니</h4>
+          {% if products %}
+          {% load humanize %}
+          {% for p in products %}
+            {% for m in main_imgs %}
+              {% if forloop.counter == forloop.parentloop.counter %}
+              <article class="row gy-3 mb-4">
+                <div class="col-lg-5">
+                  <figure class="itemside me-lg-5">
+                    <div class="aside"><img src="{{m.main_img.url}}" class="img-lg img-thumbnail mr-3"></div>
+                    <figcaption class="info pt-1">
+                      <a href="#" class="title">{{p.product__name}}</a>
+                      <p class="text-muted"> Yellow, Jeans </p>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div class="col-auto"> 
+                  <div class="input-group input-spinner">
+                    <button class="btn btn-light" type="button"> 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#999" viewBox="0 0 24 24"> <path d="M19 13H5v-2h14v2z"></path>
+                      </svg>
+                    </button>
+                    <input type="text" class="form-control"  value="{{p.amount}}">
+                    <button class="btn btn-light" type="button"> 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#999" viewBox="0 0 24 24"> <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>  </svg>
+                    </button>
+                  </div> <!-- input-group.// -->
+                </div>
+                <div class="col-lg-2 col-sm-4 col-6">
+                  <div class="price-wrap lh-sm"> 
+                    <var class="price h6">{{p.total | intcomma}}원</var>  <br>
+                    <small class="text-muted"> {{p.product__price | intcomma}}원 / per item </small> 
+                  </div> <!-- price-wrap .// -->
+                </div>
+                <div class="col-lg col-sm-4">
+                  <div class="float-lg-end">
+                    <a href="#" class="btn btn-light text-danger"> 삭제</a>
+                  </div>
+                </div>
+              </article> <!-- row.// -->
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+          {% endif %}
+        </div> <!-- card-body .// -->
+        <div class="content-body border-top">
+          <p><i class="me-2 text-muted fa-lg fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+        </div> <!-- card-body.// -->
+    
+      </div> <!-- card.// -->
+    </div> <!-- col.// -->
+
+    <aside class="col-lg-3">
+      <div class="card mb-3">
+        <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Have coupon?</label>
+            <div class="input-group">
+              <input type="text" class="form-control" name="" placeholder="Coupon code">
+              <button class="btn btn-light">Apply</button>
+            </div>
+          </div>
+        </form>
+        </div> <!-- card-body.// -->
+      </div> <!-- card.// -->
+  
+      <div class="card">
+        <div class="card-body">
+          <dl class="dlist-align">
+            <dt>Total price:</dt>
+            <dd class="text-end"> $329.00</dd>
+          </dl>
+          <dl class="dlist-align">
+            <dt>Discount:</dt>
+            <dd class="text-end text-success"> - $60.00 </dd>
+          </dl>
+          <dl class="dlist-align">
+            <dt>TAX:</dt>
+            <dd class="text-end"> $14.00 </dd>
+          </dl>
+          <hr>
+          <dl class="dlist-align">
+            <dt>Total:</dt>
+            <dd class="text-end text-dark h5"> $357.90 </dd>
+          </dl>
+          
+          <div class="d-grid gap-2 my-3">
+            <a href="{% url 'mypage:checkout' %}" class="btn btn-success w-100" style="background-color: #1c5d1c; color: white;"> 결제하기 </a>
+            <a href="#" class="btn btn-light w-100"> Back to shop </a>
+          </div>
+        </div> <!-- card-body.// -->
+      </div> <!-- card.// -->
+    </aside> <!-- col.// -->
+  
+  </div> <!-- row.// -->
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_cart.js' %}"></script>
+{% endblock javascripts %}

@@ -6,7 +6,7 @@
 <header id="header" class="d-flex align-items-center">
   <div class="container d-flex align-items-center">
 
-    <h1 class="logo me-auto"><a href="./">ABCDE</a></h1>
+    <h1 class="logo me-auto"><a href="{% url 'index' %}">ABCDE</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
     <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -44,12 +44,13 @@
           <a class="nav-link scrollto active" href="#"><i class="bi bi-search"></i></a>
         </div>
         <a><i class="bi bi-geo-alt"></i></a>
-        <a class="nav-link scrollto active" href="#"><i class="bi bi-cart2"></i></a>
+        <a class="nav-link scrollto active" href="{% url 'mypage:cart' %}"><i class="bi bi-cart2"></i></a>
         {% if request.user.id %}
         <li class="dropdown">
           <a class="nav-link scrollto active" href="#"><i class="bi bi-person" style="align-items: center;"></i></a>
           <ul>
             <li><a class="nav-link" href="#">마이페이지</a></li>
+            <li><a class="nav-link" href="#">고객센터</a></li>
             <li><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
           </ul>
         </li>

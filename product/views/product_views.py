@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
+from datetime import datetime
 
 from config.models import Product, CartProduct, Cart, Member
 
@@ -33,7 +34,8 @@ class ProductDetailView(View):
         # Create a cart if cart does not exist
         if(doesCartExist(request.user.id) is False):
             Cart.objects.create(
-                member=Member.objects.filter(user_id=request.user.id).first()
+                member=Member.objects.filter(user_id=request.user.id).first(),
+                deleteflag='0',
             )
         
         # Add product to cart
@@ -41,13 +43,15 @@ class ProductDetailView(View):
         
         if(isAlreadyInCart(cart_id, id)):
             CartProduct.objects.filter(cart=cart_id).update(
-                amount = F('amount')+amount
+                amount = F('amount')+amount,
+                updated_at = datetime.now(),
             )
         else:
             CartProduct.objects.create(
                 amount=amount,
                 cart=Cart.objects.filter(member__user_id=request.user.id).first(),
                 product=Product.objects.filter(id=id).first(),
+                deleteflag='0',
             )
 
         context['success']=True
