@@ -331,6 +331,31 @@ class CartProduct(models.Model):
         managed = False
         db_table = 'cart-product'
 
+class Liked(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    member = models.ForeignKey(Member, models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'liked'
+
+class LikedProduct(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    liked = models.ForeignKey(Liked, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'liked-product'
+
 
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
