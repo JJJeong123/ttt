@@ -91,10 +91,6 @@
   margin-right: 10px;
 }
 
-.product__button span i {
-  color: #1c5d1c;
-}
-
 .product__tab {
   background-color: rgb(240, 240, 240);
   display: flex;
@@ -137,6 +133,7 @@
 
 a:hover, a:hover h6 {
   text-decoration: none;
+  color: black;
 }
 
 .btn-primary {
@@ -155,7 +152,7 @@ a:hover, a:hover h6 {
   background-color: #1c5d1c;
 }
 
-.btn-light:hover i {
+.btn-light:hover i, .btn-light:hover svg {
   color: white !important;
 }
 
@@ -168,4 +165,13 @@ a:hover, a:hover h6 {
 }
 .nav-pills .nav-link {
   padding: 12px 15px;
+}
+.like{
+  cursor: pointer;
+}
+.heart-white {
+  color: #9da1a7;
+}
+.heart-primary {
+  color: #1c5d1c;
 }

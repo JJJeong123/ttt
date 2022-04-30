@@ -5,14 +5,20 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
-from config.models import Member, Membership
+from config.models import Member, Membership, Product
 
 class index(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
+        best=[]
         if request.user.is_authenticated:
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
 
+        for i in range(6):
+            best.append(Product.objects.get(id=(264+i)))
+            print(best)
+
+        context['best']=best
         return render(request, 'index.html', context)
 
 class LoginView(View):

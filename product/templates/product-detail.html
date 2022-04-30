@@ -64,7 +64,13 @@
         <span class="col-9">18,470원</span>
       </div>
       <div class="product__button col-md-12 mb-2">
-        <span><i class="fas fa-fw fa-heart fa-lg" id="heart"></i></span>
+        <span class="like" onclick="likeProduct('{{product.id}}');">
+          {% if Liked %}
+          <i class="fas fa-fw fa-heart fa-lg heart-primary" id="heart"></i>
+          {% else %}
+          <i class="fas fa-fw fa-heart fa-lg heart-white" id="heart"></i>
+          {% endif %}
+        </span>
         <button class="btn-product col-md-10" id="product__cart">장바구니 담기</button>
       </div>
     </div>
@@ -316,5 +322,6 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_like.js' %}"></script>
 <script src="{% static 'jsmeta/product/script_product-detail.js' %}"></script>
 {% endblock javascripts %}

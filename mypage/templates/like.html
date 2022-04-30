@@ -1,0 +1,88 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row pt-3">
+    <aside class="col-lg-3">
+      <!--  COMPONENT MENU LIST  -->
+      <div class="card p-3 h-100">
+        <nav class="nav flex-column nav-pills">
+          <a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a>
+          <a class="nav-link active" href="{% url 'mypage:like' %}">찜한 목록</a>
+          <a class="nav-link" href="#">배송지 관리</a>
+          <a class="nav-link" href="#">결제수단 관리</a>
+          <a class="nav-link" href="#">My wishlist</a>
+          <a class="nav-link" href="#">Transactions</a>
+          <a class="nav-link" href="#">Profile setting</a>
+          <a class="nav-link" href="#">Log out</a>
+        </nav>
+      </div>
+      <!--   COMPONENT MENU LIST END .//   -->
+    </aside>
+    <main class="col-lg-9">
+      {% if liked_products %}
+      {% load humanize %}
+      {% load index %}
+      <div class="card">
+        <div class="content-body">
+          <h4 class="card-title mb-4">찜한 목록</h4>
+          <div id="like-table">
+          {% for p in liked_products %}
+            <article class="row gy-3 my-2">
+              <div class="col-lg-8">
+                <figure class="itemside me-lg-5">
+                  <div class="aside">
+                    <img src="{{ p.main_img.url }}" 
+                        class="img-md border rounded" 
+                        onclick="window.open('/product/product-detail/'+'{{ p.id }}'+'','_self');"
+                        style="cursor:pointer;">
+                  </div>
+                  <figcaption class="info pt-1">
+                    <h6 class="title mb-2"
+                      onclick="window.open('/product/product-detail/'+'{{ p.id }}'+'','_self');"
+                      style="cursor:pointer;">{{p.name}}</h6>
+                    <p class="text-muted"> 옵션: Yellow, Jeans </p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="col-lg-2 col-sm-4 col-6">
+                <div class="price-wrap lh-sm pt-2"> 
+                  <var class="price h6">{{p.price | intcomma}}원</var>  <br>
+                </div> <!-- price-wrap .// -->
+              </div>
+              <div class="col-lg col-sm-4">
+                <div class="float-lg-end">
+                  <a href="#" class="btn btn-light text-danger" value="{{p.id}}" onclick="deleteFromWishlist(this)">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </article> <!-- row.// -->
+            {% endfor %}
+          </div>
+        </div> <!-- card-body .// -->
+        <div class="content-body border-top">
+          <p><i class="me-2 text-muted fa-lg fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+        </div> <!-- card-body.// -->
+    
+      </div> <!-- card.// -->
+      {% endif %}
+    </main>
+  </div> <!-- row.// -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_like.js' %}"></script>
+{% endblock javascripts %}

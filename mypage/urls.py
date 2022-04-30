@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import checkout_view, review_views, cart_views
+from .views import checkout_view, review_views, cart_views, like_views
 
 app_name = 'mypage'
 
@@ -15,5 +15,6 @@ urlpatterns=[
     path('checkout', checkout_view.CheckoutView.as_view(), name='checkout'),
     path('order-history', checkout_view.OrderHistoryView.as_view(), name='order-history'),
     path('order-detail/<str:id>', checkout_view.OrderDetailView.as_view(), name='order-detail'),
+    path('like', like_views.LikeView.as_view(), name='like'),
 
 ]

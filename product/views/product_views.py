@@ -6,14 +6,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from datetime import datetime
 
-from config.models import Product, CartProduct, Cart, Member
-
+from config.models import Product, CartProduct, Cart, Member, Liked, LikedProduct
 
 class ProductDetailView(View):
     '''
     상품 상세 페이지
     '''
-
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
 
@@ -21,6 +19,7 @@ class ProductDetailView(View):
         product = Product.objects.get(id=id)
 
         context['product'] = product
+        context['Liked'] = isAlreadyInList(request.user.id, id)
 
         return render(request, 'product-detail.html',  context)
     
@@ -66,5 +65,10 @@ def doesCartExist(id):
 
 def isAlreadyInCart(cart_id, product_id):
     if(CartProduct.objects.filter(cart=cart_id, product=product_id).count() > 0):
+        return True
+    return False
+
+def isAlreadyInList(user_id, product_id):
+    if(LikedProduct.objects.filter(liked__member__user_id=user_id, product=product_id, deleteflag='0').count()>0):
         return True
     return False
