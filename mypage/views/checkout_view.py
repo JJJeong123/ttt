@@ -8,7 +8,6 @@ from django.db.models import IntegerField
 from django.db.models.functions import Cast
 
 from config.models import Product, Order, OrderProduct
-from product.views.product_views import doesCartExist
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -68,7 +67,6 @@ class OrderDetailView(LoginRequiredMixin, View):
         products=list(OrderProduct.objects.filter(order=id).values('product__id', 'product__name', 'amount').annotate(total=Cast(F('amount') * F('product__price'), IntegerField())))
 
         for p in products:
-            print(p['product__id'])
             main_imgs.append(Product.objects.get(id=p['product__id']))
 
         context={

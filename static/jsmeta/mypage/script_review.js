@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(){
       },
       createdRow: function( row, data, dataIndex ) {
         $( row )
-            .attr('onclick', "window.open('/mypage/review-detail/"+data.id +"','_self')");
+            .attr('onclick', "window.open('/mypage/review-detail/"+data.id +"','_self');");
       },
       columns: [
         {data : 'created_at'},
