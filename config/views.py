@@ -4,6 +4,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
 
 from config.models import Member, Membership, Product
 
@@ -159,4 +160,64 @@ class CheckSameEmail(View):
 
         except:
             context['success'] = True
+        return JsonResponse(context, content_type='application/json')
+
+
+class ChangeMemView(View):
+    '''
+    회원정보 수정 기능
+    '''
+    template_name = 'edit_mem_info.html' 
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        user_id = request.user.id
+       
+        context={}
+        context['member'] = Member.objects.get(user__id=user_id)
+    
+        return render(request, self.template_name,  context)
+
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+       
+        password = request.POST['password']
+        new_password = request.POST['new-password']
+        confirm_password = request.POST['confirm-password']
+        name = request.POST['new-name']
+        email = request.POST['new-email']
+        phone = request.POST['new-phone']
+
+        if new_password != confirm_password:
+            context['success'] = False
+            context['message'] = '비밀번호가 일치하지 않습니다.'
+            return JsonResponse(context, content_type='application/json')
+        
+        if not check_password(password, request.user.password):
+            context['success'] = False
+            context['message'] = '비밀번호가 틀립니다.'
+            return JsonResponse(context, content_type='application/json')
+
+        user_id = request.user.id
+        #change password
+        if new_password !="":
+            print("new_password is not none")
+            print(new_password)
+            request.user.set_password(new_password)
+            request.user.save()
+
+        #change email
+        user = User.objects.filter(id=user_id).update(
+            email = email,
+        )
+
+        #change mem_name, mem_phone
+        mem = Member.objects.filter(user__id=user_id).update(
+            mem_name = name,
+            mem_phone = phone,
+        )
+
+        
+        context['success'] = True
+        context['message'] = '회원정보가 수정되었습니다.'
         return JsonResponse(context, content_type='application/json')

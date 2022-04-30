@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf.urls.static import static
 from config import settings
-from config.views import index, LoginView, RegisterView, CheckSameId, CheckSameEmail
+from config.views import index, LoginView, RegisterView, CheckSameId, CheckSameEmail, ChangeMemView
 from django.contrib.auth.views import LogoutView
 from . import views
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('register', RegisterView.as_view(), name='register'),
     path('check-same-id', CheckSameId.as_view(), name='check-same-id'),
     path('check-same-email', CheckSameEmail.as_view(), name='check-same-email'),
+    path('change_mem_info',ChangeMemView.as_view(), name='change_mem_info'),
 
     path('chat/', include('chat.urls')),
     path('mypage/', include('mypage.urls')),
