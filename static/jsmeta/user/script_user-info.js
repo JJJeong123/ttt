@@ -43,12 +43,13 @@ btnEdit.addEventListener('click', async() => {
     const phone = document.getElementById('new-phone').value
 
     if(password == ''){
-        document.getElementById('password').focus();
+      alert('비밀번호를 입력해주세요');
+      document.getElementById('password').focus();
         return false;
     }
     
     if(new_password != ''){
-        if(!CheckPassword(password)){
+        if(!isPasswordValid(password)){
             document.getElementById('password').focus();
             return false;
         }
@@ -148,7 +149,7 @@ function CheckPhone(str){
 
 
 //비밀번호 정규식
-function CheckPassword(str){
+function isPasswordValid(str){
    if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/.test(str)){
        document.getElementById('new-password').setAttribute('class', 'form-control is-invalid');
        document.getElementById('passwordError').innerText = '숫자와 영문자 조합으로 8~16자리를 사용해야 합니다';
@@ -197,3 +198,33 @@ function getCookie(name) {
  }
  
  
+ //이전 비밀번호 확인
+async function checkPassword(){
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if(password == ''){
+      document.getElementById('password').focus();
+      return false;
+  }
+
+  const formData = new FormData(document.getElementById('LoginForm'));
+  
+  const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+      },
+      body: formData,
+  })
+  .catch((error) => {
+      alert(error);
+  })
+
+  const result = await response.json();
+  if (result.success){
+      location.href='/change_mem_info';
+  }else{
+      alert(result.message);
+  }
+}

@@ -141,8 +141,19 @@ a:hover, a:hover h6 {
   border-color: #1c5d1c;
   color: white;
 }
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus {
   background-color: #1c5d1c;
+}
+.btn-outline-primary {
+  background-color: #fff;
+  border-color: #1c5d1c;
+  color: #1c5d1c;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: #1c5d1c;
+  color: #fff;
 }
 .btn-light i{
   color: #1c5d1c;
@@ -174,4 +185,38 @@ a:hover, a:hover h6 {
 }
 .heart-primary {
   color: #1c5d1c;
+}
+
+.form-control, .form-select {
+  background-color: white;
+}
+.form-control:focus {
+  border-color: #1c5d1c;
+}
+.form-control:not(:focus):hover, 
+.form-select:not(:focus):hover {
+  border: 1px solid #dee2e6;
+}
+.trash {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-block;
+  padding: 0.38em 0.55em;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  border-radius: 3rem;
+  color: #fff;
+  background-color: rgb(84,84,84);
+  cursor: pointer;
+}
+.trash i {
+  padding-bottom: 1px;
+  color: white;
+}
+
+#EditMemForm {
+  width: 75%;
+  margin: 0 auto;
 }
