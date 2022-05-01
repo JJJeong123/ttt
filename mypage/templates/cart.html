@@ -3,6 +3,9 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+<!-- Bootstrap Touchspin -->
+<link href="{% static 'vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
+
 <link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
 {% endblock stylesheets %}
 
@@ -31,16 +34,9 @@
                     </figure>
                   </div>
                   <div class="col-auto"> 
-                    <div class="input-group input-spinner">
-                      <button class="btn btn-light" type="button"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#999" viewBox="0 0 24 24"> <path d="M19 13H5v-2h14v2z"></path>
-                        </svg>
-                      </button>
-                      <input type="text" class="form-control"  value="{{p.amount}}">
-                      <button class="btn btn-light" type="button"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#999" viewBox="0 0 24 24"> <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>  </svg>
-                      </button>
-                    </div> <!-- input-group.// -->
+                    <div class="input-group input-spinner touchspin">
+                      <input type="text" class="form-control" name="amount" value="{{p.amount}}" onchange="updateAmount(this, '{{p.product__id}}');">
+                    </div>
                   </div>
                   <div class="col-lg-2 col-sm-4 col-6">
                     <div class="price-wrap lh-sm"> 
@@ -121,5 +117,9 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<!-- Bootstrap Touchspin -->
+<script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
+
+<script src="{% static 'jsmeta/touchspin.js' %}"></script>
 <script src="{% static 'jsmeta/mypage/script_cart.js' %}"></script>
 {% endblock javascripts %}
