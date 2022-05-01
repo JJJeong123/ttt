@@ -414,6 +414,7 @@ class Qna(models.Model):
     product = models.ForeignKey(Product, models.CASCADE)
     category = models.ForeignKey(QnaCategory, models.CASCADE)
     answer_flag = models.CharField(max_length=10, blank=True, null=True)
+    qna_img = models.ImageField(blank=True, null=True, upload_to='qna/main')
 
     class Meta:
         managed = False
