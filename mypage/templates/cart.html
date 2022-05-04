@@ -29,9 +29,13 @@
                       <div id="checkbox">
                         <input type="checkbox" checked>
                       </div>
-                      <div class="aside"><img src="{{m.main_img.url}}" class="img-lg img-thumbnail mr-3"></div>
+                      <div class="aside"><img src="{{m.main_img.url}}" 
+                        class="img-lg img-thumbnail mr-3"
+                        onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');"
+                        style="cursor:pointer;">
+                      </div>
                       <figcaption class="info pt-1">
-                        <a href="#" class="title">{{p.product__name}}</a>
+                        <a href="#" class="title" onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');">{{p.product__name}}</a>
                         <p class="text-muted"> Yellow, Jeans </p>
                       </figcaption>
                     </figure>
