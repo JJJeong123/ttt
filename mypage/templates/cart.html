@@ -15,17 +15,20 @@
   <div class="row mt-5">
     <div class="col-lg-9">
       <div class="card">
-        <div class="content-body">
-          <h4 class="card-title mb-4">장바구니</h4>
+        <div class="content-body px-3">
+          <h4 class="card-title mb-4 px-3">장바구니</h4>
           <div id="cart-table">
             {% if products %}
             {% load humanize %}
             {% for p in products %}
               {% for m in main_imgs %}
                 {% if forloop.counter == forloop.parentloop.counter %}
-                <article class="row gy-3 mb-4">
+                <article class="row gy-3 mb-4" id="cart-article">
                   <div class="col-lg-5">
-                    <figure class="itemside me-lg-5">
+                    <figure class="itemside me-lg-5" id="cart-figure">
+                      <div id="checkbox">
+                        <input type="checkbox" checked>
+                      </div>
                       <div class="aside"><img src="{{m.main_img.url}}" class="img-lg img-thumbnail mr-3"></div>
                       <figcaption class="info pt-1">
                         <a href="#" class="title">{{p.product__name}}</a>
@@ -33,18 +36,18 @@
                       </figcaption>
                     </figure>
                   </div>
-                  <div class="col-auto"> 
+                  <div class="col-auto pt-1"> 
                     <div class="input-group input-spinner touchspin">
                       <input type="text" class="form-control" name="amount" value="{{p.amount}}" onchange="updateAmount(this, '{{p.product__id}}');">
                     </div>
                   </div>
-                  <div class="col-lg-2 col-sm-4 col-6">
+                  <div class="col-lg-2 col-sm-4 col-6 pt-1">
                     <div class="price-wrap lh-sm"> 
-                      <var class="price h6">{{p.total | intcomma}}원</var>  <br>
+                      <var class="price h6" id="price-{{p.product__id}}" value="{{p.total}}" price="{{p.product__price}}">{{p.total | intcomma}}원</var>  <br>
                       <small class="text-muted"> {{p.product__price | intcomma}}원 / per item </small> 
                     </div> <!-- price-wrap .// -->
                   </div>
-                  <div class="col-lg col-sm-4">
+                  <div class="col-lg col-sm-4 pt-1">
                     <div class="float-lg-end">
                       <a href="#" class="btn btn-light text-danger" id="{{p.cart__id}}" value="{{p.product__id}}" onclick="deleteFromCart(this)"><i class="fa fa-trash"></i></a>
                     </div>
@@ -84,21 +87,22 @@
       <div class="card">
         <div class="card-body">
           <dl class="dlist-align">
-            <dt>Total price:</dt>
-            <dd class="text-end"> $329.00</dd>
+            <dt>상품금액:</dt>
+            <dd class="text-end" id="total">{{ total_price | intcomma }}원</dd>
           </dl>
           <dl class="dlist-align">
-            <dt>Discount:</dt>
-            <dd class="text-end text-success"> - $60.00 </dd>
+            <dt>할인금액:</dt>
+            <dd class="text-end text-success"> - ???원</dd>
           </dl>
           <dl class="dlist-align">
-            <dt>TAX:</dt>
-            <dd class="text-end"> $14.00 </dd>
+            <dt>배송비:</dt>
+            <dd class="text-end"> 2,500원</dd>
           </dl>
           <hr>
           <dl class="dlist-align">
-            <dt>Total:</dt>
-            <dd class="text-end text-dark h5"> $357.90 </dd>
+            <dt>결제예정금액:</dt>
+            <dd class="text-end text-dark h5" id="total_price">{{ total_price | intcomma }}</dd>
+            <span class="mx-1">원</span>
           </dl>
           
           <div class="d-grid gap-2 my-3">
