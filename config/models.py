@@ -411,7 +411,7 @@ class Qna(models.Model):
     content = models.CharField(max_length=50, blank=True, null=True)
     password = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
-    product = models.ForeignKey(Product, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(QnaCategory, models.CASCADE)
     answer_flag = models.CharField(max_length=10, blank=True, null=True)
     qna_img = models.ImageField(blank=True, null=True, upload_to='qna/main')
