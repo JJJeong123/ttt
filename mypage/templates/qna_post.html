@@ -1,0 +1,77 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row pt-3">
+    <aside class="col-lg-3">
+      <!--  COMPONENT MENU LIST  -->
+      <div class="card p-3 h-100">
+        <nav class="nav flex-column nav-pills">
+          <a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a>
+          <a class="nav-link" href="{% url 'mypage:like' %}">찜한 목록</a>
+          <a class="nav-link" href="#">배송지 관리</a>
+          <a class="nav-link" href="#">결제수단 관리</a>
+          <a class="nav-link active" href="{% url 'mypage:qna' %}">1:1 문의</a>
+          <a class="nav-link" href="#">Transactions</a>
+          <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
+          <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+        </nav>
+      </div>
+      <!--   COMPONENT MENU LIST END .//   -->
+    </aside>
+    <main class="col-lg-9">
+      <div class="card mb-5">
+        <div class="card-body">
+          <h4 class="card-title">1:1 문의</h4>
+            <div class="row gx-2">
+              <div class="mb-3">
+                <label class="form-label" id="cat">유형</label>
+                <select class="form-select" id="qna-cat">
+                  <option selected>문의 유형을 선택해주세요</option>
+                  {% for cat in cats %}
+                  <option value="{{ cat }}">{{ cat }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">제목</label>
+                <input type="text" class="form-control" placeholder="" id="qna-title">
+							</div>
+              <div class="mb-3">
+                <label class="form-label col-3 mb-1">내용</label>
+                <textarea class="form-control" placeholder="Type" rows="7" id="qna-content"></textarea>
+              </div> 
+              <form id="form-qna">
+              {% csrf_token %}
+                <div class="gallery-uploader-wrap mb-4">
+                  <label class="form-label mb-1">사진 등록</label><br>
+                  <div id="uploaded_image" style="cursor:pointer;">
+                    <label class="uploader-img" onchange="addImage(event)">
+                      <input type="file" name="lorem" id="qna-img">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="#999" width="32" height="32" viewBox="0 0 24 24"> <circle cx="12" cy="12" r="3"/> <path d="M16.83 4L15 2H9L7.17 4H2v16h20V4h-5.17zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                      </svg> 
+                    </label>
+                  </div>
+                </div> <!-- gallery-uploader-wrap //end -->
+              </form> <!-- form end.// -->
+
+              <button class="btn btn-primary" type="button" onclick="saveQuestion()">등록하기</button>
+            </div>
+        </div> <!-- card-body end.// -->
+      </div> <!-- card end.// -->
+    </main>
+  </div> <!-- row.// -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_qna.js' %}"></script>
+{% endblock javascripts %}
