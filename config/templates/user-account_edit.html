@@ -16,7 +16,7 @@
           <a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a>
           <a class="nav-link active" href="{% url 'mypage:like' %}">찜한 목록</a>
           <a class="nav-link" href="#">배송지 관리</a>
-          <a class="nav-link" href="{% url 'mypage:qna' %}">1:1 문의</a>
+          <a class="nav-link" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
           <a class="nav-link" href="#">My wishlist</a>
           <a class="nav-link" href="#">Transactions</a>
           <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
@@ -85,7 +85,7 @@
               </div>
             </div>
             <button class="btn btn-primary col-lg-11" id="edit" type="button">수정하기</button>
-        </form>
+          </form>
         </div>
         <hr class="my-4">
         <div class="row" style="max-width:920px">

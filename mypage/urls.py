@@ -16,6 +16,10 @@ urlpatterns=[
     path('order-history', checkout_view.OrderHistoryView.as_view(), name='order-history'),
     path('order-detail/<str:id>', checkout_view.OrderDetailView.as_view(), name='order-detail'),
     path('like', like_views.LikeView.as_view(), name='like'),
+
     path('qna', qna_views.QnaView.as_view(), name='qna'),
+    path('qna-list', qna_views.QnaListView.as_view(), name='qna-list'),
+    path('qna-table', qna_views.QnaTableView.as_view(), name='qna-table'),
+    path('qna-detail/<str:id>', qna_views.QnaDetailView.as_view(), name='qna-detail'),
 
 ]

@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row pt-3">
+    <aside class="col-lg-3">
+      <!--  COMPONENT MENU LIST  -->
+      <div class="card p-3 h-100">
+        <nav class="nav flex-column nav-pills">
+          <a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a>
+          <a class="nav-link" href="{% url 'mypage:like' %}">찜한 목록</a>
+          <a class="nav-link" href="#">배송지 관리</a>
+          <a class="nav-link" href="#">결제수단 관리</a>
+          <a class="nav-link active" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
+          <a class="nav-link" href="#">Transactions</a>
+          <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
+          <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+        </nav>
+      </div>
+      <!--   COMPONENT MENU LIST END .//   -->
+    </aside>
+    <main class="col-lg-9">
+      <div class="card mb-5">
+        <div class="card-body">
+          <h4 class="card-title mb-4">1:1 문의</h4>
+          <hr>
+          <blockquote>
+            <div class="float-lg-end d-flex mb-3">
+              <button class="btn btn-light btn-sm float-end "> <i class="fa fa-ellipsis-v"></i> </button>
+            </div>
+            <div class="icontext">
+              <div class="text">
+                <h6 class="mb-0"> {{ qna.title }} </h6>
+                <div class="rating-wrap">
+                  <b class="dot"></b>
+                  <small class="label-rating text-muted"> {{ qna.created_at|date:"Y-m-d"}} 에 작성함 </small>
+                </div>
+              </div>
+            </div> <!-- icontext.// -->
+            <div class="col mt-3 px-2" id="qna-question">
+              <p>{{ qna.content }}</p>
+            </div>
+            {% if image.qna_img.url %}
+            <div class="gallery-uploader-wrap mb-4 px-2">
+              <div id="uploaded_image">
+                <label class="uploader-img">
+                  <img src="{{image.qna_img.url}}" onclick="window.open(this.src)" style="cursor:pointer;">
+                </label>
+              </div>
+            </div>
+            {% endif %}
+          </blockquote>
+          {% if answer %}
+          <blockquote class="border-top my-3 pt-3 px-2">
+            <div class="col mt-3" >
+              <p>{{ answer.content }}</p>
+            </div>
+            <small class="label-rating text-muted"> {{ answer.created_at|date:"Y-m-d"}}</small>
+          </blockquote>
+          {% endif %}
+        </div> <!-- card-body end.// -->
+      </div> <!-- card end.// -->
+    </main>
+  </div> <!-- row.// -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_qna.js' %}"></script>
+{% endblock javascripts %}
