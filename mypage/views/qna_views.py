@@ -71,6 +71,9 @@ class QnaDetailView(LoginRequiredMixin, View):
 
         context['qna'] = list(Qna.objects.filter(id=id).values('category', 'title', 'content', 'created_at'))[0]
         context['image']=Qna.objects.get(id=id)
-        context['answer']=QnaAnswer.objects.get(qna__id=id)
+
+        # 문의 답변이 등록되어 있다면 
+        if context['image'].answer_flag=='1':
+            context['answer']=QnaAnswer.objects.get(qna__id=id)
         
         return render(request, 'qna_detail.html', context)
