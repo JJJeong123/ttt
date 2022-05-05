@@ -427,7 +427,7 @@ class QnaAnswer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     qna = models.ForeignKey(Qna, models.CASCADE)
 
     class Meta:
