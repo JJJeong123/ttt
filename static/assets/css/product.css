@@ -229,3 +229,15 @@ a:hover, a:hover h6 {
   background-color: #f9f9f9;
   border-color: #dee2e6;
 }
+#checkbox {
+  display: flex;
+  align-items:center;
+  margin-right: 10px;
+}
+#checkbox input {
+  transform: scale(1.3);
+}
+#checkbox input[type="checkbox"]:checked +span {
+  background-color: #1c5d1c;
+}
+
