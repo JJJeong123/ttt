@@ -36,7 +36,7 @@
           <div class="col-md-12">
             <article class="box col-md-12">
               <b class="mx-2 text-muted"><i class="fa fa-map-marker-alt"></i></b> 
-              <span class="col-md-9" onclick="openModal();" style="cursor:pointer;">{{address.ad_detail}}</span>
+              <span class="col-md-9" onclick="openModal(this);" style="cursor:pointer;" value="{{address.id}}">{{address.ad_detail}}</span>
             </article>
           </div> <!-- col.// -->
           {% endfor %}
@@ -51,6 +51,7 @@
     </div> <!-- row.// -->
 </div>
 
+<!-- <!--배송지 추가 모달-->
 <div class="modal fade" id="address-add" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -62,10 +63,10 @@
       </div>
       <div class="modal-body">
         <div class="row justify-content-center my-4">
-          <form class="user col-lg-10" id="LoginForm">
+          <div class="col-lg-10">
             <div class="form-group row mb-4">
               <div class="col-md-9 p-0">
-                <input class="form-control" type="email" autocomplete="on" id="address" name='address' readonly/>
+                <input class="form-control" type="text" autocomplete="on" id="address" name='address' readonly/>
               </div>
               <div class="col-md-3">
                 <button class="btn btn-outline-primary" type="button" id="address-relookup">재검색</button>
@@ -74,15 +75,50 @@
             <div class="form-group row mb-4">
               <input class="form-control" type="text" id="address-detail" name="address-detail" placeholder="나머지 주소를 입력해주세요" required/>
             </div>
-          </form>
+          </div>
           <button class="btn btn-primary my-3 col-lg-10" type="submit" onclick="addAddress()">확인</button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
+<!--배송지 수정 및 삭제 모달-->
+<div class="modal fade" id="address-edit" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">배송지 수정</h5>
+        <button type="button" class="close" data-dismiss="modal" id="modal-close" onclick="closeModalToEdit();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center my-4">
+          <div class="col-lg-10">
+            <div class="form-group row mb-3">
+              <input class="form-control" type="text" id="addressToEdit" name="addressToEdit" readonly/>
+            </div>
+           <div class="form-group row mb-3">
+              <label class="mb-1">배송지 이름</label>
+              <input class="form-control" type="text" id="address-name" name="address-name"/>
+            </div>
+             <!-- 
+            <div class="form-group row mb-3">
+              <label class="mb-1">받으실 분</label>
+              <input class="form-control" type="text" autocomplete="on" id="address-name"/>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="deleteAddress();">삭제</button>
+        <button type="button" class="btn btn-primary" onclick="editAddress();">수정</a>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

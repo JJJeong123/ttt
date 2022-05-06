@@ -15,7 +15,9 @@ urlpatterns=[
     path('cart', cart_views.CartView.as_view(), name='cart'),
     path('checkout', checkout_view.CheckoutView.as_view(), name='checkout'),
     path('like', like_views.LikeView.as_view(), name='like'),
+
     path('address', address_views.AddressView.as_view(), name='address'),
+    path('address-modal', address_views.AddressModalView.as_view(), name='address-modal'),
 
     path('order-history', checkout_view.OrderHistoryView.as_view(), name='order-history'),
     path('order-detail/<str:id>', checkout_view.OrderDetailView.as_view(), name='order-detail'),
