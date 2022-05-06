@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from config.models import Member, Membership, Product
+from config.models import Member, Membership, Product, CartProduct
 
 class index(View):
     def get(self, request: HttpRequest, *args, **kwargs):
@@ -15,6 +15,8 @@ class index(View):
         best=[]
         if request.user.is_authenticated:
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+            context['cart']=CartProduct.objects.filter(cart__member__user=request.user).count()
+
         '''
         for i in range(6):
             best.append(Product.objects.get(id=(264+i)))

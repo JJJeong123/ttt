@@ -1,6 +1,8 @@
 {% load static %}
 {% block stylesheets %}
 <link href="{% static 'assets/css/header.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+
 {% endblock stylesheets %}
 
 <header id="header" class="d-flex align-items-center">
@@ -41,13 +43,15 @@
       <div class="search" id="search">
         <div class="search__column">
           <input type="text" placeholder="검색어를 입력하세요"/>
-          <a class="nav-link scrollto active" href="#"><i class="bi bi-search"></i></a>
+          <a class="nav-link scrollto" href="#"><i class="bi bi-search"></i></a>
         </div>
         <a href="{% url 'mypage:address' %}"><i class="bi bi-geo-alt"></i></a>
-        <a class="nav-link scrollto active" href="{% url 'mypage:cart' %}"><i class="bi bi-cart2"></i></a>
+        <a class="nav-link scrollto nav-cart" href="{% url 'mypage:cart' %}">
+          <i class="bi bi-cart2"><span class="cart-notification">{{ cart }}</span></i>
+        </a>
         {% if request.user.id %}
         <li class="dropdown">
-          <a class="nav-link scrollto active" href="#"><i class="bi bi-person" style="align-items: center;"></i></a>
+          <a class="nav-link scrollto" href="#"><i class="bi bi-person" style="align-items: center;"></i></a>
           <ul>
             <li><a class="nav-link" href="#">마이페이지</a></li>
             <li><a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a></li>

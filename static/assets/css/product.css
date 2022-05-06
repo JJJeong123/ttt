@@ -298,3 +298,25 @@ table.dataTable tbody tr{
   border-color: #1c5d1c;
   color: #1c5d1c;
 } */
+
+.cart-notification {
+  position: absolute;
+  top: 4px;
+  right: -5px;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  padding-top: 8px;
+  padding-right: 2px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 9px;
+  color: #fff;
+  background-color: #1c5d1c;
+  cursor: pointer;
+}
+
+.nav-cart {
+  position: relative;
+}
