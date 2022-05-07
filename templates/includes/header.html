@@ -43,7 +43,7 @@
           <input type="text" placeholder="검색어를 입력하세요"/>
           <a class="nav-link scrollto active" href="#"><i class="bi bi-search"></i></a>
         </div>
-        <a><i class="bi bi-geo-alt"></i></a>
+        <a href="{% url 'mypage:address' %}"><i class="bi bi-geo-alt"></i></a>
         <a class="nav-link scrollto active" href="{% url 'mypage:cart' %}"><i class="bi bi-cart2"></i></a>
         {% if request.user.id %}
         <li class="dropdown">
@@ -52,8 +52,7 @@
             <li><a class="nav-link" href="#">마이페이지</a></li>
             <li><a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a></li>
             <li><a class="nav-link" href="{% url 'mypage:like' %}">찜한 목록</a></li>
-            <li><a class="nav-link" href="#">고객센터</a></li>
-            <li><a class="nav-link" href="{% url 'change_mem_info' %}">회원정보수정</a></li>
+            <li><a class="nav-link" href="{% url 'confirm-info' %}">회원정보수정</a></li>
             <li><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
           </ul>
         </li>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+
+		<!-- Bootstrap / CSS -->
+		<style>
+			video{
+				transform: rotateY(180deg);
+				-webkit-transform: rotateY(180deg); /*Safari and Chrome*/
+				-moz-transform: rotateY(180deg); /*Firefox*/
+			}
+		</style>
+	
+		<title>WebRtc Chat</title>
+	</head>
+	<body>
+		<header>
+            <!--username, shop name-->
+            <!--안내문-->
+
+			<h1>{{ shop.shop_name }}</h1>
+			<br>
+			<h1 id="username">{{request.user.username}}</h1>
+			<div hidden>
+				<h1 id="shopId">{{ shop.id }}</h1>
+			</div>
+
+			<!--임시-->
+			<!-- <input id="username"> -->
+        </header>
+
+		<main class="container-fluid">
+			<div class="row">
+				<section class="col-md-8">
+					<!--<video id="localVideo" autoplay playsinline style="
+					-webkit-transform: scaleX(-1);
+					transform: scaleX(-1);
+					visibility: hidden;
+					width: auto;
+					height: auto;"
+					></video>-->
+					<video id="localVideo" autoplay playsinline></video>
+					<video id="remoteVideo" autoplay playsinline></video>
+
+					<div>
+						<button class="btn btn-primary btn-sm" id="startButton">Start</button>
+						<!-- <button class="btn btn-success btn-sm" id="callButton">Call</button> -->
+						<button class="btn btn-danger btn-sm" id="hangupButton">Hang Up</button>
+					</div>
+				</section>
+				<section class="col-md-4">
+                    <div id="messages">
+                        <ul id="message-log"></ul>
+                    </div>
+					<input id="message-input" type="text" size="56"/>
+					<input id="message-submit" type="button" value="Send" disabled/>
+				</section>
+			</div>
+		</main>
+		
+		<footer></footer>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection"></script>
+		<!-- Optional: Include below scripts if you want to use MediaPipe runtime-->
+		<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+
+		<script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+
+
+		<script src="{% static 'jsmeta/chat/script_chat.js' %}"></script>
+	</body>
+</html>

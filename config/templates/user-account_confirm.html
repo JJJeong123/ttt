@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row pt-3">
+    <aside class="col-lg-3">
+      <!--  COMPONENT MENU LIST  -->
+      <div class="card p-3 h-100">
+        <nav class="nav flex-column nav-pills">
+          <a class="nav-link" href="{% url 'mypage:order-history' %}">주문내역</a>
+          <a class="nav-link active" href="{% url 'mypage:like' %}">찜한 목록</a>
+          <a class="nav-link" href="{% url 'mypage:address' %}">배송지 관리</a>
+          <a class="nav-link" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
+          <a class="nav-link" href="#">My wishlist</a>
+          <a class="nav-link" href="#">Transactions</a>
+          <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
+          <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+        </nav>
+      </div>
+      <!--   COMPONENT MENU LIST END .//   -->
+    </aside>
+    <main class="col-lg-9">
+      <article class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">회원정보 수정</h4>
+          <h6>비밀번호 재확인</h6>
+          <small>회원 정보를 안전하게 보호하기 위해 비밀번호 재확인이 필요합니다.</small>
+          <hr class="mt-4 mb-5">
+          <div class="row justify-content-center">
+            <form class="user col-lg-6" id="LoginForm">
+              <div class="form-group justify-content-center mb-3">
+                <label class="mb-2">아이디</label>
+                <input class="form-control" type="text" autocomplete="on" id="username" name="username" value="{{member.user.username}}" readonly/>
+              </div>
+              <div class="form-group mb-2">
+                <label class="mb-2">비밀번호</label>
+                <input class="form-control" type="password" autocomplete="on" id="password" name='password' required/>
+              </div>
+            </form>
+            <br>
+            <div class="row col-lg-12 justify-content-center">
+              <button class="btn btn-primary my-3 col-lg-6" type="submit" onclick="checkPassword()">확인</button>
+            </div>
+          </div>
+        </div> <!-- card-body .// -->
+      </article> <!-- card .// --> 
+    </main>  
+  </div> <!-- row.// -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'jsmeta/user/script_user-info.js' %}"></script> 
+{% endblock javascripts %}

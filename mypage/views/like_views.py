@@ -81,8 +81,7 @@ class LikeView(LoginRequiredMixin, View):
 
         product_id = request.PUT.get('product_id')
         liked_id = list(Liked.objects.filter(member__user_id=request.user.id).values_list('id'))[0]
-        print(product_id)
-        print(liked_id)
+
         LikedProduct.objects.filter(liked=liked_id, product=product_id).update(
             deleteflag='1',
             updated_at=datetime.now(),

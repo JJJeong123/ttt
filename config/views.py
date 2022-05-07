@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from config.models import Member, Membership, Product
 
@@ -14,10 +15,11 @@ class index(View):
         best=[]
         if request.user.is_authenticated:
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
-
+        '''
         for i in range(6):
             #best.append(Product.objects.get(id=(264+i)))
             print(best)
+            '''
 
         context['best']=best
         return render(request, 'index.html', context)
@@ -162,12 +164,25 @@ class CheckSameEmail(View):
             context['success'] = True
         return JsonResponse(context, content_type='application/json')
 
+class confirmInfo(LoginRequiredMixin, View):
+    '''
+    회원정보 수정 전 비밀번호 확인
+    '''
+    template_name = 'user-account_confirm.html' 
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        user_id = request.user.id
+       
+        context={}
+        context['member'] = Member.objects.get(user__id=user_id)
+    
+        return render(request, self.template_name,  context)
 
 class ChangeMemView(View):
     '''
     회원정보 수정 기능
     '''
-    template_name = 'edit_mem_info.html' 
+    template_name = 'user-account_edit.html' 
 
     def get(self, request: HttpRequest, *args, **kwargs):
         user_id = request.user.id

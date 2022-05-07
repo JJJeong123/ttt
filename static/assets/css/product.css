@@ -141,8 +141,21 @@ a:hover, a:hover h6 {
   border-color: #1c5d1c;
   color: white;
 }
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus {
   background-color: #1c5d1c;
+  border-color: #1c5d1c;
+}
+.btn-outline-primary {
+  background-color: #fff;
+  border-color: #1c5d1c;
+  color: #1c5d1c;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  border: #1c5d1c;
+  background-color: #1c5d1c;
+  color: #fff;
 }
 .btn-light i{
   color: #1c5d1c;
@@ -175,3 +188,113 @@ a:hover, a:hover h6 {
 .heart-primary {
   color: #1c5d1c;
 }
+
+.form-control, .form-select {
+  background-color: white;
+}
+.form-control:focus {
+  border-color: #1c5d1c;
+}
+.form-control:not(:focus):hover, 
+.form-select:not(:focus):hover {
+  border: 1px solid #dee2e6;
+}
+.trash {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-block;
+  padding: 0.38em 0.55em;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  border-radius: 3rem;
+  color: #fff;
+  background-color: rgb(84,84,84);
+  cursor: pointer;
+}
+.trash i {
+  padding-bottom: 1px;
+  color: white;
+}
+
+#EditMemForm {
+  width: 75%;
+  margin: 0 auto;
+}
+.bootstrap-touchspin .btn-primary {
+  background-color: #fff;
+  border-color: #dee2e6;
+  color: #1c5d1c;
+}
+.bootstrap-touchspin input {
+  background-color: #f9f9f9;
+  border-color: #dee2e6;
+}
+#checkbox {
+  display: flex;
+  align-items:center;
+  margin-right: 10px;
+}
+#checkbox input {
+  transform: scale(1.3);
+}
+#checkbox input[type="checkbox"]:checked +span {
+  background-color: #1c5d1c;
+}
+table.dataTable th:nth-child(1) {
+  width: 80px;
+  max-width: 80px;
+  text-align: center;
+  word-break: break-all;
+  white-space: pre-line;
+}
+table.dataTable th:nth-child(2) {
+  text-align: center;
+}
+table.dataTable th:nth-child(3) {
+  width: 80px;
+  max-width: 80px;
+  text-align: center;
+  word-break: break-all;
+  white-space: pre-line;
+}
+table.dataTable tbody th, table.dataTable tbody td:nth-child(1),
+table.dataTable tbody th, table.dataTable tbody td:nth-child(3) {
+  text-align: center;
+}
+table.dataTable tbody th, table.dataTable tbody td:nth-child(2){
+  padding: 8px 15px;
+  cursor: pointer;
+}
+table.dataTable tbody tr:hover {
+  background-color: #fbfbfb !important;
+}
+table.dataTable tbody tr:hover > .sorting_1 {
+  background-color: #fbfbfb !important;
+}
+table.dataTable tbody tr{
+  height: 50px;
+  vertical-align: middle;
+}
+#question {
+  padding-bottom: 20px;
+}
+#address-button,
+#question-post {
+  position:absolute;
+  bottom: 10px;
+  right: 18px;
+  margin-bottom: 5px;
+}
+#qna-question {
+  display: flex;
+}
+#qna-question img {
+  padding-right: 10px;
+}
+/* #address-relookup:hover {
+  background-color: #fff;
+  border-color: #1c5d1c;
+  color: #1c5d1c;
+} */

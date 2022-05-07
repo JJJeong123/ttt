@@ -142,6 +142,7 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
+# 회원 등급
 class Membership(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -157,6 +158,7 @@ class Membership(models.Model):
         db_table = 'membership'
 
 
+# 회원
 class Member(models.Model):
     id = models.BigAutoField(primary_key=True)
     mem_name = models.CharField(max_length=100, blank=True, null=True)
@@ -171,7 +173,7 @@ class Member(models.Model):
         db_table = 'member'
 
 
-
+# 장바구니
 class Cart(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -185,6 +187,7 @@ class Cart(models.Model):
         db_table = 'cart'
 
 
+# 결제 수단
 class Payment(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -199,6 +202,7 @@ class Payment(models.Model):
         db_table = 'payment'
 
 
+# 점포 카테고리
 class ShopCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -212,6 +216,7 @@ class ShopCategory(models.Model):
         db_table = 'shop_category'
         
 
+# 점포
 class Shop(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -228,7 +233,7 @@ class Shop(models.Model):
         db_table = 'shop'
 
 
-
+# 상품 카테고리
 class ProCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -242,6 +247,7 @@ class ProCategory(models.Model):
         db_table = 'pro_category'
 
 
+# 상품
 class Product(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -264,6 +270,7 @@ class Product(models.Model):
         db_table = 'product'
 
 
+# 주문
 class Order(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -287,6 +294,7 @@ class Order(models.Model):
         db_table = 'order'
 
 
+# 주문 목록
 class OrderProduct(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -317,6 +325,7 @@ class Option(models.Model):
         managed = False
         db_table = 'option'
 
+# 장바구니 목록
 class CartProduct(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -331,6 +340,8 @@ class CartProduct(models.Model):
         managed = False
         db_table = 'cart-product'
 
+
+# 찜
 class Liked(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -343,6 +354,7 @@ class Liked(models.Model):
         managed = False
         db_table = 'liked'
 
+# 찜 목록
 class LikedProduct(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -357,6 +369,7 @@ class LikedProduct(models.Model):
         db_table = 'liked-product'
 
 
+# 리뷰
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -374,6 +387,7 @@ class Comment(models.Model):
         managed = False
         db_table = 'comment'
 
+# 리뷰 답변
 class CommentReply(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -388,7 +402,7 @@ class CommentReply(models.Model):
         db_table = 'comment_reply'
 
 
-
+# 일반 문의 카테고리
 class QnaCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -401,6 +415,7 @@ class QnaCategory(models.Model):
         managed = False
         db_table = 'qna_category'
 
+# 일반 문의
 class Qna(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -411,7 +426,7 @@ class Qna(models.Model):
     content = models.CharField(max_length=50, blank=True, null=True)
     password = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
-    product = models.ForeignKey(Product, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(QnaCategory, models.CASCADE)
     answer_flag = models.CharField(max_length=10, blank=True, null=True)
     qna_img = models.ImageField(blank=True, null=True, upload_to='qna/main')
@@ -421,13 +436,14 @@ class Qna(models.Model):
         db_table = 'qna'
 
 
+# 일반 문의 답변
 class QnaAnswer(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     qna = models.ForeignKey(Qna, models.CASCADE)
 
     class Meta:
@@ -435,6 +451,41 @@ class QnaAnswer(models.Model):
         db_table = 'qna_answer'
 
 
+# 상품 문의
+class ProQna(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    title = models.CharField(max_length=50, blank=True, null=True)
+    content = models.CharField(max_length=50, blank=True, null=True)
+    password = models.CharField(max_length=50, blank=True, null=True)
+    member = models.ForeignKey(Member, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)
+    answer_flag = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pro_qna'
+
+
+# 상품 문의 답변
+class ProQnaAnswer(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True) 
+    content = models.TextField(blank=True, null=True)
+    qna = models.ForeignKey(ProQna, models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'pro_qna_answer'
+
+
+# 주소
 class Address(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)

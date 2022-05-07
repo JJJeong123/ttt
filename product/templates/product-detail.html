@@ -3,6 +3,9 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+<!-- Bootstrap Touchspin -->
+<link href="{% static 'vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
+
 <link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
 {% endblock stylesheets %}
 
@@ -36,17 +39,7 @@
       <div class="product__info-amount mb-3">
         <label class="col-3">구매 수량</label>
         <div class="input-group input-spinner col-9">
-          <button class="btn btn-icon btn-light" type="button"> 
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
-                <path d="M19 13H5v-2h14v2z"></path>
-              </svg>
-          </button>
-          <input class="form-control text-center" id="product__amount" placeholder="" value="1">
-          <button class="btn btn-icon btn-light" type="button"> 
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-              </svg>
-          </button>
+          <input class="form-control text-center" id="product__amount" name="amount" placeholder="" value="1">
         </div>
       </div>
       <div class="product__option mb-3">
@@ -322,6 +315,10 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<!-- Bootstrap Touchspin -->
+<script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
+
+<script src="{% static 'jsmeta/touchspin.js' %}"></script>
 <script src="{% static 'jsmeta/mypage/script_like.js' %}"></script>
 <script src="{% static 'jsmeta/product/script_product-detail.js' %}"></script>
 {% endblock javascripts %}

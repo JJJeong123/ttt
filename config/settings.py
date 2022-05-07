@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'chat',
     'mypage',
     'storages',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -165,6 +166,16 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
+
+# Channels
+ASGI_APPLICATION = 'config.asgi.application'
+
+#https://stackoverflow.com/questions/53271407/channels-without-channel-layer-or-any-other-free-hosting
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
