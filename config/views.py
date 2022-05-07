@@ -19,7 +19,7 @@ class index(View):
 
         '''
         for i in range(6):
-            best.append(Product.objects.get(id=(264+i)))
+            #best.append(Product.objects.get(id=(264+i)))
             print(best)
             '''
 
