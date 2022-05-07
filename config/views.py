@@ -16,7 +16,7 @@ class index(View):
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
 
         for i in range(6):
-            best.append(Product.objects.get(id=(264+i)))
+            #best.append(Product.objects.get(id=(264+i)))
             print(best)
 
         context['best']=best
