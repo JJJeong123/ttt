@@ -153,6 +153,7 @@ a:hover, a:hover h6 {
 }
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
+  border: #1c5d1c;
   background-color: #1c5d1c;
   color: #fff;
 }
@@ -279,7 +280,8 @@ table.dataTable tbody tr{
 #question {
   padding-bottom: 20px;
 }
-#question-post{
+#address-button,
+#question-post {
   position:absolute;
   bottom: 10px;
   right: 18px;
@@ -291,3 +293,8 @@ table.dataTable tbody tr{
 #qna-question img {
   padding-right: 10px;
 }
+/* #address-relookup:hover {
+  background-color: #fff;
+  border-color: #1c5d1c;
+  color: #1c5d1c;
+} */

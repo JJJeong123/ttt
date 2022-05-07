@@ -43,7 +43,7 @@
           <input type="text" placeholder="검색어를 입력하세요"/>
           <a class="nav-link scrollto active" href="#"><i class="bi bi-search"></i></a>
         </div>
-        <a><i class="bi bi-geo-alt"></i></a>
+        <a href="{% url 'mypage:address' %}"><i class="bi bi-geo-alt"></i></a>
         <a class="nav-link scrollto active" href="{% url 'mypage:cart' %}"><i class="bi bi-cart2"></i></a>
         {% if request.user.id %}
         <li class="dropdown">
