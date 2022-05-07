@@ -3,15 +3,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View, TemplateView
 from typing import Any, Dict
 import json
-#from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import F
+from django.db.models import IntegerField
+from django.db.models.functions import Cast
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from config.models import Comment, Member, OrderProduct, Product
 
-class ReviewView(View):
-    template_name = 'review_list.html' 
+class ReviewView(LoginRequiredMixin, View):
+    template_name = 'review.html' 
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
+        images=[]
+
+        reviews_id=list((Comment.objects.filter(deleteflag='0', member__user=request.user).values('id')))
+        
+        for id in reviews_id:
+            images.append(Comment.objects.get(id=id.get('id')))
+
+        context['reviews']=list(Comment.objects.filter(deleteflag='0', member__user=request.user).\
+                                    values('content', 'orderproduct__product__name', 'created_at').annotate(rate=Cast(F('rate') * 20, IntegerField())))
+        context['images']=images
+
         return render(request, self.template_name, context)
 
 

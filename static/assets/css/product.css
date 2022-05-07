@@ -320,3 +320,58 @@ table.dataTable tbody tr{
 .nav-cart {
   position: relative;
 }
+.btn-outline-primary.cancel:hover,
+.btn-outline-primary.cancel:focus{
+  background-color: #fff;
+  color: #1c5d1c;
+  border-color: #1c5d1c;
+}
+.order-cart {
+  display: flex;
+  justify-content: space-between;
+}
+.score {
+  display: block;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.score-wrap {
+  display: inline-block;
+  position: relative;
+  height: 19px;
+}
+
+.score .stars-active {
+  color:#ff9017; 
+  position: relative;
+  z-index: 10;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.score .stars-inactive {
+  color:#f1f1f1; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-text-fill-color: initial;
+  /* overflow: hidden; */
+}
+
+#review-dot {
+  vertical-align: text-top;
+  font-weight: bold;
+}
+.score-wrap{
+  display: inline-block;
+}
+.date-wrap{
+  display: inline-block;
+}
+.review__content{
+  display: flex;
+  justify-content: left;
+}
