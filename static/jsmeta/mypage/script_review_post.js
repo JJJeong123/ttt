@@ -1,57 +1,74 @@
-const btnSubmit = document.getElementById('btnSubmit');
+function addImage(e){
+  e = e || window.event;
+  let target = e.target || e.srcElement;
 
-
-document.getElementById('mainImg').onchange = function () {
-  let file = $('#mainImg')[0].files[0];
-  if (file){
-    document.getElementById('mainImg-label').innerText=file.name;
+  if(document.getElementById('review-img-preview')){
+    document.getElementById('review-img-preview').setAttribute('src', URL.createObjectURL(target.files[0]));
+    //e.target.value = ''; 
+    return;
   }
-};
+  let src = URL.createObjectURL(target.files[0]);
+  
+  let label=document.createElement('label');
+  let image=document.createElement('img');
+  let span=document.createElement('span');
+  let icon=document.createElement('i');
 
+  label.setAttribute('class', 'uploader-img');
 
+  image.setAttribute('width', '100');
+  image.setAttribute('id', 'review-img-preview');
+  image.setAttribute('src', src);
 
-let input = document.getElementById("mainImg"),
-preview = document.getElementById("preview");
-    
-input.addEventListener("change", function() {
-  changeImage(this);
-});
+  icon.setAttribute('class', 'fa fa-trash fa-sm');
+  span.setAttribute('class', 'trash');
+  span.setAttribute('onclick', 'clearImage()')
+  
+  span.append(icon);
+  label.append(image);
+  label.append(span); 
 
-function changeImage(input) {
-  let reader;
+  let parent=document.getElementById('uploaded_image');
+  parent.insertBefore(label, parent.firstChild);
 
-  if (input.files && input.files[0]) {
-    reader = new FileReader();
-
-    reader.onload = function(e) {
-      preview.setAttribute('src', e.target.result);
-    }
-    reader.readAsDataURL(input.files[0]);
-    
-    document.getElementById('mainImg-label').innerText=input.files[0].name;
-  }
+  //handle same file
+  //e.target.value = ''; 
 }
 
-btnSubmit.addEventListener('click', async() => {
-    const formData = new FormData(document.getElementById('uploadImgForm'));
-    formData.append('rate', document.getElementById('rate').value);
-    formData.append('content', document.getElementById('content').value);
-    formData.append('orderProId', document.getElementById('orderProId').value);
+function clearImage(){
+  let parent = document.getElementById('uploaded_image');
+  parent.removeChild(parent.firstChild);
+}
 
-    console.log(content);
-   
-    const response = await fetch('review-post', {
-        method: 'POST',
-        headers: {'X-CSRFToken': getCookie('csrftoken')},
-        body: formData,
-    })
-    .catch((error) => {
-        alert(error);
-    })
+async function saveReview(orderproduct_id){
 
-    const result = await response.json()
-    if (result.success){
-        alert("리뷰가 등록되었습니다.");
-        location.href='/mypage/review';
-    }
-})
+  let formData = new FormData(document.getElementById('form-review'));
+
+  let rate=document.getElementById('review-rate').value;
+  let content=document.getElementById('review-content').value;
+  
+  formData.append('review-id', orderproduct_id);
+  formData.append('review-rate', rate);
+  formData.append('review-content', content);
+
+  const url = '/mypage/review';
+  const response = await fetch(url, {
+      method: 'POST',
+      headers: {'X-CSRFToken': getCookie('csrftoken')},
+      body: formData
+  })
+  .catch((error) => {
+      alert(error);
+  });
+
+  const result = await response.json();
+
+  if(result.success){
+    alert('후기가 성공적으로 작성되었습니다.');
+    window.open('/mypage/review');
+  }
+  else{
+    alert('후기가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');
+  }
+
+}
