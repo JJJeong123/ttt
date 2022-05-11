@@ -66,4 +66,12 @@ async function saveQuestion(){
 
   const result = await response.json();
 
+  if(result.success){
+    alert('문의가 성공적으로 등록되었습니다.');
+    window.open('/mypage/qna');
+  }
+  else{
+    alert('문의가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');
+  }
+
 }

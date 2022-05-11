@@ -106,7 +106,7 @@ var shopId = document.getElementById('shopId').textContent;
 console.log('shopId:', shopId);
 var roomName = shopId;
 
-endPoint = wsStart + "127.0.0.1:8080" + '/ws/chat/' + roomName + '/';
+endPoint = wsStart + "127.0.0.1:8000" + '/ws/chat/' + roomName + '/';
 console.log('EndPoint: ', endPoint);
 
 var webSocket;

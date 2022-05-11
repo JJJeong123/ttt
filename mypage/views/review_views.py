@@ -8,98 +8,83 @@ from django.db.models import IntegerField
 from django.db.models.functions import Cast
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from config.models import Comment, Member, OrderProduct, Product
+from config.models import Comment, Member, Order, OrderProduct, Product
 
 class ReviewView(LoginRequiredMixin, View):
+    '''
+    후기
+
+    작성 완료 후기/ 미작성 후기
+    '''
     template_name = 'review.html' 
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         images=[]
+        images_ordered=[]
 
-        reviews_id=list((Comment.objects.filter(deleteflag='0', member__user=request.user).values('id')))
-        
+        reviews_id=list(Comment.objects.filter(deleteflag='0', member__user=request.user).values('id').order_by('-created_at'))
+        ordered_products = list(OrderProduct.objects.filter(order__member__user=request.user, status='4', deleteflag='0', review_flag='0')\
+                      .values('id', 'order__created_at', 'product__id', 'product__name', 'amount'))
+
         for id in reviews_id:
             images.append(Comment.objects.get(id=id.get('id')))
 
-        context['reviews']=list(Comment.objects.filter(deleteflag='0', member__user=request.user).\
-                                    values('content', 'orderproduct__product__name', 'created_at').annotate(rate=Cast(F('rate') * 20, IntegerField())))
+        for id in ordered_products:
+            images_ordered.append(Product.objects.get(id=id.get('product__id')))
+
+        # 작성 완료 후기
+        context['reviews']=list(Comment.objects.filter(deleteflag='0', member__user=request.user)\
+                                    .values('content', 'orderproduct__product__name', 'orderproduct__product__id','created_at')\
+                                      .order_by('-created_at')\
+                                      .annotate(rate=Cast(F('rate') * 20, IntegerField())))
         context['images']=images
+
+        # 미작성 후기
+        context['ordered_products']=ordered_products
+        context['images_ordered']=images_ordered
 
         return render(request, self.template_name, context)
 
+    def post(self, request: HttpRequest, *args, **kwargs):
+        context={}
 
-class ReviewTableView(View):
-    '''
-    리뷰 작성 가능한 상품 / 작성한 리뷰
+        orderproduct_id = request.POST.get('review-id')
+        rate = request.POST.get('review-rate')
+        content = request.POST.get('review-content')
+        img = request.FILES.get('review-img')
+        print(img)
+        if OrderProduct.objects.filter(id=orderproduct_id).values_list('review_flag')=='1':
+            context['success']=False
+        
+        Comment.objects.create(
+            rate=rate,
+            content=content,
+            member=Member.objects.get(user=request.user),
+            reply_flag='0',
+            comment_img=img,
+            deleteflag='0',
+            orderproduct=OrderProduct.objects.get(id=orderproduct_id)
+        )
 
-    Datatable에 넣을 데이터를 받아옵니다.
-    '''
-    def get(self, request: HttpRequest):
-        user_id=request.user.id
-
-        ReviewProduct = list(OrderProduct.objects.filter(order__member__user_id=user_id, status='4', deleteflag='0', review_flag='0').values('id', 'order__date','product__shop__shop_name', 'product__name'))
-        Review = list(Comment.objects.filter(member__user_id=user_id, deleteflag='0').values('id', 'created_at', 'orderproduct__product__shop__shop_name', 'orderproduct__product__name', 'rate'))
-
-        context = {
-            'reviewProduct': ReviewProduct,
-            'review': Review,
-        }
+        OrderProduct.objects.filter(id=orderproduct_id).update(
+            review_flag='1'
+        )
+        
+        context['success']=True
 
         return JsonResponse(context, content_type='application/json')
 
-
-class ReviewPostView(TemplateView):
+class ReviewPostView(LoginRequiredMixin, TemplateView):
     '''
-    리뷰 등록
+    후기 등록
     '''
     template_name = 'review_post.html' 
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context={}
 
-        reviewPro = list(OrderProduct.objects.filter(id=kwargs.get('id')).values('id', 'product__id', 'order__date','product__shop__shop_name', 'product__name'))
-        context['reviewPro'] = reviewPro[0]
+        orderproduct_id = list(OrderProduct.objects.filter(id=kwargs.get('id')).values_list('id', flat=True))[0]
+        context['orderproduct_id'] = orderproduct_id
 
         return context
-
-    
-    def post(self, request: HttpRequest, *args, **kwargs):
-        context = {}
-   
-        mainImg = request.FILES.getlist('mainImg')
-        Rate = request.POST.get('rate')
-        Content = request.POST.get('content')
-        orderProId = request.POST.get('orderProId')
-
-        for image in mainImg:
-            Comment.objects.create(
-                member = Member.objects.get(user=request.user),
-                orderproduct = OrderProduct.objects.get(id=orderProId),
-                comment_img = image,
-                content = Content,
-                rate = Rate,
-                reply_flag = '0',
-                deleteflag='0'
-            )
-        
-        OrderProduct.objects.filter(id=orderProId).update(
-            review_flag='1'
-        )
-      
-        context['success']=True
-        return JsonResponse(context, content_type='application/json')
-
-
-class ReviewDetailView(View):
-    '''
-    리뷰 상세 페이지
-    '''
-    template_name = 'review_detail.html' 
-
-    def get(self, request: HttpRequest, *args, **kwargs):
-        id = kwargs.get('id')
-        comment = Comment.objects.get(id=id)
-        context={}
-        context['comment'] = comment
-        return render(request, self.template_name,  context)

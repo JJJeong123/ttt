@@ -170,13 +170,6 @@ STATIC_URL = '/static/'
 # Channels
 ASGI_APPLICATION = 'config.asgi.application'
 
-#https://stackoverflow.com/questions/53271407/channels-without-channel-layer-or-any-other-free-hosting
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

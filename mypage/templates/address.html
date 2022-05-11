@@ -17,8 +17,9 @@
           <a class="nav-link" href="{% url 'mypage:like' %}">찜한 목록</a>
           <a class="nav-link active" href="{% url 'mypage:address' %}">배송지 관리</a>
           <a class="nav-link" href="#">결제수단 관리</a>
+          <a class="nav-link" href="{% url 'mypage:review' %}">상품 후기</a>
+          <a class="nav-link" href="{% url 'mypage:product_qna-list' %}">상품 문의</a>
           <a class="nav-link" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
-          <a class="nav-link" href="#">Transactions</a>
           <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
           <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
         </nav>
@@ -99,7 +100,7 @@
             <div class="form-group row mb-3">
               <input class="form-control" type="text" id="addressToEdit" name="addressToEdit" readonly/>
             </div>
-           <div class="form-group row mb-3">
+            <div class="form-group row mb-3">
               <label class="mb-1">배송지 이름</label>
               <input class="form-control" type="text" id="address-name" name="address-name"/>
             </div>
@@ -109,6 +110,7 @@
               <input class="form-control" type="text" autocomplete="on" id="address-name"/>
             </div>
           </div> -->
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -118,7 +120,6 @@
     </div>
   </div>
 </div>
- -->
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

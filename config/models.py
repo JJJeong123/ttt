@@ -233,7 +233,8 @@ class Shop(models.Model):
         db_table = 'shop'
 
 
-# 상품 카테고리
+
+# 상품 상위 카테고리
 class ProCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -245,6 +246,21 @@ class ProCategory(models.Model):
     class Meta:
         managed = False
         db_table = 'pro_category'
+
+
+# 상품 하위 카테고리
+class ProSubCategory(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    pro_category = models.ForeignKey(ProCategory, models.CASCADE)
+    name = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pro_subcategory'
 
 
 # 상품
@@ -259,7 +275,7 @@ class Product(models.Model):
     stock = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    pro_category = models.ForeignKey(ProCategory, models.CASCADE)
+    pro_subcategory = models.ForeignKey(ProSubCategory, models.CASCADE)
     shop = models.ForeignKey(Shop, models.CASCADE)
     content = QuillField(blank=True, null=True)
     main_img = models.ImageField(blank=True, null=True, upload_to='product/main')
@@ -369,7 +385,7 @@ class LikedProduct(models.Model):
         db_table = 'liked-product'
 
 
-# 리뷰
+# 후기
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -387,14 +403,14 @@ class Comment(models.Model):
         managed = False
         db_table = 'comment'
 
-# 리뷰 답변
+# 후기 답변
 class CommentReply(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     comment = models.ForeignKey(Comment, models.CASCADE)
 
     class Meta:
@@ -423,7 +439,7 @@ class Qna(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
     title = models.CharField(max_length=50, blank=True, null=True)
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     password = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)
@@ -459,7 +475,7 @@ class ProQna(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
     title = models.CharField(max_length=50, blank=True, null=True)
-    content = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     password = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)

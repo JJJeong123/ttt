@@ -17,8 +17,9 @@
           <a class="nav-link" href="{% url 'mypage:like' %}">찜한 목록</a>
           <a class="nav-link" href="{% url 'mypage:address' %}">배송지 관리</a>
           <a class="nav-link" href="#">결제수단 관리</a>
-          <a class="nav-link active" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
-          <a class="nav-link" href="#">Transactions</a>
+          <a class="nav-link active" href="{% url 'mypage:review' %}">상품 후기</a>
+          <a class="nav-link" href="{% url 'mypage:product_qna-list' %}">상품 문의</a>
+          <a class="nav-link" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
           <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
           <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
         </nav>
@@ -28,7 +29,7 @@
     <main class="col-lg-9">
       <div class="card mb-5">
         <div class="card-body">
-          <h4 class="card-title mb-4">후기</h4>
+          <h4 class="card-title mb-4">상품 후기</h4>
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <a href="#" data-bs-target="#reviews" data-bs-toggle="tab" class="nav-link active">작성 가능한 후기</a>
@@ -39,33 +40,41 @@
           </ul>
           <div class="tab-content">
             <div id="reviews" class="tab-pane show active card-body">
-              <p>With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-              <ul class="list-check cols-two">
-                <li>Some great feature name here </li>
-                <li>Lorem ipsum dolor sit amet, consectetur </li>
-                <li>Duis aute irure dolor in reprehenderit </li>
-                <li>Optical heart sensor </li>
-                <li>Easy fast and ver good </li>
-                <li>Some great feature name here </li>
-                <li>Modern style and design</li>
-              </ul>
-              <table class="table border table-hover">
-                <tr>
-                  <th>  Display: </th> <td> 13.3-inch LED-backlit display with IPS </td>
-                </tr>
-                <tr>
-                  <th>  Processor capacity: </th> <td> 2.3GHz dual-core Intel Core i5 </td>
-                </tr>
-                <tr>
-                  <th>  Camera quality: </th> <td>720p FaceTime HD camera  </td>
-                </tr>
-                <tr>
-                  <th>  Memory </th> <td> 8 GB RAM or 16 GB RAM </td>
-                </tr>
-                <tr>
-                  <th>  Graphics </th> <td> Intel Iris Plus Graphics 640 </td>
-                </tr>
-              </table>
+              {% load index %}
+              {% for p in ordered_products %}
+              <article class="row gy-3 my-2">
+                <div class="col-lg-7">
+                  <figure class="itemside me-lg-5">
+                    <div class="aside">
+                      {% with item=images_ordered|index:forloop.counter0 %}
+                      <img src="{{ item.main_img.url }}" 
+                          class="img-md rounded" 
+                          onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');"
+                          style="cursor:pointer;">
+                      {% endwith %}
+                    </div>
+                    <figcaption class="info pt-1">
+                      <h6 class="title mb-2"
+                        onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');"
+                        style="cursor:pointer;">{{p.product__name}}</h6>
+                      <p class="text-muted"> 옵션: Yellow, Jeans </p>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-6 mt-3">
+                  <div class="date-wrap lh-sm pt-2"> 
+                    <small class="date font-weight-bold">{{ p.order__created_at|date:"m월 d일 배송완료" }}</small>  <br>
+                  </div> <!-- price-wrap .// -->
+                </div>
+                <div class="col-lg col-sm-4 mt-4">
+                  <div class="float-lg-end">
+                    <a class="btn btn-sm btn-primary"
+                      onclick="window.open('/mypage/review-post/'+'{{ p.id }}'+'','_self');"
+                    >후기쓰기</a>
+                  </div>
+                </div>
+              </article> <!-- row.// -->
+              {% endfor %}
             </div> <!-- tab-content.// -->
             <div id="reviews-done" class="tab-pane card-body mt-3">
               {% if reviews %}
@@ -74,7 +83,11 @@
               <blockquote class="border-bottom">
                 <div class="icontext">
                   <div class="text">
-                    <h6 class="mb-1"> {{ r.orderproduct__product__name }} </h6>
+                    <h6 class="mb-1"
+                        onclick="window.open('/product/product-detail/'+'{{ r.orderproduct__product__id }}'+'','_self');"
+                        style="cursor:pointer;">
+                      {{ r.orderproduct__product__name }}
+                    </h6>
                     <span class="score">
                       <div class="score-wrap">
                         <span class="stars-active" style="width: {{ r.rate }}%">
@@ -91,7 +104,6 @@
                           <i class="fa fa-star-o" aria-hidden="true"></i>
                           <i class="fa fa-star-o" aria-hidden="true"></i>
                         </span>
-                        
                       </div>
                       <div class="date-wrap">
                         <span class="text-muted" id="review-dot">·</span>
@@ -102,11 +114,19 @@
                 </div>
                 <div class="mt-2 mb-4 review__content">
                   {% with image=images|index:forloop.counter0 %}
+                  {% if image.comment_img %}
                   <div class="aside">
-                    <img width="72" height="72" src="{{image.comment_img.url}}" class="img-md rounded border"  onclick="window.open(this.src)" style="cursor:pointer;">
+                    <img width="72" height="72" 
+                        src="{{image.comment_img.url}}" 
+                        class="img-md rounded border"  
+                        onclick="window.open(this.src)" 
+                        style="cursor:pointer;">
                   </div>
-                  {% endwith %}
                   <p class="px-3">{{ r.content }}</p>
+                  {% else %}
+                  <p>{{ r.content }}</p>
+                  {% endif %}
+                  {% endwith %}
                 </div>
               </blockquote>
               {% endfor %}
@@ -125,5 +145,4 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'jsmeta/mypage/script_qna.js' %}"></script>
 {% endblock javascripts %}
