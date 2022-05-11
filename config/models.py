@@ -234,7 +234,7 @@ class Shop(models.Model):
 
 
 # 상품 카테고리
-class ProCategory(models.Model):
+class ProSubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -244,7 +244,7 @@ class ProCategory(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'pro_category'
+        db_table = 'pro_subcategory'
 
 
 # 상품
@@ -259,7 +259,7 @@ class Product(models.Model):
     stock = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    pro_category = models.ForeignKey(ProCategory, models.CASCADE)
+    pro_subcategory = models.ForeignKey(ProSubCategory, models.CASCADE)
     shop = models.ForeignKey(Shop, models.CASCADE)
     content = QuillField(blank=True, null=True)
     main_img = models.ImageField(blank=True, null=True, upload_to='product/main')
