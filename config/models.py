@@ -233,13 +233,29 @@ class Shop(models.Model):
         db_table = 'shop'
 
 
-# 상품 카테고리
+
+# 상품 상위 카테고리
+class ProCategory(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pro_category'
+
+
+# 상품 하위 카테고리
 class ProSubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    pro_category = models.ForeignKey(ProCategory, models.CASCADE)
     name = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
