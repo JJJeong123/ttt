@@ -312,6 +312,23 @@
           존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
         </p>
       </div>
+      <h3>다른 고객이 함께 주문한 상품</h3>
+      <div class="item">
+        <img src="http://image.kyobobook.co.kr/images/book/large/564/l9788937437564.jpg" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'276'+'','_self');" />
+        <div class="item__info">
+          <div class="item__info-title">[ABC] 제주 감귤 1kg</div>
+          <span class="item__info-dc">30%</span>
+          <span>18,470원</span>
+        </div>
+      </div>
+      <div class="item">
+        <img src="{{product.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'276'+'','_self');" />
+        <div class="item__info">
+          <div class="item__info-title">{{ product.name}}</div>
+          <span class="item__info-dc">{{ product.price }}</span>
+          <span>{{ product.id }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
