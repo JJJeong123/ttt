@@ -15,7 +15,26 @@ class ProductQnaListView(LoginRequiredMixin, View):
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
+        
         return render(request, self.template_name, context)
+    
+    def delete(self, request:HttpRequest):
+        context={}
+        request.DELETE = json.loads(request.body)
+
+        qna_id=request.DELETE.get('qna_id')
+        
+        try:
+            ProQna.objects.filter(id=qna_id).update(
+                deleteflag='1',
+                deleted_at=datetime.now(),
+            )
+            context['success']=True
+        
+        except Exception as e:
+            context['success']=False
+
+        return JsonResponse(context, content_type='application/json')
 
 
 class ProductQnaTableView(LoginRequiredMixin, View):
@@ -41,7 +60,7 @@ class ProductQnaDetailView(LoginRequiredMixin, View):
         id = kwargs.get('id')
         context={}
 
-        context['qna'] = list(ProQna.objects.filter(id=id).values('title', 'content', 'created_at', 'answer_flag'))[0]
+        context['qna'] = list(ProQna.objects.filter(id=id).values('title', 'content', 'created_at', 'answer_flag', 'id'))[0]
 
         # 문의 답변이 등록되어 있다면 
         if context['qna'].get('answer_flag')=='1':

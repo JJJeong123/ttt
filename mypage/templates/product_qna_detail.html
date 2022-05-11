@@ -32,9 +32,14 @@
           <h4 class="card-title mb-4">상품 문의</h4>
           <hr>
           <blockquote>
-            <div class="float-lg-end d-flex mb-3">
-              <button class="btn btn-light btn-sm float-end "> <i class="fa fa-ellipsis-v"></i> </button>
+            {% if qna.answer_flag == '0' %}
+            <div class="dropdown float-lg-end d-flex mb-3">
+              <button class="dropbtn btn btn-light btn-sm float-end"> <i class="fa fa-ellipsis-v"></i> </button>
+              <div class="dropdown-content">
+                <li onclick="deleteQuestion('{{qna.id}}')">삭제</li>
+              </div>
             </div>
+            {% endif %}
             <div class="icontext">
               <div class="text">
                 <h6 class="mb-0"> {{ qna.title }} </h6>
@@ -75,5 +80,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'jsmeta/mypage/script_product_qna.js' %}"></script>
+<script src="{% static 'jsmeta/mypage/script_product_qna_detail.js' %}"></script>
 {% endblock javascripts %}

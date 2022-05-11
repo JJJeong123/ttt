@@ -400,3 +400,47 @@ table.dataTable tbody tr{
 #dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(4) {
   text-align: center;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 30px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  min-width: 100px;
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 6px 12px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-content li:hover:first-child {
+  background-color: #e9ecef;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.dropdown-content li:hover:last-child {
+  background-color: #e9ecef;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown:hover .dropbtn {
+  background-color: #1c5d1c;
+}
+.dropdown:hover .dropbtn i {
+  color: #fff;
+}
