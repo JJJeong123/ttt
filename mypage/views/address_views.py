@@ -3,6 +3,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import datetime
 
 from config.models import Address, Member
 
@@ -58,6 +59,7 @@ class AddressView(LoginRequiredMixin, View):
 
         Address.objects.filter(id=id).update(
             deleteflag='1',
+            deleted_at=datetime.now(),
         )
       
         context['success']=True

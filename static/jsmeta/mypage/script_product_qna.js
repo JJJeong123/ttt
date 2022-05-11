@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(){
     searching: false,
     dom: 'rtip',
     paging: false,
+    order: [[ 0, "desc" ]],
 
     ajax: {
       'type' : 'GET',

@@ -3,10 +3,11 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import datetime
 
 from config.models import ProQna, ProQnaAnswer
 
-class ProductQnaListView(View):
+class ProductQnaListView(LoginRequiredMixin, View):
     '''
     1:1 문의 목록
     '''
@@ -17,7 +18,7 @@ class ProductQnaListView(View):
         return render(request, self.template_name, context)
 
 
-class ProductQnaTableView(View):
+class ProductQnaTableView(LoginRequiredMixin, View):
     '''
     1:1 문의 목록
 
@@ -25,7 +26,7 @@ class ProductQnaTableView(View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
-        context['qna']=list(ProQna.objects.filter(deleteflag='0', member__user=request.user)\
+        context['qna']=list(ProQna.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
                                         .values('created_at', 'answer_flag', 'title', 'id', 'product__name'))
 
         return JsonResponse(context, content_type='application/json')

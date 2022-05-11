@@ -10,7 +10,7 @@ function addImage(e){
   let src = URL.createObjectURL(target.files[0]);
   //let src = target.files[0];
   //document.getElementById('qna-img').setAttribute('src', e.target.result);
-  
+
   let label=document.createElement('label');
   let image=document.createElement('img');
   let span=document.createElement('span');
@@ -25,7 +25,7 @@ function addImage(e){
   icon.setAttribute('class', 'fa fa-trash fa-sm');
   span.setAttribute('class', 'trash');
   span.setAttribute('onclick', 'clearImage()')
-  
+
   span.append(icon);
   label.append(image);
   label.append(span); 
@@ -49,7 +49,7 @@ async function saveQuestion(){
   let category=document.getElementById('qna-cat').value;
   let title=document.getElementById('qna-title').value;
   let content=document.getElementById('qna-content').value;
-  
+
   formData.append('qna-cat', category);
   formData.append('qna-title', title);
   formData.append('qna-content', content);
@@ -65,10 +65,10 @@ async function saveQuestion(){
   });
 
   const result = await response.json();
-
+  
   if(result.success){
     alert('문의가 성공적으로 등록되었습니다.');
-    window.open('/mypage/qna');
+    window.open('/mypage/qna-list', '_self');
   }
   else{
     alert('문의가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');
