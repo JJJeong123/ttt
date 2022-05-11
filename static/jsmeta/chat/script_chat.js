@@ -142,6 +142,33 @@ btnJoin.onclick = () => {
         console.log('Error occured! ', e);
     }
 
+    $("#productList").show();
+
+    // shows products of the shop
+    let table_products = $('#dataTableHover-prolist').DataTable({
+        destroy: true,
+        autoWidth: false,
+        searching: false,
+        paging: false,
+    
+        ajax: {
+          'type' : 'GET',
+          'url': '/chat/product-list?shopId=' + shopId,
+          'dataSrc': 'products'
+        },
+        createdRow: function( row, data, dataIndex ) {
+            $(row).on('click', function(e) {
+                startAsk(data.name);
+            });
+          },
+        columns: [
+          {data : 'name'},
+          {data : 'price'},
+          {data : 'description'},
+        ],
+    });
+
+
     // enable to send text messages
     btnSendMsg.disabled = false;
     messageInput.disabled = false;
@@ -495,3 +522,20 @@ function removeVideo(video){
     // remove it
     videoWrapper.parentNode.removeChild(videoWrapper);
 }
+
+
+function startAsk(productName){
+    $('#message-input').val('사장님, ' +productName +' 상품 보여주세요!'); 
+    btnSendMsg.click();
+}
+
+
+
+/*
+if productName
+victory => chat 
+thumbs up => yes
+thumbs down => no
+
+if yes => database order
+*/
