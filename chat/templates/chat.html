@@ -32,6 +32,7 @@
 			<h1>{{ shop.shop_name }}</h1>
 			<br>
 			<h1 id="username">{{request.user.username}}</h1>
+			<input id="selectedPro"/>
 			<div hidden>
 				<h1 id="shopId">{{ shop.id }}</h1>
 			</div>
@@ -98,6 +99,7 @@
 		<footer></footer>
 
 		<!-- Optional JavaScript -->
+		<!--제이쿼리 임시로 따로 추가-->
 		<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<!--DataTable-->
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>

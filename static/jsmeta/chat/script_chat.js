@@ -48,6 +48,8 @@ var mapPeers = {};
 
 
 
+/*
+//mediapipe //print keypoints
 
 const runHandpose = async() => {
     // Get Model
@@ -74,16 +76,9 @@ const detect = async (detector) => {
     console.log(hand);        
 };
 
-/*
-const startChat = async () => {
-    startVideo();
-    runHandpose();     
-};
-
-startChat();
-*/
 
 runHandpose();
+*/
 
 // text messages
 var messageInput = document.getElementById('message-input');
@@ -158,7 +153,7 @@ btnJoin.onclick = () => {
         },
         createdRow: function( row, data, dataIndex ) {
             $(row).on('click', function(e) {
-                startAsk(data.name);
+                startAsk(data.name, data.id);
             });
           },
         columns: [
@@ -524,9 +519,18 @@ function removeVideo(video){
 }
 
 
-function startAsk(productName){
-    $('#message-input').val('사장님, ' +productName +' 상품 보여주세요!'); 
+function startAsk(productName, productId){
+    console.log("startAsk");
+    console.log('Selected product name: ', productName);
+    console.log('Selected product id: ', productId);
+
+    $('#message-input').val('사장님, ' +productName + ' 상품 보여주세요!'); 
     btnSendMsg.click();
+    sendSignal('new-product', {
+        'selected_product': productId,
+        'selected_product_name': productName,
+    });
+    $('#selectedPro').val(productName); 
 }
 
 

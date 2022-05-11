@@ -20,7 +20,7 @@ class ProductListView(View):
     def get(self, request: HttpRequest):
         context={}
         shopId = request.GET.get('shopId')
-        context['products'] = list(Product.objects.filter(shop__id=shopId, status = '1').values('name', 'price', 'description'))
+        context['products'] = list(Product.objects.filter(shop__id=shopId, status = '1').values('id', 'name', 'price', 'description'))
 
         print(context['products'])
 
