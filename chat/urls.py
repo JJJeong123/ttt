@@ -11,5 +11,7 @@ urlpatterns=[
     path('shop-list', shop_views.ShopView.as_view(), name='shop-list'),
     #채팅 화면
     path('chat-page', chat_views.ChatView.as_view(), name='chat-page'),
+    #해당 점포의 상품 리스트
+    path('product-list', chat_views.ProductListView.as_view(), name='product-list'),
 
 ]

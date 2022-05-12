@@ -1,128 +1,130 @@
 // map peer usernames to corresponding RTCPeerConnections
-var mapPeers = {};
+let mapPeers = {};
+
+//Get video properties
+const localVideo = document.getElementById('localVideo');
+let localStream = new MediaStream();
+
+const constraints = {
+    'video': true,
+    'audio': true
+}
 
 
-
-    // Get Video Properties
-    const localVideo = document.getElementById('localVideo');
-    // MediaStream.getTracks() returns MediaStreamTrack array
-    var localStream = new MediaStream();
-
-    const constraints = {
-        'video': true,
-        'audio': true
+userMedia = navigator.mediaDevices.getUserMedia(constraints)
+.then(stream => {
+    localStream = stream;
+    console.log('Got MediaStream:', stream);
+    var mediaTracks = stream.getTracks();
+    
+    for(i=0; i < mediaTracks.length; i++){
+        console.log(mediaTracks[i]);
     }
     
-    //constraints.video.facingMode = { exact: "user" } //전면카메라
+    localVideo.srcObject = localStream;
+    localVideo.muted = true;
+    
+    window.stream = stream; // make variable available to browser console
 
-    /*
-    getUserMedia(constraints)
-    연결된 장치들 중 constraints에 만족하는 장치들 불러옴
-    */ 
-    userMedia = navigator.mediaDevices.getUserMedia(constraints)
-    .then(stream => {
-        localStream = stream;
-        console.log('Got MediaStream:', stream);
-        var mediaTracks = stream.getTracks();
-        
-        for(i=0; i < mediaTracks.length; i++){
-            console.log(mediaTracks[i]);
-        }
-        
-        localVideo.srcObject = localStream;
-        localVideo.muted = true;
+    audioTracks = stream.getAudioTracks();
+    videoTracks = stream.getVideoTracks();
 
-        window.stream = stream; // make variable available to browser console
-
-        audioTracks = stream.getAudioTracks();
-        videoTracks = stream.getVideoTracks();
-
-        // unmute audio and video by default
-        audioTracks[0].enabled = true;
-        videoTracks[0].enabled = true;
-    })
-    .catch(error => {
-        console.error('Error accessing media devices.', error);
-    });
-
-
-
+    // unmute audio and video by default
+    audioTracks[0].enabled = true;
+    videoTracks[0].enabled = true;
+})
+.catch(error => {
+    console.error('Error accessing media devices.', error);
+});
 
 
 const runHandpose = async() => {
-    // Get Model
-    const model = handPoseDetection.SupportedModels.MediaPipeHands;
+    const model = await handpose.load();
     console.log("Handpose model loaded");
-
-    const detectorConfig = {
-        runtime: 'mediapipe',
-        modelType: 'lite',
-        solutionPath: "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
-    };
-
-    const detector = await handPoseDetection.createDetector(model, detectorConfig);
-
+   
     //Loop and detect hands
-    setInterval(() => {
-        detect(detector);
-    }, 10000);
-};
+    let detectTimer = setInterval(() => {
+        detect(model, detectTimer);
+    }, 10);
+}
 
-// Make Detections
-const detect = async (detector) => {
-    const hand = await detector.estimateHands(localVideo);
-    console.log(hand);        
-};
 
-/*
-const startChat = async () => {
-    startVideo();
-    runHandpose();     
-};
+const detect = async (model, detectTimer) => {
+    //Make detections
+    const hand = await model.estimateHands(localVideo);
+    //console.log(hand);
 
-startChat();
-*/
+    if (hand.length > 0) {
+        const GE = new fp.GestureEstimator([
+            fp.Gestures.VictoryGesture,
+            fp.Gestures.ThumbsUpGesture,
+        ]);
+        const gesture = await GE.estimate(hand[0].landmarks, 4);
+        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
 
-runHandpose();
+            const confidence = gesture.gestures.map(
+                (prediction) => prediction.confidence
+            );
+            
+            const maxConfidence = confidence.indexOf(
+                Math.max.apply(null, confidence)
+            );
+
+            let result = gesture.gestures.reduce((p, c) => { 
+                return (p.score > c.score) ? p : c;
+            });
+            if (result.name =='victory' && result.score > 9) {
+                testfunction(result);
+                clearInterval(detectTimer);
+            }
+        }
+    }
+}
+
+
+function testfunction(result){
+    console.log('result: ', result);
+    alert(result.name);
+
+    sendSignal('start-bargain', {});
+}
+
 
 // text messages
-var messageInput = document.getElementById('message-input');
-var btnSendMsg = document.getElementById('message-submit');
-var ul = document.getElementById("message-log");
+const messageInput = document.getElementById('message-input');
+const btnSendMsg = document.getElementById('message-submit');
+const ul = document.getElementById("message-log");
 
-var loc = window.location;
-var endPoint = '';
+const loc = window.location;
+let endPoint = '';
 
 // web protocol -> http or https
-var wsStart = 'ws://';
+let wsStart = 'ws://';
 if(loc.protocol == 'https:'){
     wsStart = 'wss://';
 }
 
-// ws, wss => protocol for WebSocket
-/*var endPoint = wsStart + loc.host + loc.pathname;*/
 // get shop id
-var shopId = document.getElementById('shopId').textContent;
+let shopId = document.getElementById('shopId').textContent;
 console.log('shopId:', shopId);
-var roomName = shopId;
+let roomName = shopId;
 
 endPoint = wsStart + "127.0.0.1:8000" + '/ws/chat/' + roomName + '/';
 console.log('EndPoint: ', endPoint);
 
-var webSocket;
+let webSocket;
 
 // get username
-var username = document.getElementById('username').textContent;
+let username = document.getElementById('username').textContent;
 console.log('Username: ',username);
 
-var btnJoin = document.getElementById('startButton');
+const btnJoin = document.getElementById('startButton');
 
 // join room (initiate websocket connection)
 btnJoin.onclick = () => {
     // disable and vanish join button
     btnJoin.disabled = true;
     btnJoin.style.visibility = 'hidden';
-
 
     webSocket = new WebSocket(endPoint);
 
@@ -142,7 +144,32 @@ btnJoin.onclick = () => {
         console.log('Error occured! ', e);
     }
 
-    // enable to send text messages
+    $("#productList").show();
+
+    // shows products of the shop
+    let table_products = $('#dataTableHover-prolist').DataTable({
+        destroy: true,
+        autoWidth: false,
+        searching: false,
+        paging: false,
+    
+        ajax: {
+          'type' : 'GET',
+          'url': '/chat/product-list?shopId=' + shopId,
+          'dataSrc': 'products'
+        },
+        createdRow: function( row, data, dataIndex ) {
+            $(row).on('click', function(e) {
+                startAsk(data.name, data.id);
+            });
+          },
+        columns: [
+          {data : 'name'},
+          {data : 'price'},
+          {data : 'description'},
+        ],
+    });
+
     btnSendMsg.disabled = false;
     messageInput.disabled = false;
 }
@@ -215,6 +242,14 @@ function webSocketOnMessage(event){
         // set remote description of the RTCPeerConnection
         peer.setRemoteDescription(answer);
 
+        return;
+    }
+
+    if(action == 'end-bargain'){
+        var bargainResult = parsedData['message']['bargain_result'];
+        console.log('흥정 종료 결과: ' + bargainResult);
+        alert('Bargain end - ' + bargainResult);
+        
         return;
     }
 }
@@ -495,3 +530,31 @@ function removeVideo(video){
     // remove it
     videoWrapper.parentNode.removeChild(videoWrapper);
 }
+
+
+function startAsk(productName, productId){
+    console.log("startAsk");
+    console.log('Selected product name: ', productName);
+    console.log('Selected product id: ', productId);
+
+    $('#message-input').val('사장님, ' +productName + ' 상품 보여주세요!'); 
+    btnSendMsg.click();
+    sendSignal('new-product', {
+        'selected_product': productId,
+        'selected_product_name': productName,
+    });
+    $('#selectedPro').val(productName); 
+
+    runHandpose();
+}
+
+
+
+/*
+if productName
+victory => chat 
+thumbs up => yes
+thumbs down => no
+
+if yes => database order
+*/
