@@ -44,19 +44,11 @@
 		<main class="container-fluid">
 			<div class="row">
 				<section class="col-md-8">
-					<!--<video id="localVideo" autoplay playsinline style="
-					-webkit-transform: scaleX(-1);
-					transform: scaleX(-1);
-					visibility: hidden;
-					width: auto;
-					height: auto;"
-					></video>-->
 					<video id="localVideo" autoplay playsinline></video>
 					<video id="remoteVideo" autoplay playsinline></video>
 
 					<div>
 						<button class="btn btn-primary btn-sm" id="startButton">Start</button>
-						<!-- <button class="btn btn-success btn-sm" id="callButton">Call</button> -->
 						<button class="btn btn-danger btn-sm" id="hangupButton">Hang Up</button>
 					</div>
 				</section>
@@ -69,49 +61,55 @@
 				</section>
 			</div>
 
+		</main>
 
-			<!--Products list-->
-			<div id="productList" style="display:none;">
-				<div class="row">
-					<div class="col-lg-12" style="padding:10px;">
-						<div class="card mb-4">
-							<div class="card-header">
-								<h3 class="h5 mb-0 text-gray-800">Prodcuts List</h3>
-							</div>
-							<div class="card-body justify-content-end">
-								<table class="table align-items-center table-flush table-hover" id="dataTableHover-prolist" style="width:100%">
-									<thead class="thead-light">
-									  <tr>
-										<th>Product name</th>
-										<th>price</th>
-										<th>description</th>
-									  </tr>
-									</thead>
-								</table>
-							</div>
+		<!--Products list-->
+		<div id="productList" style="display:none;">
+			<div class="row">
+				<div class="col-lg-12" style="padding:10px;">
+					<div class="card mb-4">
+						<div class="card-header">
+							<h3 class="h5 mb-0 text-gray-800">Prodcuts List</h3>
+						</div>
+						<div class="card-body justify-content-end">
+							<table class="table align-items-center table-flush table-hover" id="dataTableHover-prolist" style="width:100%">
+								<thead class="thead-light">
+								  <tr>
+									<th>Product name</th>
+									<th>price</th>
+									<th>description</th>
+								  </tr>
+								</thead>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
-
-		</main>
+		</div>
 		
 		<footer></footer>
 
 		<!-- Optional JavaScript -->
 		<!--제이쿼리 임시로 따로 추가-->
 		<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+		
 		<!--DataTable-->
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
-
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection"></script>
-		<!-- Optional: Include below scripts if you want to use MediaPipe runtime-->
-		<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
-
+		<!--WebRtc-->
 		<script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
 
+		<!-- this example uses TFJS 3.7.0 - older versions back to 2.1.0 are supported -->
+		<script src="https://unpkg.com/@tensorflow/tfjs-core@3.7.0/dist/tf-core.js"></script>
+		<script src="https://unpkg.com/@tensorflow/tfjs-converter@3.7.0/dist/tf-converter.js"></script> 
+		<!-- use the WebGL backend (recommended) - you can alternatively use the WASM backend -->
+		<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@3.7.0/dist/tf-backend-webgl.js"></script>
+
+		<!--handpose-->
+		<script src="https://unpkg.com/@tensorflow-models/handpose@0.0.7/dist/handpose.js"></script>
+
+		<!--fingerpose-->
+		<script src="{% static 'jsmeta/chat/fingerpose.js' %}"></script>
 
 		<script src="{% static 'jsmeta/chat/script_chat.js' %}"></script>
 	</body>
