@@ -17,7 +17,7 @@ class QnaView(LoginRequiredMixin, View):
         context['cats']=list(QnaCategory.objects.filter(deleteflag='0').values_list('name', flat=True))
         context['orders']=list(Order.objects.filter(deleteflag='0', member__user=request.user).values_list('order_no', flat=True))
         
-        return render(request, 'qna-post.html', context)
+        return render(request, 'qna_post.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context={}

@@ -8,5 +8,6 @@ urlpatterns=[
     # path('test', test.TestView.as_view(test)),
     path('product-detail/<str:id>', product_views.ProductDetailView.as_view(), name='product-detail'),
     path('qna-post', qna_views.QnaPostView.as_view(), name='qna-post'),
+    path('qna-table', qna_views.QnaTableView.as_view(), name='qna-table'),
     
 ]

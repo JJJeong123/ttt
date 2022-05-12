@@ -33,3 +33,16 @@ class QnaPostView(View):
         context['success']=True
 
         return JsonResponse(context, content_type='application/json')
+
+class QnaTableView(View):
+    '''
+    상품 상세 페이지의 상품 문의
+
+    DataTable에 넣을 문의 목록을 받아옵니다.
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context={}
+        context['qna']=list(ProQna.objects.filter(deleteflag='0').order_by('-created_at')\
+                                        .values('created_at', 'answer_flag', 'title', 'id', 'member__mem_name', 'password'))
+
+        return JsonResponse(context, content_type='application/json')
