@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from django.db.models import IntegerField
 from django.db.models.functions import Cast
+from datetime import datetime
 
 from config.models import Product, Order, OrderProduct
 
@@ -51,6 +52,33 @@ class OrderHistoryView(LoginRequiredMixin, View):
             'num': num,
         }
         return render(request, 'order_history.html', context)
+
+    def delete(self, request:HttpRequest):
+        context={}
+        request.DELETE = json.loads(request.body)
+
+        order_id=request.DELETE.get('order_id')
+
+        try:
+            Order.objects.filter(id=order_id).update(
+                status='8',
+                updated_at=datetime.now(),
+            )
+            ids=list(OrderProduct.objects.filter(order__id=order_id).values_list('id', flat=True))
+            
+            for id in ids:
+                OrderProduct.objects.filter(id=id).update(
+                    status='8',
+                    updated_at=datetime.now(),
+                )
+
+            context['success']=True
+        
+        except Exception as e:
+            context['success']=False
+
+
+        return JsonResponse(context, content_type='application/json')
 
 class OrderDetailView(LoginRequiredMixin, View):
     '''
