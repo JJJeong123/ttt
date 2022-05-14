@@ -162,7 +162,7 @@ a:hover, a:hover h6 {
 }
 
 .btn-light:hover {
-  background-color: #1c5d1c;
+  color: #1c5d1c;
 }
 
 .btn-light:hover i, .btn-light:hover svg {
@@ -235,6 +235,14 @@ a:hover, a:hover h6 {
   display: flex;
   align-items:center;
   margin-right: 10px;
+}
+.bootstrap-touchspin-down{
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.bootstrap-touchspin-up{
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 #checkbox input {
   transform: scale(1.3);
