@@ -73,7 +73,7 @@ const detect = async (model, detectTimer) => {
             let result = gesture.gestures.reduce((p, c) => { 
                 return (p.score > c.score) ? p : c;
             });
-            if (result.name =='victory' && result.score > 9) {
+            if (result.name ==='victory' && result.score > 9) {
                 testfunction(result);
                 clearInterval(detectTimer);
             }
@@ -119,6 +119,7 @@ let username = document.getElementById('username').textContent;
 console.log('Username: ',username);
 
 const btnJoin = document.getElementById('startButton');
+const btnHangup = document.getElementById('hangupButton');
 
 // join room (initiate websocket connection)
 btnJoin.onclick = () => {
@@ -174,6 +175,23 @@ btnJoin.onclick = () => {
     messageInput.disabled = false;
 }
 
+btnHangup.onclick = () => {
+    btnJoin.disabled = false;
+    btnJoin.style.visibility = 'show';
+    btnSendMsg.disabled = true;
+    messageInput.disabled = true;
+
+    webSocket.close()
+    
+    webSocket.onclose = function(e){
+        alert("통화가 종료되었습니다");
+        console.log('Connection closed! ', e);
+    }
+
+    //use replace instead of href
+    location.replace('/');
+}
+
 
 function webSocketOnMessage(event){
     var parsedData = JSON.parse(event.data);
@@ -201,7 +219,7 @@ function webSocketOnMessage(event){
     if action is 'new-peer'
     (커넥션이 만들어지는 순간 (onopen) new-peer 액션인 메세지 send 됨)
     */ 
-    if(action == 'new-peer'){
+    if(action === 'new-peer'){
         console.log('New peer: ', peerUsername);
         // create new RTCPeerConnection
 
@@ -209,7 +227,7 @@ function webSocketOnMessage(event){
         return;
     }
 
-    if(action == 'new-offer'){
+    if(action === 'new-offer'){
         console.log('Got new offer from ', peerUsername);
 
         // create new RTCPeerConnection
@@ -222,7 +240,7 @@ function webSocketOnMessage(event){
     }
     
 
-    if(action == 'new-answer'){
+    if(action === 'new-answer'){
         // get the corresponding RTCPeerConnection
         var peer = null;
         peer = mapPeers[peerUsername][0];
@@ -245,10 +263,15 @@ function webSocketOnMessage(event){
         return;
     }
 
-    if(action == 'end-bargain'){
+    if(action === 'end-bargain'){
         var bargainResult = parsedData['message']['bargain_result'];
         console.log('흥정 종료 결과: ' + bargainResult);
-        alert('Bargain end - ' + bargainResult);
+
+        if(bargainResult === 'Accepted' ){
+            alert("쿠폰이 발급되었습니다.");
+        }else{
+            alert("흥정이 거절되었습니다");
+        }
         
         return;
     }
