@@ -65,7 +65,7 @@ async function saveReview(orderproduct_id){
 
   if(result.success){
     alert('후기가 성공적으로 작성되었습니다.');
-    window.open('/mypage/review');
+    window.open('/mypage/review', '_self');
   }
   else{
     alert('후기가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');

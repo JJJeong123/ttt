@@ -3,6 +3,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import datetime
 
 from config.models import Qna, QnaAnswer, QnaCategory, Member, Order
 
@@ -12,10 +13,11 @@ class QnaView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
+        
         context['cats']=list(QnaCategory.objects.filter(deleteflag='0').values_list('name', flat=True))
         context['orders']=list(Order.objects.filter(deleteflag='0', member__user=request.user).values_list('order_no', flat=True))
         
-        return render(request, 'qna.html', context)
+        return render(request, 'qna_post.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context={}
@@ -34,6 +36,26 @@ class QnaView(LoginRequiredMixin, View):
             qna_img=img,
             deleteflag='0',
         )
+
+        context['success']=True
+
+        return JsonResponse(context, content_type='application/json')
+
+    def delete(self, request:HttpRequest):
+        context={}
+        request.DELETE = json.loads(request.body)
+
+        qna_id=request.DELETE.get('qna_id')
+        
+        try:
+            Qna.objects.filter(id=qna_id).update(
+                deleteflag='1',
+                deleted_at=datetime.now(),
+            )
+            context['success']=True
+        
+        except Exception as e:
+            context['success']=False
 
         return JsonResponse(context, content_type='application/json')
 
@@ -56,7 +78,8 @@ class QnaTableView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
-        context['qna']=list(Qna.objects.filter(deleteflag='0', member__user=request.user).values('created_at', 'answer_flag', 'title', 'id'))
+        context['qna']=list(Qna.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
+                                      .values('created_at', 'answer_flag', 'title', 'id'))
 
         return JsonResponse(context, content_type='application/json')
 
@@ -69,7 +92,7 @@ class QnaDetailView(LoginRequiredMixin, View):
         id = kwargs.get('id')
         context={}
 
-        context['qna'] = list(Qna.objects.filter(id=id).values('category', 'title', 'content', 'created_at'))[0]
+        context['qna'] = list(Qna.objects.filter(id=id).values('category', 'title', 'content', 'created_at', 'answer_flag'))[0]
         context['image']=Qna.objects.get(id=id)
 
         # 문의 답변이 등록되어 있다면 

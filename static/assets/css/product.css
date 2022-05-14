@@ -263,7 +263,7 @@ a:hover, a:hover h6 {
 #dataTableHover-qna.dataTable tbody th, #dataTableHover-qna.dataTable tbody td:nth-child(3) {
   text-align: center;
 }
-table.dataTable tbody th, table.dataTable tbody td:nth-child(2){
+#dataTableHover-qna.dataTable tbody th, #dataTableHover-qna.dataTable tbody td:nth-child(2){
   padding: 8px 15px;
   cursor: pointer;
 }
@@ -376,7 +376,7 @@ table.dataTable tbody tr{
   justify-content: left;
 }
 
-#dataTableHover-proqna.dataTable th:nth-child(1) {
+table.dataTable th:first-child {
   width: 80px;
   max-width: 80px;
   text-align: center;
@@ -387,16 +387,96 @@ table.dataTable tbody tr{
 #dataTableHover-proqna.dataTable th:nth-child(3) {
   text-align: center;
 }
-#dataTableHover-proqna.dataTable th:nth-child(4) {
+table.dataTable th:last-child {
   width: 80px;
   max-width: 80px;
   text-align: center;
   word-break: break-all;
   white-space: pre-line;
 }
-#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(1),
-#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(2),
-#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(3),
-#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(4) {
+table.dataTable tbody th, table.dataTable tbody td:first-child,
+table.dataTable tbody th, table.dataTable tbody td:last-child {
   text-align: center;
+}
+#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(3){
+  text-align: center;
+}
+
+#dataTableHover-proqna.dataTable tbody th, #dataTableHover-proqna.dataTable tbody td:nth-child(2){
+  padding-left: 35px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 30px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  min-width: 100px;
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 6px 12px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-content li:hover:first-child {
+  background-color: #e9ecef;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.dropdown-content li:hover:last-child {
+  background-color: #e9ecef;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown:hover .dropbtn {
+  background-color: #1c5d1c;
+}
+.dropdown:hover .dropbtn i {
+  color: #fff;
+}
+
+.qna-checkbox input {
+  transform: scale(1.6);
+  margin-left: 5px;
+  margin-right: 8px;
+}
+.login__content {
+  font-weight: 600;
+}
+.text-primary {
+  color: #1c5d1c;
+}
+.btn__login{
+  justify-content: center;
+  background: #fff;
+  color: #1c5d1c;
+  border: none;
+  font-weight: 600;
+}
+
+#mypage-proqna.dataTable tbody th, #mypage-proqna.dataTable tbody td:nth-child(2){
+  text-align: center;
+}
+
+#mypage-proqna.dataTable th:nth-child(2){
+  text-align: center;
+}
+#mypage-proqna.dataTable tbody th, #mypage-proqna.dataTable tbody td:nth-child(3){
+  padding: 8px 15px;
+  cursor: pointer;
 }

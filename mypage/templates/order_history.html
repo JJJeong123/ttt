@@ -31,7 +31,7 @@
       {% load humanize %}
       {% load index %}
       {% for o in orders %}
-      <article class="card mb-3">
+      <article class="card mb-3" id="order-table">
         <div class="card-body">
           <header class="d-md-flex">
             <div class="flex-grow-1">
@@ -48,7 +48,7 @@
             </div>
             <div class="mb-1">
               {% if o.status == '0' %}
-              <a href="#" class="btn btn-sm btn-outline-danger">주문취소</a>
+              <button class="btn btn-sm btn-outline-primary" onclick="cancelOrder('{{o.id}}');">주문취소</button>
               {% endif %}
               <a href="#" class="btn btn-sm btn-primary">배송현황</a> 
             </div>
@@ -90,4 +90,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script src="{% static 'jsmeta/mypage/script_checkout.js' %}"></script>
 {% endblock javascripts %}
