@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-  let table_qna = $('#dataTableHover-proqna').DataTable({
+  let table_qna = $('#mypage-proqna').DataTable({
     destroy: true,
     autoWidth: false,
     searching: false,
