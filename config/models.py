@@ -511,6 +511,9 @@ class Address(models.Model):
     ad_name = models.CharField(max_length=50, blank=True, null=True)
     code = models.CharField(max_length=50, blank=True, null=True)
     ad_detail = models.CharField(max_length=50, blank=True, null=True)
+    road_ad = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    call = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
 
     class Meta:
