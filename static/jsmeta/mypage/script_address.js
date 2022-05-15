@@ -42,6 +42,9 @@ async function addAddress(){
         code: document.getElementById('address').getAttribute('value'),
         ad_detail: document.getElementById('address').getAttribute('name')
                       +' '+ document.getElementById('address-detail').value,
+        call: document.getElementById('address-call').value,
+        name: document.getElementById('address-member').value,
+              
     })
   })
   .catch((error) => {
@@ -78,7 +81,8 @@ async function openModal(elem){
     document.getElementById('addressToEdit').value=result.address['ad_detail'];
     document.getElementById('addressToEdit').setAttribute('value', result.address['id']);
     document.getElementById('address-name').value=result.address['ad_name'];
-
+    document.getElementById('address-call').value=result.address['call'];
+    document.getElementById('address-member').value=result.address['name'];
   }
 }
 
@@ -92,6 +96,8 @@ async function editAddress(){
       body: JSON.stringify({
         id: document.getElementById('addressToEdit').getAttribute('value'),
         ad_name: document.getElementById('address-name').value,
+        call: document.getElementById('address-call').value,
+        name: document.getElementById('address-member').value,
     })
   })
   .catch((error) => {

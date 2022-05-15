@@ -55,6 +55,7 @@ class CartView(LoginRequiredMixin, View):
         CartProduct.objects.filter(cart=cart_id, product=product_id).update(
             amount=0,
             deleteflag='1',
+            deleted_at=datetime.now(),
         )
         context['success']=True
 

@@ -1,12 +1,13 @@
-
 document.addEventListener("DOMContentLoaded", function(){
 
-  let table_qna = $('#dataTableHover-proqna').DataTable({
+  let table_qna = $('#mypage-proqna').DataTable({
     destroy: true,
     autoWidth: false,
     searching: false,
     dom: 'rtip',
     paging: false,
+    order: [[ 0, "desc" ]],
+    info: false,
 
     ajax: {
       'type' : 'GET',

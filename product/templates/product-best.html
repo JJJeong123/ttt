@@ -3,7 +3,7 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/css/carousel.css' %}" rel="stylesheet" type="text/css">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -312,21 +312,73 @@
           존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
         </p>
       </div>
-      <h3>다른 고객이 함께 주문한 상품</h3>
-      <div class="item">
-        <img src="http://image.kyobobook.co.kr/images/book/large/564/l9788937437564.jpg" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'276'+'','_self');" />
-        <div class="item__info">
-          <div class="item__info-title">[ABC] 제주 감귤 1kg</div>
-          <span class="item__info-dc">30%</span>
-          <span>18,470원</span>
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>다른 고객이 함께 주문한 상품</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for product in products %}
+            <div class="item">
+              <img src="{{product.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ product.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ product.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ product.price }}</span>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="item">
-        <img src="{{product.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'276'+'','_self');" />
-        <div class="item__info">
-          <div class="item__info-title">{{ product.name}}</div>
-          <span class="item__info-dc">{{ product.price }}</span>
-          <span>{{ product.id }}</span>
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>베스트 상품 Top10</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for top in bestset %}
+            <div class="item">
+              <img src="{{top.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ top.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ top.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ top.price }}</span>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>호남야채</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for shopitem in shop %}
+            <div class="item">
+              <img src="{{shopitem.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ shopitem.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ shopitem.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ shopitem.price }}</span>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -339,6 +391,6 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'jsmeta/mypage/script_like.js' %}"></script>
-<script src="{% static 'jsmeta/product/script_product-detail.js' %}"></script>
+
+<script src="{% static 'jsmeta/best_carousel.js' %}"></script>
 {% endblock javascripts %}

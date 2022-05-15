@@ -511,8 +511,28 @@ class Address(models.Model):
     ad_name = models.CharField(max_length=50, blank=True, null=True)
     code = models.CharField(max_length=50, blank=True, null=True)
     ad_detail = models.CharField(max_length=50, blank=True, null=True)
+    road_ad = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    call = models.CharField(max_length=50, blank=True, null=True)
     member = models.ForeignKey(Member, models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'address'
+
+
+# 쿠폰
+class Coupon(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    deleteflag = models.CharField(db_column='DeleteFlag', max_length=10, blank=True, null=True) 
+    member = models.ForeignKey(Member, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE, blank=True, null=True)
+    shop = models.ForeignKey(Shop, models.CASCADE, blank=True, null=True)
+    rate = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'coupon'
