@@ -67,5 +67,47 @@ async function updatePrice(product_id, amount){
 
   document.getElementById('total').innerText=total_price.toLocaleString();
   document.getElementById('total_price').innerText=total_price.toLocaleString();
+}
+
+function getAllIndexes(arr, val) {
+  var indexes = [], i = -1;
+  while ((i = arr.indexOf(val, i+1)) != -1){
+      indexes.push(i);
+  }
+  return indexes;
+}
+
+//save products
+function saveProducts(products){
+  localStorage.setItem("products", JSON.stringify(products));
+}
+
+function passProducts(){
+  let indexes=[];
+  let products=[];
+
+  //get indexes of checked inputs
+  document.querySelectorAll('.product__checkbox').forEach(function (c, i, a) {
+    if(c.checked){
+      indexes.push(i);
+    }
+  });
+  
+  //get info of checked products using indexes
+  document.querySelectorAll('.product__amount').forEach(function(c, i, a){
+    if(indexes.includes(i)){
+      let product={};
+
+      product['amount'] = c.getAttribute('value');
+      product['img'] = c.getAttribute('data-image');
+      product['price'] = c.getAttribute('data-price');
+      product['id'] = c.getAttribute('data-id');
+      product['name'] = c.getAttribute('data-name');
+
+      products.push(product);
+    }
+  });
+
+  saveProducts(products);
 
 }

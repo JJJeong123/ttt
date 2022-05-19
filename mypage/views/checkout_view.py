@@ -6,9 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from django.db.models import IntegerField
 from django.db.models.functions import Cast
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from config.models import Product, Order, OrderProduct
+from config.models import Product, Order, OrderProduct, Address, Member, Cart,  CartProduct
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -19,6 +19,83 @@ class CheckoutView(LoginRequiredMixin, View):
         context={}
 
         return render(request, 'checkout.html', context)
+    
+    def post(self, request: HttpRequest):
+        context={}
+        request.POST=json.loads(request.body)
+
+        type=request.POST.get('type')
+        address_id=request.POST.get('address')
+        products=request.POST.get('products')
+        name=request.POST.get('name')
+        call=request.POST.get('call')
+        
+        try:
+            address=Address.objects.get(id=address_id)
+        except Address.DoesNotExist:
+            address = None
+
+        total_price=getPrice(products)
+        order_no=getOrderNo()
+        print(name)
+
+        # for delivery and short-delivery
+        if(address is not None):
+            Order.objects.create(
+                deleteflag='0',
+                address=address.ad_detail,
+                code=address.code,
+                name=address.name,
+                call=address.call,
+                status='0',
+                date=datetime.now().strftime("%Y-%m-%d"),
+                type=type,
+                total_price=total_price,
+                order_no=order_no,
+                member=Member.objects.get(user=request.user),
+            )
+        # for drivethru and pickup
+        else:
+            Order.objects.create(
+                deleteflag='0',
+                name=name,
+                call=call,
+                status='0',
+                date=datetime.now().strftime("%Y-%m-%d"),
+                type=type,
+                total_price=total_price,
+                order_no=order_no,
+                member=Member.objects.get(user=request.user),
+              )
+        for product in products:
+            OrderProduct.objects.create(
+                deleteflag='0',
+                amount=product.get('amount'),
+                order=Order.objects.get(order_no=order_no),
+                product=Product.objects.get(id=product.get('id')),
+                status='0',
+                review_flag='0',
+            )
+
+        #deleteFromCart(request.user.id, products)
+
+        context['success']=True
+
+        return JsonResponse(context, content_type='application/json')
+class AddressView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context={}
+
+        try:
+            context['addresses']=list(Address.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
+                          .values('ad_name', 'code', 'ad_detail', 'id', 'name', 'call'))
+
+            context['success']=True
+        
+        except Exception as e:
+            context['success']=False
+
+        return JsonResponse(context, content_type='application/json')
 
 class OrderHistoryView(LoginRequiredMixin, View):
     '''
@@ -61,14 +138,14 @@ class OrderHistoryView(LoginRequiredMixin, View):
 
         try:
             Order.objects.filter(id=order_id).update(
-                status='8',
+                status='10',
                 updated_at=datetime.now(),
             )
             ids=list(OrderProduct.objects.filter(order__id=order_id).values_list('id', flat=True))
             
             for id in ids:
                 OrderProduct.objects.filter(id=id).update(
-                    status='8',
+                    status='10',
                     updated_at=datetime.now(),
                 )
 
@@ -104,4 +181,33 @@ class OrderDetailView(LoginRequiredMixin, View):
         }
 
         return render(request, 'order_detail.html',  context)
+
+# Get total price of order
+def getPrice(products):
+    total_price=0
+
+    for product in products:
+        total_price+=int(product.get('price'))
     
+    return total_price
+
+# create order_no
+def getOrderNo():
+    tommorow_date = (datetime.now() + timedelta(days=1)).strftime("%Y%m-%d")
+    current_date=datetime.now().strftime("%Y-%m-%d")
+
+    order_cnt=Order.objects.filter(deleteflag='0', date__range=[current_date, tommorow_date]).count()
+
+    return str(datetime.now().strftime("%Y%m%d")+format(order_cnt, '06d'))
+
+def deleteFromCart(user_id, products):
+    cart=list(Cart.objects.filter(member__user_id=user_id).values_list('id', flat=True))[0]
+    
+    for product in products:
+        cartproduct=Product.objects.get(id=product.get('id'))
+
+        CartProduct.objects.filter(deleteflag='0', cart=cart, product=cartproduct).update(
+            deleteflag='1',
+            deleted_at=datetime.now(),
+        )
+

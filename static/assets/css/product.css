@@ -488,3 +488,9 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
   padding: 8px 15px;
   cursor: pointer;
 }
+.order__type {
+  height: 90px;
+}
+.box-check .border-oncheck{
+  border: 1px solid #dee2e6;
+}
