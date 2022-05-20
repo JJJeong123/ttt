@@ -20,7 +20,7 @@ class LikeView(LoginRequiredMixin, View):
         if(doesListExist(user_id) is False):
             return render(request, 'like.html', context)
         
-        products=list(LikedProduct.objects.filter(liked__member__user_id=user_id, deleteflag='0').values_list('product__id', flat=True))
+        products=list(LikedProduct.objects.filter(liked__member__user_id=user_id, deleteflag='0').order_by('-updated_at').values_list('product__id', flat=True))
         for product in products:
             liked_products.append(Product.objects.get(id=product))
         
