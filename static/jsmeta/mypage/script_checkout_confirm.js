@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(){
   displayOrderInfo();
+  
+  //clear localstorage
+  window.localStorage.removeItem('products');
+  window.localStorage.removeItem('orders');
+
 });
 
 function displayOrderInfo(){
@@ -23,6 +28,7 @@ function displayOrderInfo(){
   document.getElementsByClassName("order__price")[0].innerText=total_price.toLocaleString()+"원";
   document.getElementsByClassName("order__name")[0].innerText=order.name;
   document.getElementsByClassName("order__call")[0].innerText=order.call.slice(0, 3)+"-"+order.call.slice(3, 7)+"-"+order.call.slice(7, 11);
+  
   if(order.address!=null){
     document.getElementsByClassName("order__address")[0].innerText=order.address;
   }

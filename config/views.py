@@ -15,7 +15,7 @@ class index(View):
         best=[]
         if request.user.is_authenticated:
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
-            context['cart']=CartProduct.objects.filter(cart__member__user=request.user).count()
+            context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         '''
         for i in range(6):

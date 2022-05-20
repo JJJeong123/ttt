@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-6" id="product__info">
       <div class="product__info mt-5">
-        <div class="product__info-title">[ABC] 제주 주황빛 감귤 1kg</div>
+        <div class="product__info-title">{{product.name}}</div>
         <div class="product__info-desc">훈연향 가득한 정통 바베큐 폭립</div>
         <div class="product__info-price mb-4">
           <span>30%</span>
@@ -38,23 +38,14 @@
         </dl>
         <hr>
       </div>
-      <div class="product__info-amount mb-3">
+      <div class="product__info-amount mb-3 mt-4">
         <label class="col-3">구매 수량</label>
-        <div class="input-group input-spinner col-9">
-          <button class="btn btn-icon btn-light" type="button"> 
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
-                <path d="M19 13H5v-2h14v2z"></path>
-              </svg>
-          </button>
-          <input class="form-control text-center" id="product__amount" placeholder="" value="1">
-          <button class="btn btn-icon btn-light" type="button"> 
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-              </svg>
-          </button>
+        <div class="input-group input-spinner touchspin col-9">
+          <input type="text" class="form-control product__amount" name="amount" value="1"
+          onchange="updateAmount(this, '{{product.price}}');">
         </div>
       </div>
-      <div class="product__option mb-3">
+      <div class="product__option mb-4">
         <label class="col-3">옵션</label>
         <div class="input-group input-spinner col-9">
           <select class="form-select col-6">
@@ -66,7 +57,7 @@
       </div>
       <div class="product__total-price">
         <label class="col-3">총 상품 금액:</label>
-        <span class="col-9">18,470원</span>
+        <span class="col-9 total-price h5">{{product.price | intcomma}}원</span>
       </div>
       <div class="product__button col-md-12 mb-2">
         <span class="like" onclick="likeProduct('{{product.id}}');">
@@ -401,11 +392,12 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<!-- Bootstrap Touchspin -->
-<script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
 <!--DataTable-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<!-- Bootstrap Touchspin -->
+<script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
 
 <script src="{% static 'jsmeta/touchspin.js' %}"></script>
 <script src="{% static 'jsmeta/product/script_qna.js' %}"></script>
