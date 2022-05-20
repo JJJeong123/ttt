@@ -24,10 +24,10 @@
               {% for m in main_imgs %}
                 {% if forloop.counter == forloop.parentloop.counter %}
                 <article class="row gy-3 mb-4" id="cart-article">
-                  <div class="col-lg-5">
-                    <figure class="itemside me-lg-5" id="cart-figure">
+                  <div class="col-lg-6">
+                    <figure class="itemside me-lg-6" id="cart-figure">
                       <div id="checkbox">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" class="product__checkbox" checked>
                       </div>
                       <div class="aside"><img src="{{m.main_img.url}}" 
                         class="img-lg img-thumbnail mr-3"
@@ -35,14 +35,23 @@
                         style="cursor:pointer;">
                       </div>
                       <figcaption class="info pt-1">
-                        <a href="#" class="title" onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');">{{p.product__name}}</a>
+                        <a href="#" class="title" onclick="window.open('/product/product-detail/'+'{{ p.product__id }}'+'','_self');">
+                          {{p.product__name}}
+                        </a>
                         <p class="text-muted"> Yellow, Jeans </p>
                       </figcaption>
                     </figure>
                   </div>
                   <div class="col-auto pt-1"> 
                     <div class="input-group input-spinner touchspin">
-                      <input type="text" class="form-control" name="amount" value="{{p.amount}}" onchange="updateAmount(this, '{{p.product__id}}');">
+                      <input type="text" class="form-control product__amount" 
+                            name="amount" 
+                            value="{{p.amount}}"
+                            data-id="{{p.product__id}}"
+                            data-name="{{p.product__name}}"
+                            data-image="{{m.main_img.url}}"
+                            data-price="{{p.total}}"
+                            onchange="updateAmount(this, '{{p.product__id}}');">
                     </div>
                   </div>
                   <div class="col-lg-2 col-sm-4 col-6 pt-1">
@@ -110,7 +119,7 @@
           </dl>
           
           <div class="d-grid gap-2 my-3">
-            <a href="{% url 'mypage:checkout' %}" class="btn btn-success w-100" style="background-color: #1c5d1c; color: white;"> 결제하기 </a>
+            <a href="{% url 'mypage:checkout' %}" class="btn btn-success btn-primary w-100" onclick="passProducts();"> 결제하기 </a>
             <a href="#" class="btn btn-light w-100"> Back to shop </a>
           </div>
         </div> <!-- card-body.// -->

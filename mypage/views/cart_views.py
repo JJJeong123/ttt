@@ -28,10 +28,10 @@ class CartView(LoginRequiredMixin, View):
             return render(request, 'cart.html',  context)
 
         cart=list(Cart.objects.filter(member__user_id=request.user.id).values_list('id', flat=True))[0]
-        products_in_cart=list(CartProduct.objects.filter(cart=cart, deleteflag='0').values_list('product', flat=True))
+        products_in_cart=list(CartProduct.objects.filter(cart=cart, deleteflag='0').order_by('-updated_at').values_list('product', flat=True))
 
         for p in products_in_cart:
-            products.extend(CartProduct.objects.filter(product=p, cart=cart, deleteflag='0').values('product__main_img', 'product__name', \
+            products.extend(CartProduct.objects.filter(product=p, cart=cart, deleteflag='0').order_by('-updated_at').values('product__main_img', 'product__name', \
                 'product__price', 'amount', 'product__id', 'cart__id').annotate(total=Cast(F('amount') * F('product__price'), IntegerField())))
             main_imgs.append(Product.objects.get(id=p))
 
