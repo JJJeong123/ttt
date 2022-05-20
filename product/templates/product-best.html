@@ -3,12 +3,7 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<!-- Bootstrap Touchspin -->
-<link href="{% static 'vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
-<!--DataTable-->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-
-<link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/css/carousel.css' %}" rel="stylesheet" type="text/css">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -17,7 +12,7 @@
   <div class="row product">
     <div class="col-md-6">
       <div class="product-img mt-5">
-        <img src="{{product.main_img.url}}" class="item__poster" width="500" id='product__img' value="{{product.id}}"><br>
+        <img src="{{product.main_img.url}}" class="item__poster" width="300" height="400" id='product__img' value="{{product.id}}"><br>
       </div>
     </div>
     <div class="col-md-6" id="product__info">
@@ -299,116 +294,103 @@
                     <td> 15 % </td>
                   </tr>
                 </table>
-                <button class="btn btn-primary w-100">후기 쓰기</button>
+                <a href="#" class="btn w-100" style="background-color: #1c5d1c; color: white">후기 쓰기</a>
               </div>
             </article>
           </div> <!-- col.// -->
         </div> 
       </div>
       <div class="row mb-3" id="product__qna">
-        <h5>상품 Q&A</h5> <br><br>
-        <div>상품에 대한 문의를 남기는 공간입니다.</div>
-        <div>배송 관련, 주문(취소/교환/환불) 관련 문의는 1:1 문의에 남겨주세요.</div>
-        <br>
-        <br>
-        <div class="row gx-2" id="question">
-          <table class="table align-items-center table-flush table-hover mb-5 px-2" id="dataTableHover-proqna">
-            <thead class="thead-light">
-              <tr>
-                <th>작성일</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>답변상태</th>
-              </tr>
-            </thead>
-          </table>
-          {% if user.is_authenticated %}
-          <button class="btn btn-primary col-2 float-right mt-3" id="question-post" type="button" onclick="openModal();">문의 등록</button>
-          {% else %}
-          <button class="btn btn-primary col-2 float-right mt-3" id="question-post" type="button" onclick="openLoginModal();">문의 등록</button>
-          {% endif %}
-        </div>
+        <img src="https://7wallpapers.net/wp-content/uploads/12_Orange.jpg"/>
+        <div>훈연향 가득한 정통 바베큐</div>
+        <div class="mb-5">[ABC] 제주 감귤</div>
+        <hr>
+        <p>두툼하면서도 부드럽게 찢어지는 살코기와 새콤달콤한 소스의 풍미까지 갖춘 바베큐 립은 식탁에 하나만 있어도 
+          포인트가 되는 음식이지요. 하지만 직접 요리하기엔 번거롭고, 힘들게 완성해도 막상 원하는 맛을 내기 어려운 메뉴이기도 합니다. 
+          그래서 컬리가 소개하는 제품, 바로 존쿡 델리미트의 바베큐 백립입니다. 
+          오랜 시간 뜨거운 불 앞에서 공을 들여 훈연 향을 입힌 장인의 바베큐를 그대로 재현해냈어요. 
+          존쿡 델리미트의 매장에서 판매되는 바베큐 립의 풍부한 맛과 향을 이제 식탁에도 재현해보세요.
+        </p>
       </div>
-    </div>
-  </div>
-</div>
-
-<!--상품 문의 등록 모달-->
-<div class="modal fade" id="qna-add" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelLogout">상품 문의</h5>
-        <button type="button" class="close" data-dismiss="modal" id="modal-close" onclick="closeModal();">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row justify-content-center my-3">
-          <div class="col-lg-11">
-            <figure class="itemside align-middle question-product mb-3">
-              <div class="aside">
-                <img src="{{ product.main_img.url }}" 
-                    class="img-sm border rounded" >
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>다른 고객이 함께 주문한 상품</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for product in products %}
+            <div class="item">
+              <img src="{{product.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ product.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ product.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ product.price }}</span>
               </div>
-              <figcaption class="info pt-1">
-                <h6 class="title mb-2 pt-3">{{ product.name }}</h6>
-              </figcaption>
-            </figure>
-            <div class="form-group row mb-3 px-1">
-              <label class="mb-1">제목</label>
-              <input class="form-control mx-2" type="text" placeholder="제목을 입력해주세요" id="question-title"/>
             </div>
-            <div class="form-group row mb-3 px-1">
-              <label class="mx-1 mb-1">내용</label>
-              <textarea class="form-control mx-2" placeholder="문의 내용을 입력해주세요" rows="7" id="question-content"></textarea>
-            </div>
-            <div class="form-group float-left qna-checkbox">
-              <input type="checkbox">
-              <label>비밀글로 문의하기</label>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="closeModal();">취소</button>
-        <button type="button" class="btn btn-primary" onclick="saveQuestion('{{product.id}}');">등록</a>
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>베스트 상품 Top10</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for top in bestset %}
+            <div class="item">
+              <img src="{{top.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ top.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ top.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ top.price }}</span>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div id="carousel" class="mb-5">
+          <h3>호남야채</h3>
+          <div class="items" onscroll="getScrollVal()">
+            <div class="left_arrow scroll_button" onclick="scrollL()">
+              <i class="bi bi-chevron-left left"></i>
+            </div>
+            {% for shopitem in shop %}
+            <div class="item">
+              <img src="{{shopitem.main_img.url}}" alt="movieImage" class="item__poster", onclick="window.open('/product/product-detail/'+'{{ shopitem.id }}'+'','_self');" />
+              <div class="item__info">
+                <div class="item__info-title">{{ shopitem.name}}</div>
+                <span class="item__info-dc">30%</span>
+                <span>{{ shopitem.price }}</span>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="right_arrow scroll_button" onclick="scrollR()">
+              <i class="bi bi-chevron-right right"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!--로그인 모달-->
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-    <div class="modal-content">
-      <div class="modal-body my-3">
-        <div class="row justify-content-center my-5 login__content">
-          로그인 후 문의를 작성할 수 있습니다.
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row justify-content-center h6 text-primary">
-          <button class="btn__login" onclick="closeLoginModal();">확인</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<!-- Bootstrap Touchspin -->
-<script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
-<!--DataTable-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-<script src="{% static 'jsmeta/touchspin.js' %}"></script>
-<script src="{% static 'jsmeta/product/script_qna.js' %}"></script>
-<script src="{% static 'jsmeta/mypage/script_like.js' %}"></script>
-<script src="{% static 'jsmeta/product/script_product-detail.js' %}"></script>
+<script src="{% static 'jsmeta/best_carousel.js' %}"></script>
 {% endblock javascripts %}
