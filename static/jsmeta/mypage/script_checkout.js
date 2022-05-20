@@ -159,7 +159,6 @@ function showAddress(element){
     
     return;
   }
-  console.log(element)
 
   let div=document.createElement('div');
   let label=document.createElement('label');
@@ -286,7 +285,9 @@ async function checkout(){
 
   const result = await response.json();
   
+  //성공 시 결과를 담아 checkout-confirm으로 로드
   if(result.success){
+    localStorage.setItem("order", JSON.stringify(result.order));
     window.open('/mypage/checkout-confirm', '_self');
   }
   else{

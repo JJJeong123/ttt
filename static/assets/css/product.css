@@ -494,3 +494,10 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
 .box-check .border-oncheck{
   border: 1px solid #dee2e6;
 }
+.steps-wrap .step.active .icon{
+  background-color: #1c5d1c;
+  color: white;
+}
+.steps-wrap .step.active:after{
+  background: #1c5d1c;
+}

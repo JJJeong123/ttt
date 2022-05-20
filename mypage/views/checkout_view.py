@@ -37,7 +37,6 @@ class CheckoutView(LoginRequiredMixin, View):
 
         total_price=getPrice(products)
         order_no=getOrderNo()
-        print(name)
 
         # for delivery and short-delivery
         if(address is not None):
@@ -77,11 +76,29 @@ class CheckoutView(LoginRequiredMixin, View):
                 review_flag='0',
             )
 
-        #deleteFromCart(request.user.id, products)
+        deleteFromCart(request.user.id, products)
+        order={
+            'no': order_no,
+            'type': type,
+            'call': call,
+            'name': name,
+            'address': address.ad_detail,
+        }
 
         context['success']=True
+        context['order']=order
 
         return JsonResponse(context, content_type='application/json')
+
+class CheckoutConfirmView(LoginRequiredMixin, View):
+    '''
+    주문완료 후 확인창
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context={}
+
+        return render(request, 'checkout_confirm.html', context)
+    
 class AddressView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
