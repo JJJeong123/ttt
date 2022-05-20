@@ -1,6 +1,6 @@
 document.getElementById('product__cart').addEventListener('click', async (event)=>{
 
-  if(document.getElementById('product__amount').value.length === 0) {
+  if(document.getElementsByClassName('product__amount')[0].value.length === 0) {
     alert('수량을 입력해주세요');
     return;
   }
@@ -11,7 +11,7 @@ document.getElementById('product__cart').addEventListener('click', async (event)
     method: 'POST',
     headers: {'X-CSRFToken': getCookie('csrftoken')},
     body: JSON.stringify({
-      amount: document.getElementById('product__amount').value,
+      amount: document.getElementsByClassName('product__amount')[0].value,
     })
   })
   .catch((error)=>{
@@ -24,3 +24,11 @@ document.getElementById('product__cart').addEventListener('click', async (event)
     alert('상품을 장바구니에 담았습니다.')
   }
 });
+
+function updateAmount(element, price){
+  let total_price=document.getElementsByClassName("total-price")[0];
+  console.log()
+  let num=element.value;
+
+  total_price.innerText=(price*num).toLocaleString()+"원";
+}
