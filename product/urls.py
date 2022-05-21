@@ -6,9 +6,12 @@ app_name = 'product'
 
 urlpatterns=[
     # path('test', test.TestView.as_view(test)),
-    path('product-detail/<str:id>', product_views.ProductDetailView.as_view(), name='product-detail'),
     path('qna-post', qna_views.QnaPostView.as_view(), name='qna-post'),
     path('qna-table', qna_views.QnaTableView.as_view(), name='qna-table'),
-    path('product-best', product_best_views.ProductBestView.as_view(), name='product-best') 
-    
+
+    path('product-detail/<str:id>', product_views.ProductDetailView.as_view(), name='product-detail'),
+    path('product-best', product_best_views.ProductBestView.as_view(), name='product-best'),
+    path('product-list', product_views.ProductListView.as_view(), name='product-list'),
+    path('product-grid', product_views.ProductGridView.as_view(), name='product-grid'),
+
 ]
