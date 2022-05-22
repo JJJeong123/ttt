@@ -1,5 +1,5 @@
-async function likeProduct(product_id){
-    const isLiked = document.getElementsByClassName('heart-primary').length > 0;
+async function likeProduct(element, product_id){
+    const isLiked = element.firstElementChild.classList.contains("heart-primary");
 
     const url = '/mypage/like';
     const response = await fetch(url, {
@@ -12,15 +12,15 @@ async function likeProduct(product_id){
     })
     .catch((error) => {
         alert(error);
-    })
-    if (isLiked){
-      document.getElementById("heart").classList.remove("heart-primary");
-      document.getElementById("heart").classList.add("heart-white");
+    });
 
+    if (isLiked){
+      element.firstElementChild.classList.remove("heart-primary");
+      element.firstElementChild.classList.add("heart-white");
     }
     else {
-      document.getElementById("heart").classList.remove("heart-white");
-      document.getElementById("heart").classList.add("heart-primary");
+      element.firstElementChild.classList.remove("heart-white");
+      element.firstElementChild.classList.add("heart-primary");
     }
 }
 
