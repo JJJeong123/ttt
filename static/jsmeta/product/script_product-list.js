@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(){
-
   displayProducts();
 });
 
 async function displayProducts(){
-  let category=1;
-  const url = "/product/product-grid"+`?category=${category}`;
+  let category=window.location.href.split("/").pop();
+  const url = `/product/product-grid?cat=${category}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -17,11 +16,11 @@ async function displayProducts(){
   const result = await response.json();
   
   //display products grid
-  if (result.success) {
+  if (result.success && result.products.length>0) {
 
     $("#pagination").twbsPagination({
-      totalPages: Math.ceil(result.products.length / 12), // from $.ajax response
-      visiblePages: 7,
+      totalPages: Math.ceil(result.products.length / 20), // from $.ajax response
+      visiblePages: 5,
       first: "<<",
       last: ">>",
       prev: "이전",
@@ -31,15 +30,16 @@ async function displayProducts(){
       },
     });
   } else {
-    alert("데이터가 존재하지 않습니다.");
+    
   }
 
 }
 
 /* Set contents for pagination */
 function setContent(page, result) {
-
   let list=document.getElementById("product__list");
+  list.innerHTML="";
+
   const products=result.products;
 
   for (let i = 0; i < 20; i++) {
@@ -70,19 +70,27 @@ function setContent(page, result) {
       document.createElement("del"),
       document.createElement("small"),
     ];
-    div_item.setAttribute("class", "col-lg-3 col-sm-6 col-12 mb-5");
+
+    div_item.setAttribute("class", "col-lg-3 col-sm-6 col-12 my-5");
     figure.setAttribute("class", "card card-product-grid");
     div_img.setAttribute("class", "img-wrap px-1 pt-1");
-    div_img.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
+    //div_img.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
     div_img.setAttribute("style", "cursor:pointer; height: 355px; border-radius: 2px;");
     span.setAttribute("class", "topbar");
-    a_heart.setAttribute("class", "btn btn-sm btn-light float-end a__heart");
+    a_heart.setAttribute("class", "btn btn-sm float-end a__heart");
+    a_heart.setAttribute("onclick", `likeProduct(this, ${products[index].id})`);
     i_heart.setAttribute("class", "fa fa-heart");
     img.setAttribute("src", result.imgs[index]);
     figcaption.setAttribute("class", "info-wrap px-2 py-1");
     figcaption.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
     figcaption.setAttribute("style", "cursor:pointer");
-
+    
+    if(result.like[index]>0){
+      i_heart.classList.add("heart-primary");
+    }
+    else{
+      i_heart.classList.add("heart-white");
+    }
     //span_title.setAttribute("class", "text-muted");
     p.setAttribute("class", "title pt-1");
     p.setAttribute("style", "height: 55px;")
@@ -113,6 +121,4 @@ function setContent(page, result) {
 
     list.append(div_item);
   }
-
-  $("#page-content").html(parent.innerHTML);
 }

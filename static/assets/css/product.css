@@ -523,9 +523,15 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
 .card-product-grid a:hover {
   background-color: rgba(255, 255, 255, 0.9);
 }
-.card-product-grid a:hover i{
-  color: #1c5d1c !important;
+.card-product-grid a:hover .heart-primary{
+  color: #1c5d1c;
 }
+.card-product-grid a:hover .heart-white{
+  color: #9da1a7;
+}
+/* .card-product-grid a:hover i{
+  color: #1c5d1c !important;
+} */
 .card-product-grid img:hover {
   transition: all 300ms ease;
   transform: scale(1.01);

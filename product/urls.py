@@ -11,7 +11,7 @@ urlpatterns=[
 
     path('product-detail/<str:id>', product_views.ProductDetailView.as_view(), name='product-detail'),
     path('product-best', product_best_views.ProductBestView.as_view(), name='product-best'),
-    path('product-list', product_views.ProductListView.as_view(), name='product-list'),
+    path('product-list/<int:category>', product_views.ProductListView.as_view(), name='product-list'),
     path('product-grid', product_views.ProductGridView.as_view(), name='product-grid'),
 
 ]

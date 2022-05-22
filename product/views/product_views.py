@@ -1,7 +1,7 @@
 import json
 from django.http import HttpRequest, JsonResponse 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from datetime import datetime
@@ -58,35 +58,36 @@ class ProductDetailView(View):
 
         return JsonResponse(context, content_type='application/json')
 
-class ProductListView(View):
+class ProductListView(TemplateView):
     '''
     카테고리별 상품 리스트
     '''
-    def get(self, request: HttpRequest, *args, **kwargs):
-        context={}
-
-        return render(request, 'product-list.html',  context)
+    template_name = 'product-list.html'
 
 class ProductGridView(View):
     '''
     카테고리별 상품 리스트
     '''
-    def get(self, request: HttpRequest, *args, **kwargs):
+    template_name = 'product-list.html'
+    """def get(request):
+        render('pruduct-list.html') """
+
+    def get(self, request: HttpRequest):
         context={}
         imgs=[]
-        category=request.GET.get('category')
-        category=4
-        
+        like=[]
+
+        category=request.GET.get('cat')
         products=list(Product.objects.filter(deleteflag='0', pro_subcategory=category)
                                             .values('id', 'name', 'price'))
+        
         for product in products:
             imgs.append("https://jjjtttbucket.s3.ap-northeast-2.amazonaws.com/media/"+list(Product.objects.filter(id=product.get('id')).values_list('main_img', flat=True))[0])
-            #imgs.append(Product.objects.get(id=product['id']))
-        for img in imgs:
-            print(img)
-        print(imgs)
+            like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.get('id')).count())
+
         context['products']=products
         context['imgs']=imgs
+        context['like']=like
         context['success']=True
 
         return JsonResponse(context, content_type='application/json')
