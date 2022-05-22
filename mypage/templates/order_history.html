@@ -40,8 +40,12 @@
               <span class="text-primary">
                 {% if o.status == '0' %} 결제완료
                 {% elif o.status == '1' %} 상품준비완료
-                {% elif o.status == '2' %} 배송중
-                {% elif o.status == '3' %} 배송완료
+                {% elif o.status == '2' %} 배송준비중
+                {% elif o.status == '3' %} 배송중
+                {% elif o.status == '4' %} 배송완료
+                {% elif o.status == '8' %} 취소접수
+                {% elif o.status == '9' %} 취소처리중
+                {% elif o.status == '10' %} 취소완료
                 {% endif %}
               </span>
               </h6>

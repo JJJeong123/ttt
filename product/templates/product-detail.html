@@ -60,7 +60,7 @@
         <span class="col-9 total-price h5">{{product.price | intcomma}}원</span>
       </div>
       <div class="product__button col-md-12 mb-2">
-        <span class="like" onclick="likeProduct('{{product.id}}');">
+        <span class="like" onclick="likeProduct(this, '{{product.id}}');">
           {% if Liked %}
           <i class="fas fa-fw fa-heart fa-lg heart-primary" id="heart"></i>
           {% else %}

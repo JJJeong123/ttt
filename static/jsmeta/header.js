@@ -8,4 +8,3 @@ else {
   $('#search').show();
   $('#nav-mobile').hide();
 }
-
