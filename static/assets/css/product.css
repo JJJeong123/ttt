@@ -576,3 +576,15 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
 .card-product-grid .bottom-wrap a:hover i{
   color: #1c5d1c !important;
 }
+.history__cart{
+  width: 38px;
+  height: 38px;
+  justify-content: center;
+  padding-top: 2px;
+}
+.history__cart i{
+  font-size: larger;
+}
+.history__cart:hover i{
+  color: #1c5d1c !important;
+}

@@ -148,16 +148,18 @@ async function saveQuestion(product_id){
     alert('문의가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');
   }
 }
+
 function format ( d ) {
   let parent=document.createElement('div');
   let p=document.createElement('p');
+  
   p.setAttribute('align', 'left');
   p.setAttribute('class', 'mx-5 my-3');
   p.innerText=d.content;
 
   parent.append(p);
+
   if(d.answer_flag === '1'){
-    console.log(d.answer_content);
     let blockquote=document.createElement('blockquote');
     let div=document.createElement('div');
     let answer_content=document.createElement('p');
@@ -171,6 +173,6 @@ function format ( d ) {
     blockquote.append(div);
     parent.append(blockquote);
   }
-  console.log(parent.outerHTML);
+
   return parent.outerHTML;
 }

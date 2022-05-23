@@ -141,7 +141,7 @@ function openModal(element){
 }
 
 function closeModal(){
-  $("#product-add").modal("close");
+  $("#product-add").modal("hide");
 }
 
 document.getElementById('product__cart').addEventListener('click', async (event)=>{
