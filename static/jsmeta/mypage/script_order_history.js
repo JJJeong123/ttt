@@ -1,3 +1,31 @@
+async function cancelOrder(order_id){
+  if (!confirm('주문을 취소하시겠습니까?')) {
+    return;
+  }
+  const url = '/mypage/order-history';
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {'X-CSRFToken': getCookie('csrftoken')},
+    body: JSON.stringify({
+      order_id: order_id,
+    })
+  })
+  .catch((error) => {
+      alert(error);
+  });
+
+  const result = await response.json();
+
+  if(result.success){
+    alert('취소되었습니다');
+    $("#order-table").load(location.href + " #order-table");
+  }
+  else{
+
+  }
+}
+
 function openModal(element){
   let product_id=element.getAttribute("data-id");
   let product_name=element.getAttribute("data-name");
@@ -14,8 +42,7 @@ function closeModal(){
   $("#product-add").modal("hide");
 }
 
-document.getElementById('product__cart').addEventListener('click', async (event)=>{
-
+async function addCart(){
   if(document.getElementsByClassName('product__amount')[0].value.length === 0) {
     alert('수량을 입력해주세요');
     return;
@@ -40,4 +67,4 @@ document.getElementById('product__cart').addEventListener('click', async (event)
     alert('상품을 장바구니에 담았습니다.');
     closeModal();
   }
-});
+};
