@@ -27,7 +27,6 @@ document.getElementById('product__cart').addEventListener('click', async (event)
 
 function updateAmount(element, price){
   let total_price=document.getElementsByClassName("total-price")[0];
-  console.log()
   let num=element.value;
 
   total_price.innerText=(price*num).toLocaleString()+"원";
