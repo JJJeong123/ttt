@@ -73,30 +73,32 @@ function setContent(page, result) {
 
     div_item.setAttribute("class", "col-lg-3 col-sm-6 col-12 my-5");
     figure.setAttribute("class", "card card-product-grid");
-    div_img.setAttribute("class", "img-wrap px-1 pt-1");
+    figure.setAttribute("value", products[index].id);
+    div_img.setAttribute("class", "img-wrap1 px-1 pt-1");
     //div_img.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
-    div_img.setAttribute("style", "cursor:pointer; height: 355px; border-radius: 2px;");
+    div_img.setAttribute("style", "cursor:pointer; border-radius: 2px;");
     span.setAttribute("class", "topbar");
     a_heart.setAttribute("class", "btn btn-sm float-end a__heart");
     a_heart.setAttribute("onclick", `likeProduct(this, ${products[index].id})`);
     i_heart.setAttribute("class", "fa fa-heart");
     img.setAttribute("src", result.imgs[index]);
     figcaption.setAttribute("class", "info-wrap px-2 py-1");
-    figcaption.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
+    figcaption.setAttribute("onclick", `window.open('/product/product-detail/${products[index].id}','_self')`);
     figcaption.setAttribute("style", "cursor:pointer");
     
-    if(result.like[index]>0){
+    if(result.like[index] > 0){
       i_heart.classList.add("heart-primary");
     }
     else{
       i_heart.classList.add("heart-white");
     }
     //span_title.setAttribute("class", "text-muted");
-    p.setAttribute("class", "title pt-1");
+    p.setAttribute("class", "title pt-1 pb-2");
     p.setAttribute("style", "height: 55px;")
     div_wrap.setAttribute("class", "bottom-wrap");
     a_cart.setAttribute("class", "btn btn-light btn-icon float-end");
-    i_cart.setAttribute("class", "fa fa-shopping-cart");
+    a_cart.setAttribute("onclick", `openModal(this)`);
+    i_cart.setAttribute("class", "bi bi-cart2");
     div_price.setAttribute("class", "price-wrap lh-sm");
     strong.setAttribute("class", "price");
     del.setAttribute("class", "price-old mx-2");
@@ -122,3 +124,50 @@ function setContent(page, result) {
     list.append(div_item);
   }
 }
+
+function openModal(element){
+  let parent=element.parentNode.parentNode;
+
+  let src=parent.children[0].children[1].getAttribute("src");
+  let product_id=parent.getAttribute("value");
+  let product_title=parent.children[1].children[1].innerText;
+
+  $("#product-add").modal("show");
+
+  document.getElementsByClassName("product__img")[0].setAttribute("value", product_id);
+  document.getElementsByClassName("product__img")[0].setAttribute("src", src);
+  document.getElementsByClassName("product__title")[0].innerText=product_title;
+
+}
+
+function closeModal(){
+  $("#product-add").modal("hide");
+}
+
+document.getElementById('product__cart').addEventListener('click', async (event)=>{
+
+  if(document.getElementsByClassName('product__amount')[0].value.length === 0) {
+    alert('수량을 입력해주세요');
+    return;
+  }
+  const product_id = document.getElementById('product__img').getAttribute('value');
+
+  const url = '/product/product-detail/'+ product_id;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {'X-CSRFToken': getCookie('csrftoken')},
+    body: JSON.stringify({
+      amount: document.getElementsByClassName('product__amount')[0].value,
+    })
+  })
+  .catch((error)=>{
+      alert(error);
+  })
+
+  const result = await response.json();
+  
+  if(result.success){
+    alert('상품을 장바구니에 담았습니다.');
+    closeModal();
+  }
+});

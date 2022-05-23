@@ -3,6 +3,9 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+<!-- Bootstrap Touchspin -->
+<link href="{% static 'vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
+
 <link href="{% static 'assets/css/product.css' %}" rel="stylesheet" type="text/css">
 {% endblock stylesheets %}
 
@@ -20,7 +23,6 @@
           <a class="nav-link" href="{% url 'mypage:review' %}">상품 후기</a>
           <a class="nav-link" href="{% url 'mypage:product_qna-list' %}">상품 문의</a>
           <a class="nav-link" href="{% url 'mypage:qna-list' %}">1:1 문의</a>
-          <a class="nav-link" href="#">My wishlist</a>
           <a class="nav-link" href="{% url 'confirm-info' %}">회원정보 수정</a>
           <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
         </nav>
@@ -58,8 +60,10 @@
             </div>
             <div class="col-lg col-sm-4">
               <div class="float-lg-end">
-                <!-- <a href="#" class="btn btn-light like" value="{{p.product__id}}"><i class="fa fa-heart"></i></a>  -->
-                <a href="#" class="btn btn-light"><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-light btn-icon float-end history__cart"
+                  data-id="{{p.product__id}}"
+                  data-name="{{p.product__name}}"
+                  onclick="openModal(this)"><i class="bi bi-cart2"></i></a>
               </div>
             </div>
           </article> <!-- row.// -->
@@ -70,12 +74,44 @@
   </div> <!-- row.// -->
 </div>
 
+<!--장바구니 모달-->
+<div class="modal fade" id="product-add" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row justify-content-center my-3">
+          <div class="col-lg-11 ">
+            <figure class="itemside align-middle question-product mb-3">
+              <div class="aside">
+                <img src="" 
+                    class="img-sm border rounded product__img" id="product__img">
+              </div>
+              <figcaption class="info pt-1">
+                <h6 class="product__title mb-2 pt-3"></h6>
+              </figcaption>
+            </figure>
+            <div class="input-group input-spinner touchspin float-end">
+              <input type="text" class="form-control product__amount" 
+                    name="amount" value="1">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="closeModal();">닫기</button>
+        <button type="button" class="btn btn-primary" id="product__cart" onclick="addCart()">장바구니 담기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <!-- Bootstrap Touchspin -->
 <script src="{% static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
+<script src="{% static 'jsmeta/touchspin.js' %}"></script>
 
-<script src="{% static 'jsmeta/mypage/script_order.js' %}"></script>
+<script src="{% static 'jsmeta/mypage/script_order_history.js' %}"></script>
 {% endblock javascripts %}
