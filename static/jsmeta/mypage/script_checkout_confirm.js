@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
   //clear localstorage
   window.localStorage.removeItem('products');
   window.localStorage.removeItem('orders');
+  window.localStorage.removeItem('discount_amount');
 
 });
 
@@ -11,6 +12,7 @@ function displayOrderInfo(){
 
   const products=JSON.parse(window.localStorage.getItem("products"));
   const order=JSON.parse(window.localStorage.getItem("order"));
+  const discount_amount=JSON.parse(window.localStorage.getItem("discount_amount"));
 
   let order_type="", total_price=0;
 
@@ -25,9 +27,11 @@ function displayOrderInfo(){
 
   document.getElementsByClassName("order__no")[0].innerText="주문번호: "+order.no;
   document.getElementsByClassName("order__type")[0].textContent=order_type;
-  document.getElementsByClassName("order__price")[0].innerText=total_price.toLocaleString()+"원";
+  document.getElementsByClassName("product__price")[0].innerText="상품금액: "+total_price.toLocaleString()+"원";
   document.getElementsByClassName("order__name")[0].innerText=order.name;
   document.getElementsByClassName("order__call")[0].innerText=order.call.slice(0, 3)+"-"+order.call.slice(3, 7)+"-"+order.call.slice(7, 11);
+  document.getElementsByClassName("order__discount")[0].innerText="할인금액: "+discount_amount.toLocaleString()+"원";
+  document.getElementsByClassName("order__price")[0].innerText="결제금액: "+(total_price-discount_amount).toLocaleString()+"원";
   
   if(order.address!=null){
     document.getElementsByClassName("order__address")[0].innerText=order.address;
@@ -61,7 +65,7 @@ function displayProducts(){
     p.setAttribute("class", "title");
     p.innerText=element.name;
     p_amount=element.amount+"개";
-    strong.innerText=element.price.toLocaleString()+"원";
+    strong.innerText=parseInt(element.price).toLocaleString()+"원";
 
     div.append(img);
     figcaption.append(p, p_amount, document.createElement("br"), strong);

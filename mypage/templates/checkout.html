@@ -117,11 +117,11 @@
           </dl>
           <dl class="dlist-align">
             <dt>할인 금액:</dt>
-            <dd class="text-end text-danger"> - $60.00 </dd>
+            <dd class="text-end text-danger discount-amount"> - 0원</dd>
           </dl>
           <dl class="dlist-align">
             <dt>배송비:</dt>
-            <dd class="text-end"> + $14.00 </dd>
+            <dd class="text-end"> + 2500원 </dd>
           </dl>
           <hr>
           <dl class="dlist-align">
@@ -129,8 +129,10 @@
             <dd class="text-end"> <strong class="text-dark">$252.90</strong> </dd>
           </dl>
           <div class="input-group my-4">
-            <input type="text" class="form-control" name="lorem" placeholder="Promo code">
-            <button class="btn btn-light text-primary">적용</button>
+            <input type="text" class="form-control" name="lorem" placeholder="할인쿠폰">
+            <button class="btn btn-light text-primary" onclick="showCoupon()">적용</button>
+          </div>
+          <div class="coupons">
           </div>
           <hr>
           <h5 class="mb-4">결제할 상품</h5>
@@ -153,19 +155,42 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center mt-1 mb-4">
           <div class="col-lg-12">
             <div class="row g-2" id="address-table">
             </div> <!-- row.// -->
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!--쿠폰 선택 모달-->
+<div class="modal fade" id="modal__coupon" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">할인쿠폰 선택</h5>
+        <button type="button" class="close" data-dismiss="modal" id="modal-close" onclick="closeCouponModal();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center my-2">
+          <div class="col-lg-12">
+            <div class="row g-2" id="coupon-table"></div> <!-- row.// -->
+          </div>
+        </div>
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="closeModal();">취소</button>
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="closeCouponModal();">취소</button>
+        <button type="button" class="btn btn-primary" onclick="discount();">확인</a>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
