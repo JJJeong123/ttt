@@ -18,6 +18,7 @@ function displayProducts(products){
    
     figure.setAttribute('class', 'itemside align-items-center mb-4');
     div.setAttribute('class', 'aside');
+    div.setAttribute('id', element.id);
     b.setAttribute('class', 'badge bg-secondary rounded-pill');
     b.innerText=element.amount;
     img.setAttribute('src', element.img);
@@ -238,7 +239,7 @@ async function checkout(){
     return;
   }
   const products=JSON.parse(window.localStorage.getItem("products"));
-
+  
   const url = '/mypage/checkout';
   const response = await fetch(url, {
       method: 'POST',
@@ -249,6 +250,8 @@ async function checkout(){
         name: document.getElementsByClassName("address__name")[0].value,
         call: document.getElementsByClassName("address__call")[0].value,
         products: products,
+        coupons: getCoupons(),
+        discount_amount: getDiscountAmount(),
       })
   })
   .catch((error) => {
@@ -259,10 +262,142 @@ async function checkout(){
   
   //성공 시 결과를 담아 checkout-confirm으로 로드
   if(result.success){
+    localStorage.setItem("discount_amount", JSON.stringify(getDiscountAmount()));
     localStorage.setItem("order", JSON.stringify(result.order));
     window.open('/mypage/checkout-confirm', '_self');
   }
   else{
     alert('문의가 등록되지 않았습니다. 다시 작성해주시기 바랍니다.');
   }
+}
+
+async function showCoupon(){
+  const url = '/mypage/checkout-coupon?';
+  const response = await fetch(url, {
+      method: 'GET',
+  })
+  .catch((error) => {
+      alert(error);
+  });
+
+  const result = await response.json();
+
+  if(result.success === true) {
+    //console.log(result);
+  }
+
+  $("#modal__coupon").modal("show");
+  showCoupons(result.coupons);
+}
+function showCoupons(coupons){
+  const products=JSON.parse(window.localStorage.getItem("products"));
+  let table=document.getElementById("coupon-table");
+  //table.innerHTML="";
+  if(table.innerHTML!=""){
+    return;
+  }
+
+  let ids=[];
+
+  //get ids of products
+  products.forEach(element=>{
+    ids.push(parseInt(element.id));
+  });
+
+  coupons.forEach(element => {
+    let index=ids.indexOf(element.product__id);
+
+    if(ids.indexOf(element.product__id)===-1){
+      return;
+    }
+
+    let [div, article, b, i, span_rate, span_product]
+      = [
+        document.createElement('div'),
+        document.createElement('article'),
+        document.createElement('b'),
+        document.createElement('i'),
+        document.createElement('span'),
+        document.createElement('span'),
+      ];
+    div.setAttribute("class", "col-md-12");
+    article.setAttribute("class", "box col-md-12");
+    article.setAttribute("onclick", "chooseCoupons(this)");
+    article.setAttribute("style", "cursor: pointer;");
+    article.setAttribute("data-id", element.id);
+    article.setAttribute("data-rate", element.rate);
+    article.setAttribute("data-price", products[index].price);
+    article.setAttribute("data-amount", products[index].amount);
+    b.setAttribute("class", "mx-2 text-muted");
+    i.setAttribute("class", "fa fa-coins fa-lg text-primary");
+    span_rate.setAttribute("class", "col-md-1");
+    span_product.setAttribute("class", "col-md-9");
+
+    span_rate=` ${element.rate}% |  `;
+    span_product=element.product__name;
+
+    b.append(i);
+    article.append(b, span_rate, span_product);
+    div.append(article);
+    table.append(div);
+  });
+}
+
+function chooseCoupons(element){
+  if(element.style.border === ""){
+    element.style.border="1px solid rgb(28, 93, 28)";
+  }
+  else{
+    element.style.border="";
+  }
+}
+
+function closeCouponModal(){
+  $("#modal__coupon").modal("hide");
+}
+
+function discount(){
+  let coupons=[];
+  let discount_amount=0;
+
+  document.querySelectorAll("#coupon-table .box").forEach(element=>{
+    
+    if(element.style.border != ""){
+      coupons.push(element.getAttribute("data-id"));
+      let rate=element.getAttribute("data-rate");
+      let amount=element.getAttribute("data-amount");
+      let price=element.getAttribute("data-price");
+      discount_amount+=(parseInt(rate)/100)*parseInt(amount)*parseInt(price);
+    }
+  });
+
+  //print discount_amount on receipt
+  document.getElementsByClassName("discount-amount")[0].innerText=" - "+discount_amount.toLocaleString() + "원";
+
+  //document.getElementsByClassName("coupons")[0].innerHTML=document.getElementById("coupon-table").innerHTML;
+  closeCouponModal();
+}
+function getCoupons(){
+  let coupons=[];
+
+  document.querySelectorAll("#coupon-table .box").forEach(element=>{
+    
+    if(element.style.border != ""){
+      coupons.push(element.getAttribute("data-id"));
+    }
+  });
+  return coupons;
+}
+function getDiscountAmount(){
+  let discount_amount=0;
+  document.querySelectorAll("#coupon-table .box").forEach(element=>{
+    
+    if(element.style.border != ""){
+      let rate=element.getAttribute("data-rate");
+      let amount=element.getAttribute("data-amount");
+      let price=element.getAttribute("data-price");
+      discount_amount+=(parseInt(rate)/100)*parseInt(amount)*parseInt(price);
+    }
+  });
+  return discount_amount;
 }

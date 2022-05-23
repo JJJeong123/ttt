@@ -8,7 +8,7 @@ from django.db.models import IntegerField
 from django.db.models.functions import Cast
 from datetime import datetime, timedelta
 
-from config.models import Product, Order, OrderProduct, Address, Member, Cart,  CartProduct
+from config.models import Product, Order, OrderProduct, Address, Member, Cart,  CartProduct, Coupon
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -22,6 +22,7 @@ class CheckoutView(LoginRequiredMixin, View):
     
     def post(self, request: HttpRequest):
         context={}
+        context['success']=False
         request.POST=json.loads(request.body)
 
         type=request.POST.get('type')
@@ -29,7 +30,9 @@ class CheckoutView(LoginRequiredMixin, View):
         products=request.POST.get('products')
         name=request.POST.get('name')
         call=request.POST.get('call')
-        
+        coupons=request.POST.get('coupons')
+        discount_amount=request.POST.get('discount_amount')
+
         try:
             address=Address.objects.get(id=address_id)
         except Address.DoesNotExist:
@@ -49,10 +52,18 @@ class CheckoutView(LoginRequiredMixin, View):
                 status='0',
                 date=datetime.now().strftime("%Y-%m-%d"),
                 type=type,
-                total_price=total_price,
+                total_price=total_price-discount_amount,
                 order_no=order_no,
                 member=Member.objects.get(user=request.user),
             )
+            order={
+                'no': order_no,
+                'type': type,
+                'call': call,
+                'name': name,
+                'address': address.ad_detail,
+            }
+
         # for drivethru and pickup
         else:
             Order.objects.create(
@@ -66,6 +77,14 @@ class CheckoutView(LoginRequiredMixin, View):
                 order_no=order_no,
                 member=Member.objects.get(user=request.user),
               )
+            order={
+                'no': order_no,
+                'type': type,
+                'call': call,
+                'name': name,
+                'address': "",
+            }
+
         for product in products:
             OrderProduct.objects.create(
                 deleteflag='0',
@@ -75,16 +94,9 @@ class CheckoutView(LoginRequiredMixin, View):
                 status='0',
                 review_flag='0',
             )
-
+        discount(coupons, request.user)
         deleteFromCart(request.user.id, products)
-        order={
-            'no': order_no,
-            'type': type,
-            'call': call,
-            'name': name,
-            'address': address.ad_detail,
-        }
-
+        
         context['success']=True
         context['order']=order
 
@@ -106,6 +118,20 @@ class AddressView(LoginRequiredMixin, View):
         try:
             context['addresses']=list(Address.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
                           .values('ad_name', 'code', 'ad_detail', 'id', 'name', 'call'))
+
+            context['success']=True
+        
+        except Exception as e:
+            context['success']=False
+
+        return JsonResponse(context, content_type='application/json')
+
+class CouponView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context={}
+        try:
+            context['coupons']=list(Coupon.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
+                          .values('rate', 'product__id', 'product__name', 'id'))
 
             context['success']=True
         
@@ -225,6 +251,13 @@ def deleteFromCart(user_id, products):
 
         CartProduct.objects.filter(deleteflag='0', cart=cart, product=cartproduct).update(
             deleteflag='1',
+            amount=0,
             deleted_at=datetime.now(),
         )
 
+def discount(coupons, user):
+    for coupon in coupons:
+        Coupon.objects.filter(deleteflag='0', member__user=user, id=coupon).update(
+            deleteflag='1',
+            deleted_at=datetime.now(),
+        )

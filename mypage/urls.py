@@ -15,6 +15,7 @@ urlpatterns=[
     path('cart', cart_views.CartView.as_view(), name='cart'),
     path('checkout', checkout_view.CheckoutView.as_view(), name='checkout'),
     path('checkout-address', checkout_view.AddressView.as_view(), name='checkout-address'),
+    path('checkout-coupon', checkout_view.CouponView.as_view(), name='checkout-coupon'),
     path('checkout-confirm', checkout_view.CheckoutConfirmView.as_view(), name='checkout-confirm'),
 
     path('like', like_views.LikeView.as_view(), name='like'),
