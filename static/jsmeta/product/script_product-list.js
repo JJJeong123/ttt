@@ -142,6 +142,7 @@ function openModal(element){
 
 function closeModal(){
   $("#product-add").modal("hide");
+  document.getElementsByClassName("product__amount")[0].value=1;
 }
 
 document.getElementById('product__cart').addEventListener('click', async (event)=>{
