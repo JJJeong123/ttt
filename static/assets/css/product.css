@@ -593,3 +593,17 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
 .history__cart:hover i{
   color: #1c5d1c !important;
 }
+
+.card-product-grid .img-wrap {
+  height: 310px;
+}
+.card-product-grid .img-wrap img{
+  border: none;
+  cursor: pointer;
+}
+.related-product__title{
+  text-decoration: none;
+}
+.card-product-grid .price-wrap .text-danger {
+  color: #ff5b5b !important;
+}
