@@ -74,7 +74,7 @@ function setContent(page, result) {
     div_item.setAttribute("class", "col-lg-3 col-sm-6 col-12 my-5");
     figure.setAttribute("class", "card card-product-grid");
     figure.setAttribute("value", products[index].id);
-    div_img.setAttribute("class", "img-wrap1 px-1 pt-1");
+    div_img.setAttribute("class", "img-wrap1 px-1 pt-0");
     //div_img.setAttribute("onclick", "window.open('/product/product-detail/"+products[index].id +"','_self')");
     div_img.setAttribute("style", "cursor:pointer; border-radius: 2px;");
     span.setAttribute("class", "topbar");
