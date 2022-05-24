@@ -552,19 +552,24 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
   background-color: #1c5d1c;
 }
 .card-product-grid .img-wrap1  {
+  position: relative;
   display: flex;
   justify-content: center;
   /* align-items: center; */
   vertical-align: middle;
   overflow: hidden;
- object-fit: cover;
- width: auto;
- height: 355px;
-
+  /* object-fit: cover; */
+  width: auto;
+  height: 355px;
+  flex-shrink: 0;
 }
 .card-product-grid .img-wrap1 img {
-  /*background-color: red;*/
-  width: auto;
+  width: 353px;
+  display: inline-block;
+  object-fit: cover;
+  flex-shrink: 0;
+  flex-grow: 0;
+  height: 355px;
 }
 .card-product-grid .bottom-wrap .bi{
   font-size: larger;
