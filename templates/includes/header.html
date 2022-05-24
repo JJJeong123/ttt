@@ -138,11 +138,22 @@
         <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
         -->
       </ul>
+
       <div class="search" id="search">
-        <div class="search__column">
-          <input type="text" placeholder="검색어를 입력하세요"/>
-          <a class="nav-link scrollto" href="#"><i class="bi bi-search"></i></a>
-        </div>
+        <form
+          novalidate=""
+          method="post"
+          action="{% url 'product:search' %}"
+          enctype="multipart/form-data"
+        >
+        {% csrf_token %}
+          <div class="search__column">
+            <input class="search__keyword" type="text" name="keyword" placeholder="검색어를 입력하세요"/>
+            <button class="nav-link scrollto search__button"  type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+      </form>
         <a href="{% url 'mypage:address' %}"><i class="bi bi-geo-alt"></i></a>
         <a class="nav-link scrollto nav-cart" href="{% url 'mypage:cart' %}">
           <i class="bi bi-cart2"><span class="cart-notification">{{ cart }}</span></i>
@@ -194,3 +205,5 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <script src="{% static 'jsmeta/header.js' %}"></script>
+<script src="{% static 'jsmeta/product/script_product-search.js' %}"></script>
+
