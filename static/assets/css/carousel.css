@@ -74,7 +74,7 @@
 .items__title {
   display: flex;
   align-items: center;
-  margin: 0 7px;
+  margin: 1px 7px;
 }
 .items__title h5 {
   font-weight: 700;
@@ -148,4 +148,9 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(0%);
+}
+.items__title i {
+  padding-bottom: 2px;
+  color: #000;
+  font-weight: bold;
 }

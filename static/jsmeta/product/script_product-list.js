@@ -112,7 +112,12 @@ function setContent(page, result) {
 
     a_heart.append(i_heart);
     span.append(a_heart);
-    div_img.append(span, img);
+    if(result.like != ""){
+      div_img.append(span, img);
+    }
+    else{
+      div_img.append(img);
+    }
     figcaption.append(span_title, p);
     strong.append(del, document.createElement("br"));
     div_price.append(strong, small);

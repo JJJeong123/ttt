@@ -9,10 +9,8 @@ from tkinter import N
 
 import pandas as pd
 import numpy as np
-import mlxtend
 from mlxtend.frequent_patterns import fpgrowth, association_rules, apriori
 from mlxtend.preprocessing import TransactionEncoder
-import openpyxl
 
 from config.models import Product, CartProduct, Cart, Member, Liked, LikedProduct, OrderProduct
 
@@ -98,11 +96,16 @@ class ProductGridView(View):
         
         for product in products:
             imgs.append("https://jjjtttbucket.s3.ap-northeast-2.amazonaws.com/media/"+list(Product.objects.filter(id=product.get('id')).values_list('main_img', flat=True))[0])
-            like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.get('id')).count())
 
+        if request.user.is_authenticated:
+            for product in products:
+                like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.get('id')).count())
+                context['like']=like
+        else:
+            context['like']=""
+        
         context['products']=products
         context['imgs']=imgs
-        context['like']=like
         context['success']=True
 
         return JsonResponse(context, content_type='application/json')

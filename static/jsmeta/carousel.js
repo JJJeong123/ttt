@@ -1,24 +1,26 @@
-function scrollL() {
-  let x = document.getElementsByClassName("items")[0];
-  let item = document.getElementsByClassName("item")[0];
+function scrollL(element) {
+  let x = element.parentNode;
+  let item = element.parentNode.children[1];
+
   let step = item.offsetWidth * 4 + 4;
   x.scrollLeft -= step;
 }
 
-function scrollR() {
-  let x = document.getElementsByClassName("items")[0];
-  let item = document.getElementsByClassName("item")[0];
+function scrollR(element) {
+  let x = element.parentNode;
+  let item = element.parentNode.children[1];
+
   let step = item.offsetWidth * 4 + 4;
   x.scrollLeft += step;
 }
 
-function getScrollVal() {
+function getScrollVal(element) {
   setTimeout(() => {
-    let p = document.getElementById("carousel");
+    let p = element.parentNode;
     let style = p.currentStyle || window.getComputedStyle(p);
 
-    let x = document.getElementsByClassName("items")[0];
-    let el = document.getElementsByClassName("left_arrow")[0];
+    let x = element;
+    let el = element.firstElementChild;
   
     if (x.scrollLeft == 0) {
       el.style.display = "none";
@@ -28,7 +30,7 @@ function getScrollVal() {
       el.style.left = parseInt(style.marginLeft) + x.scrollLeft + "px";
     }
 
-    let el2 = document.getElementsByClassName("right_arrow")[0];
+    let el2 = element.lastElementChild;
     let right = x.scrollWidth - (x.scrollLeft + x.clientWidth) + 1;
     
     el2.style.left="auto";

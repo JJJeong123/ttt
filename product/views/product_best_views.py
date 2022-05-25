@@ -9,12 +9,10 @@ from datetime import datetime
 
 import pandas as pd
 import numpy as np
-import mlxtend
 from mlxtend.frequent_patterns import fpgrowth, association_rules, apriori
 from mlxtend.preprocessing import TransactionEncoder
-import openpyxl
 
-from config.models import Product, CartProduct, Cart, Member, Liked, LikedProduct, OrderProduct
+from config.models import Product, LikedProduct
 
 class ProductBestView(View):
     '''
@@ -22,63 +20,21 @@ class ProductBestView(View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
-        id = kwargs.get('id')
-        #product = Product.objects.get(id=407)
-        recbox = recommend(407)
-        #orders = pd.read_csv('orders.csv')
-        #df_series = orders["product_id"].value_counts()
-        #best = df_series.to_frame(name='Best').head(10).index.tolist()
-        #print(best)
-        #context['best'] = best
         bestid = best()
-        queryset = Product.objects.filter(id__in=recbox)
-        bestset = Product.objects.filter(id__in=bestid)
-        shop = Product.objects.filter(shop_id=13)
-        print(bestset)
-        print(shop)
-        context['products'] = queryset
+
+        bestset = Product.objects.filter(deleteflag='0', id__in=bestid)
+        
+        if request.user.is_authenticated:
+            for product in list(bestset):
+                like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.id).count())
+        else:
+            like=""
+
+        context['like']=like
         context['bestset'] = bestset
-        context['shop'] = shop
+
         return render(request, 'product-best.html',  context)
 
-def recommend(product_id):
-    productid = list(Product.objects.filter(id=product_id).values_list('id',flat=True))[0]
-    orders = pd.read_csv('orders.csv')
-    grouped_df = orders.groupby('order_id').agg({"product_id": lambda x: list(set(x))})
-    dataset = list(grouped_df["product_id"])
-    #orders = pd.read_csv('orders.csv')
-    df_series = orders["product_id"].value_counts()
-    best = df_series.to_frame(name='Best').head(10).index.tolist()
-    queryset = Product.objects.filter(id__in=best)
-    print(queryset)
-   
-    te = TransactionEncoder()
-    te_ary = te.fit(dataset).transform(dataset)
-    df = pd.DataFrame(te_ary, columns=te.columns_)
-    frequent_itemsets = fpgrowth(df, min_support=0.75, use_colnames=True)
-    res = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
-    res1 = res[['antecedents', 'consequents', 'support', 'confidence','lift']]
-    rules = res1[res['confidence'] >= 1].reset_index(drop = True)
-    print(rules)
-    recommend_dict = {}
-    
-    for i in range(len(rules)) :
-        key = list(rules.iloc[i,0])
-        values = list(rules.iloc[i,1])
-        if len(key) == 1 :
-            try : 
-                recommend_dict[key[0]] += values
-            except :
-                recommend_dict[key[0]] = values
-        recommend_dict[key[0]] = list(set(recommend_dict[key[0]]))
-    
-    val = []
-    for key in recommend_dict.keys():
-        if key==productid :
-            val = recommend_dict[productid]
-            break
-    return val
-        
 def best():
     orders = pd.read_csv('orders.csv')
     df_series = orders["product_id"].value_counts()
