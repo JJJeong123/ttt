@@ -19,8 +19,10 @@ class ProductSearchView(View):
     '''
     def post(self, request: HttpRequest, *args, **kwargs):
         context={}
-        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
-        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
+        if request.user.is_authenticated:
+            context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+            context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         like=[]
         keyword = request.POST.get('keyword', False)
