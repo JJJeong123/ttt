@@ -1,24 +1,37 @@
-{% extends 'layouts/base.html' %} {% load static %}
+{% extends 'layouts/base.html' %} 
+{% load static %}
+
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="container-fluid" id="container-wrapper"> 
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 pl-2 text-gray-800">점포 목록(추후엔 테이블이 아닌 그림으로)</h1>
-  </div>
-    
+<div class="container shop__container my-5">
+    <div class="mb-4">
+      <h5 class="title mb-2">점포 구경하기</h5>
+      <small>점포명을 클릭하시면 채팅 화면으로 들어갑니다.</small>
+    </div>
+    <div class="row gy-3 shop__list">
+      {% for shop in ShopList %}
+      <aside class="col-lg-3 col-md-6">
+        <article class="box">
+          <div class="shop__category mb-3">
+            {{ shop.shop_category.name }}
+          </div>
+          <div class="shop__name h6" onclick="location.href='/chat/chat-page?shopId=' + '{{ shop.id }}'">
+            {{ shop.shop_name }}
+          </div>
+        </article> <!-- box.// -->
+      </aside>
+      {% endfor %}
+    </div>
+<!-- 
   <div class="row">
     <div class="col">
       <div class="card mb-4">
         <div class="card-body">
           <div class ="row g-3 needs-validation">
-            <!-- <div display="none">
-              <div id="Id" name="Id">{{ i.id }}</div>
-            </div> -->
             <div class="col-md-6 mb-3">
               <label class="form-label" for="ShopCategoryId">점포 카테고리</label>
               <select class="form-control" id="ShopCategoryId" name="ShopCategoryId" required>
@@ -45,9 +58,6 @@
   <div class="row">
     <div class="col">
       <div class="card mb-3 p-3">
-        <div class="card-header d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">점포 목록</h6>
-        </div>
         <div class="table-responsive p-3" id="aaa">
           <table class="table align-items-center table-flush table-hover" id="dataTableHover-shop">
             <thead class="thead-light">
@@ -87,14 +97,11 @@
       </div>
     </div>
   </div>
+-->
 </div>
-
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
-<script src="{% static 'jsmeta/chat/script_shop_list.js' %}"></script>
 
 {% endblock javascripts %}
