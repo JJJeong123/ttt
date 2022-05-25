@@ -6,6 +6,7 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from datetime import datetime
+from config.models import Member, CartProduct
 
 import pandas as pd
 import numpy as np
@@ -21,10 +22,14 @@ class ProductBestView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
         bestid = best()
+        like=[]
 
         bestset = Product.objects.filter(deleteflag='0', id__in=bestid)
         
         if request.user.is_authenticated:
+            context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+            context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
             for product in list(bestset):
                 like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.id).count())
         else:
