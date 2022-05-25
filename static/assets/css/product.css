@@ -688,3 +688,15 @@ video{
   left: 20px;
   z-index: 50;
 }
+.shop__list .card{
+  margin-right: 10px;
+}
+.shop__list .shop__name{
+  cursor: pointer;
+}
+.shop__list .shop__name:hover{
+  color: #1c5d1c;
+}
+.shop__container {
+  padding-bottom: 100px;
+}

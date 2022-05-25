@@ -45,11 +45,9 @@ class QnaTableView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
         answer=[]
-        qnas=[]
-        #qna=list(ProQna.objects.filter(deleteflag='0')\
-        #                        .values('created_at', 'answer_flag', 'title', 'id', 'member__mem_name', 'password', 'content'))
+        product = request.GET.get('product')
 
-        qna=list(ProQna.objects.filter(deleteflag='0')\
+        qna=list(ProQna.objects.filter(deleteflag='0', product__id=product)\
                                 .values('created_at', 'answer_flag', 'title', 'id', 'member__mem_name', 'password', 'content'))
 
         for i in range(0, len(qna)):
