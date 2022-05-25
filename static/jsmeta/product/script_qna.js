@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
+  let product_id=window.location.href.split("/").pop();
+  console.log(product_id)
 
   let table_qna = $('#dataTableHover-proqna').DataTable({
     destroy: true,
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     ajax: {
       'type' : 'GET',
-      'url': '/product/qna-table',
+      'url': `/product/qna-table?product=${product_id}`,
       'dataSrc': 'qna'
     },
     columnDefs: [
