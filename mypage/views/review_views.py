@@ -8,7 +8,7 @@ from django.db.models import IntegerField
 from django.db.models.functions import Cast
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from config.models import Comment, Member, Order, OrderProduct, Product
+from config.models import Comment, Member, Order, OrderProduct, Product, CartProduct
 
 class ReviewView(LoginRequiredMixin, View):
     '''
@@ -44,6 +44,9 @@ class ReviewView(LoginRequiredMixin, View):
         context['ordered_products']=ordered_products
         context['images_ordered']=images_ordered
 
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         return render(request, self.template_name, context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -75,12 +78,12 @@ class ReviewView(LoginRequiredMixin, View):
 
         return JsonResponse(context, content_type='application/json')
 
-class ReviewPostView(LoginRequiredMixin, TemplateView):
+class ReviewPostView(LoginRequiredMixin, View):
     '''
     후기 등록
     '''
     template_name = 'review_post.html' 
-
+    '''
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context={}
 
@@ -88,3 +91,15 @@ class ReviewPostView(LoginRequiredMixin, TemplateView):
         context['orderproduct_id'] = orderproduct_id
 
         return context
+    '''
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
+        orderproduct_id = list(OrderProduct.objects.filter(id=kwargs.get('id')).values_list('id', flat=True))[0]
+        context['orderproduct_id'] = orderproduct_id
+
+        return render(request, self.template_name, context)

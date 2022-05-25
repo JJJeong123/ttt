@@ -21,6 +21,8 @@ class ProductDetailView(View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         id = kwargs.get('id')
         product = Product.objects.get(id=id)
@@ -74,11 +76,19 @@ class ProductDetailView(View):
 
         return JsonResponse(context, content_type='application/json')
 
-class ProductListView(TemplateView):
+class ProductListView(View):
     '''
     카테고리별 상품 리스트
     '''
     template_name = 'product-list.html'
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
+        return render(request, self.template_name, context)#
 
 class ProductGridView(View):
     '''
@@ -87,6 +97,9 @@ class ProductGridView(View):
 
     def get(self, request: HttpRequest):
         context={}
+        #context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        #context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         imgs=[]
         like=[]
 

@@ -42,6 +42,8 @@ class CartView(LoginRequiredMixin, View):
         context['main_imgs']=main_imgs
         context['products']=products
         context['total_price']=total_price
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         return render(request, 'cart.html',  context)
     

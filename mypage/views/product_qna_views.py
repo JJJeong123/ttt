@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 
-from config.models import ProQna, ProQnaAnswer
+from config.models import ProQna, ProQnaAnswer, Member, CartProduct
 
 class ProductQnaListView(LoginRequiredMixin, View):
     '''
@@ -15,6 +15,9 @@ class ProductQnaListView(LoginRequiredMixin, View):
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
+
+        context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         
         return render(request, self.template_name, context)
     
@@ -59,6 +62,8 @@ class ProductQnaDetailView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, *args, **kwargs):
         id = kwargs.get('id')
         context={}
+        context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         context['qna'] = list(ProQna.objects.filter(id=id).values('title', 'content', 'created_at', 'answer_flag', 'id'))[0]
 

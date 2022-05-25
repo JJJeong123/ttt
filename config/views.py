@@ -184,6 +184,9 @@ class confirmInfo(LoginRequiredMixin, View):
         user_id = request.user.id
        
         context={}
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         context['member'] = Member.objects.get(user__id=user_id)
     
         return render(request, self.template_name,  context)
@@ -198,6 +201,9 @@ class ChangeMemView(View):
         user_id = request.user.id
        
         context={}
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         context['member'] = Member.objects.get(user__id=user_id)
     
         return render(request, self.template_name,  context)

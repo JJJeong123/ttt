@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 
-from config.models import Qna, QnaAnswer, QnaCategory, Member, Order
+from config.models import Qna, QnaAnswer, QnaCategory, Member, Order, CartProduct
 
 class QnaView(LoginRequiredMixin, View):
     '''
@@ -16,6 +16,9 @@ class QnaView(LoginRequiredMixin, View):
         
         context['cats']=list(QnaCategory.objects.filter(deleteflag='0').values_list('name', flat=True))
         context['orders']=list(Order.objects.filter(deleteflag='0', member__user=request.user).values_list('order_no', flat=True))
+        
+        context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         
         return render(request, 'qna_post.html', context)
 
@@ -67,6 +70,9 @@ class QnaListView(View):
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
+        context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         return render(request, self.template_name, context)
 
 
@@ -91,6 +97,8 @@ class QnaDetailView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, *args, **kwargs):
         id = kwargs.get('id')
         context={}
+        context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         context['qna'] = list(Qna.objects.filter(id=id).values('category', 'title', 'content', 'created_at', 'answer_flag'))[0]
         context['image']=Qna.objects.get(id=id)

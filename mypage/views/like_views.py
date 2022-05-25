@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import Cast
 from datetime import datetime
-from config.models import Product, Liked, LikedProduct, Member
+from config.models import Product, Liked, LikedProduct, Member, CartProduct
 
 
 class LikeView(LoginRequiredMixin, View):
@@ -26,6 +26,10 @@ class LikeView(LoginRequiredMixin, View):
         
         context={
           'liked_products': liked_products,
+          'memname': list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0],
+          'cart': CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count(),
+          'memname': list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0],
+          'cart': CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         }
 
         return render(request, 'like.html', context)
@@ -86,7 +90,6 @@ class LikeView(LoginRequiredMixin, View):
             deleteflag='1',
             updated_at=datetime.now(),
         )
-        context['success']=True
         context['success']=True
 
         return JsonResponse(context, content_type='application/json')

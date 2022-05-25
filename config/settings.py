@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     'mypage',
     'storages',
     'channels',
-    'sslserver',
+    #'sslserver',
 ]
 
 MIDDLEWARE = [
