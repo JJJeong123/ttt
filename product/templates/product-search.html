@@ -19,6 +19,7 @@
       <figure class="card card-product-grid" value="{{p.id}}">
         <div class="img-wrap1 px-1 pt-0" style="cursor:pointer; border-radius: 2px;">
           <span class="topbar">
+          {% if like != "" %}
             <a class="btn btn-sm float-end a__heart" onclick="likeProduct(this, '{{p.id}}')">
               {% with isLiked=like|index:forloop.counter0 %}
               {% if isLiked != 0 %}
@@ -28,6 +29,7 @@
               {% endif %}
               {% endwith %}
             </a>
+          {% endif %}
           </span>
           <img src="{{p.main_img.url}}">
         </div>

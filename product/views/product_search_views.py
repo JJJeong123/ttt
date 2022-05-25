@@ -24,8 +24,11 @@ class ProductSearchView(View):
 
         products = (Product.objects.filter(name__contains=keyword, deleteflag='0'))
 
-        for product in list(products):
-            like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.id).count())
+        if request.user.is_authenticated:
+            for product in list(products):
+                like.append(LikedProduct.objects.filter(liked__member__user=request.user, deleteflag='0', product__id=product.id).count())
+        else:
+            like=""
 
         context['products']=products
         context['like']=like
