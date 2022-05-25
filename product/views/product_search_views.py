@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from datetime import datetime
 
-from config.models import Product, LikedProduct
+from config.models import Product, LikedProduct, Member, CartProduct
 
 class ProductsView(TemplateView):
     template_name="product-search.html"
@@ -19,6 +19,9 @@ class ProductSearchView(View):
     '''
     def post(self, request: HttpRequest, *args, **kwargs):
         context={}
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         like=[]
         keyword = request.POST.get('keyword', False)
 

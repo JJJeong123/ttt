@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 
-from config.models import Address, Member
+from config.models import Address, Member, CartProduct
 
 class AddressView(LoginRequiredMixin, View):
     '''
@@ -15,6 +15,8 @@ class AddressView(LoginRequiredMixin, View):
         context={}
         context['addresses']=list(Address.objects.filter(deleteflag='0', member__user=request.user).order_by('-created_at')\
                                   .values('ad_name', 'code', 'ad_detail', 'id'))
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         
         return render(request, 'address.html', context)
 

@@ -18,6 +18,9 @@ class CheckoutView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
 
+        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         return render(request, 'checkout.html', context)
     
     def post(self, request: HttpRequest):
@@ -170,6 +173,8 @@ class OrderHistoryView(LoginRequiredMixin, View):
             'amount': amount,
             'orders': orders,
             'num': num,
+            'memname': list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0],
+            'cart': CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         }
         return render(request, 'order_history.html', context)
 
@@ -221,6 +226,8 @@ class OrderDetailView(LoginRequiredMixin, View):
             'order': order,
             'products': products,
             'items': main_imgs,
+            'memname':list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0],
+            'cart': CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
         }
 
         return render(request, 'order_detail.html',  context)
