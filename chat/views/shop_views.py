@@ -10,9 +10,11 @@ class ShopView(View):
     def get(self, request: HttpRequest):
         context = {}
 
+        if request.user.is_authenticated:
+            context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
+            context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
+
         context['ShopCategories'] = ShopCategory.objects.filter(deleteflag='0')
         context['ShopList'] = Shop.objects.filter(deleteflag='0')
-        context['memname'] = list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
-        context['cart'] = CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
         return render(request, self.template_name, context)
