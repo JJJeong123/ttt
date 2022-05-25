@@ -8,11 +8,6 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import pandas as pd
-import numpy as np
-import mlxtend
-from mlxtend.frequent_patterns import fpgrowth, association_rules, apriori
-from mlxtend.preprocessing import TransactionEncoder
-import openpyxl
 
 from config.models import Member, Membership, Product, CartProduct
 
@@ -26,11 +21,19 @@ class index(View):
 
         bestid = best()
 
-        shop = Product.objects.filter(shop_id=13)
+        shop = Product.objects.filter(shop_id=13, status='1', deleteflag='0')
+        tteoks = Product.objects.filter(shop__id=35, status='1', deleteflag='0')
+        fruits = Product.objects.filter(shop__id=15, status='1', deleteflag='0')
+        food = Product.objects.filter(shop__id=32, status='1', deleteflag='0')
+        nuts = Product.objects.filter(pro_subcategory__id=3, status='1', deleteflag='0')
         bestset = Product.objects.filter(id__in=bestid)
 
         context['shop'] = shop
+        context['tteoks'] = tteoks
         context['bestset'] = bestset
+        context['food'] = food
+        context['fruits'] = fruits
+        context['nuts'] = nuts
 
         return render(request, 'index.html', context)
 
