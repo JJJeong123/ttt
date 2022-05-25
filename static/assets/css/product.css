@@ -607,3 +607,81 @@ table.dataTable tbody th, table.dataTable tbody td:last-child {
 .card-product-grid .price-wrap .text-danger {
   color: #ff5b5b !important;
 }
+.products__info h6 {
+  cursor: pointer;
+}
+#productList {
+  display: none;
+}
+#productList .product__list{
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 200px;
+}
+video{
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /*Safari and Chrome*/
+  -moz-transform: rotateY(180deg); /*Firefox*/
+}
+.video {
+  height: 335px;
+}
+.video .content-body {
+  padding: 5px;
+}
+.video__screen {
+  border-radius: 5px;
+  height: 320px;
+}
+.chat__text li{
+  list-style: none;
+}
+.chat__text ul {
+  padding-left: 0;
+}
+.chat__log {
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 290px;
+}
+.chat__log::-webkit-scrollbar,
+.product__list::-webkit-scrollbar {
+  width: 5px;
+}
+.chat__log::-webkit-scrollbar-thumb,
+.product__list::-webkit-scrollbar-thumb {
+  background-color: #9da1a7;
+  border-radius: 2px;
+}
+.chat__text{
+  position: relative;
+}
+.chat__text .card{
+  height: 397px;
+}
+.chat__send {
+  margin-top: 10px;
+  height: 20px;
+  position: absolute;
+  bottom: 45px;
+}
+.chat__button {
+  position: absolute;
+  display:block;
+  right: 50%;
+  width: 200px;
+  bottom: 0;
+  transform: translateY(-50%) translateX(100%);
+  z-index: 50;
+}
+
+.chat__button .btn-danger {
+  background-color: #ff5b5b;
+  border-color: #ff5b5b; 
+}
+.video .username{
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  z-index: 50;
+}

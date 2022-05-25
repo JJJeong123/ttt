@@ -125,7 +125,7 @@ const btnHangup = document.getElementById('hangupButton');
 btnJoin.onclick = () => {
     // disable and vanish join button
     btnJoin.disabled = true;
-    btnJoin.style.visibility = 'hidden';
+    btnJoin.style.display = 'none';
 
     webSocket = new WebSocket(endPoint);
 
@@ -146,30 +146,17 @@ btnJoin.onclick = () => {
     }
 
     $("#productList").show();
+    let products=document.getElementsByClassName("products__info");
 
-    // shows products of the shop
-    let table_products = $('#dataTableHover-prolist').DataTable({
-        destroy: true,
-        autoWidth: false,
-        searching: false,
-        paging: false,
-    
-        ajax: {
-          'type' : 'GET',
-          'url': '/chat/product-list?shopId=' + shopId,
-          'dataSrc': 'products'
-        },
-        createdRow: function( row, data, dataIndex ) {
-            $(row).on('click', function(e) {
-                startAsk(data.name, data.id);
-            });
-          },
-        columns: [
-          {data : 'name'},
-          {data : 'price'},
-          {data : 'description'},
-        ],
-    });
+    for(let i=0; i<products.length; i++){
+      products[i].addEventListener("click", function(){
+
+        let product_name=products[i].children[0].innerText;
+        let product_id=products[i].getAttribute("value");
+      
+        startAsk(product_name, product_id, i);
+      })
+    }
 
     btnSendMsg.disabled = false;
     messageInput.disabled = false;
@@ -177,7 +164,7 @@ btnJoin.onclick = () => {
 
 btnHangup.onclick = () => {
     btnJoin.disabled = false;
-    btnJoin.style.visibility = 'show';
+    btnJoin.style.display = 'flex';
     btnSendMsg.disabled = true;
     messageInput.disabled = true;
 
@@ -292,7 +279,7 @@ function btnSendMsgOnClick(){
     var message = messageInput.value;
     
     var li = document.createElement("li");
-    li.appendChild(document.createTextNode("Me: " + message));
+    li.appendChild(document.createTextNode("나: " + message));
     ul.appendChild(li);
     
     var dataChannels = getDataChannels();
@@ -555,7 +542,7 @@ function removeVideo(video){
 }
 
 
-function startAsk(productName, productId){
+function startAsk(productName, productId, i){
     console.log("startAsk");
     console.log('Selected product name: ', productName);
     console.log('Selected product id: ', productId);
@@ -566,7 +553,17 @@ function startAsk(productName, productId){
         'selected_product': productId,
         'selected_product_name': productName,
     });
-    $('#selectedPro').val(productName); 
+
+    //let product=document.getElementsByClassName("products__info")[i].parentNode.parentNode.parentNode;
+    //
+    //if(product.style.border === ""){
+    //  product.style.border="1px solid rgb(28, 93, 28)";
+    //}
+    //else{
+    //  product.style.border="";
+    //}
+  
+    //$('#selectedPro').val(productName); 
 
     runHandpose();
 }

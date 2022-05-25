@@ -12,6 +12,8 @@ class ChatView(View):
         shop = Shop.objects.get(id=shopId)
       
         context['shop'] = shop
+        context['products'] = (Product.objects.filter(shop__id=shopId, status = '1', deleteflag='0'))
+
         
         return render(request, self.template_name, context=context)
 
@@ -19,10 +21,9 @@ class ProductListView(View):
 
     def get(self, request: HttpRequest):
         context={}
-        shopId = request.GET.get('shopId')
-        context['products'] = list(Product.objects.filter(shop__id=shopId, status = '1').values('id', 'name', 'price', 'description'))
 
-        print(context['products'])
+        shopId = request.GET.get('shopId')
+        context['products'] = (Product.objects.filter(shop__id=shopId, status = '1', deleteflag='0'))
 
         return JsonResponse(context, content_type='application/json')
 
