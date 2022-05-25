@@ -7,23 +7,31 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+import pandas as pd
+import numpy as np
+import mlxtend
+from mlxtend.frequent_patterns import fpgrowth, association_rules, apriori
+from mlxtend.preprocessing import TransactionEncoder
+import openpyxl
+
 from config.models import Member, Membership, Product, CartProduct
 
 class index(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context={}
-        best=[]
+
         if request.user.is_authenticated:
             context['memname']=list(Member.objects.filter(user_id=request.user.id).values_list('mem_name', flat=True))[0]
             context['cart']=CartProduct.objects.filter(cart__member__user=request.user, deleteflag='0').count()
 
-        '''
-        for i in range(6):
-            #best.append(Product.objects.get(id=(264+i)))
-            print(best)
-            '''
+        bestid = best()
 
-        context['best']=best
+        shop = Product.objects.filter(shop_id=13)
+        bestset = Product.objects.filter(id__in=bestid)
+
+        context['shop'] = shop
+        context['bestset'] = bestset
+
         return render(request, 'index.html', context)
 
 class LoginView(View):
@@ -238,3 +246,10 @@ class ChangeMemView(View):
         context['success'] = True
         context['message'] = '회원정보가 수정되었습니다.'
         return JsonResponse(context, content_type='application/json')
+
+def best():
+    orders = pd.read_csv('orders.csv')
+    df_series = orders["product_id"].value_counts()
+    best = df_series.to_frame(name='Best').head(10).index.tolist()
+   
+    return best
