@@ -1,3 +1,20 @@
+const CoinGesture = new fp.GestureDescription('coin');
+
+CoinGesture.addCurl(fp.Finger.Thumb, fp.FingerCurl.HalfCurl, 1.0);
+CoinGesture.addCurl(fp.Finger.Index, fp.FingerCurl.HalfCurl, 1.0);
+
+// all other fingers
+for(let finger of [fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
+    CoinGesture.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
+    CoinGesture.addCurl(finger, fp.FingerCurl.NoCurl, 0.9);
+    CoinGesture.addDirection(finger, fp.FingerDirection.DiagonalUpRight, 0.9);
+    CoinGesture.addDirection(finger, fp.FingerDirection.DiagonalUpLeft, 0.9);
+    CoinGesture.addDirection(finger, fp.FingerDirection.VerticalUp, 0.9);
+}
+
+//CoinGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.VerticalDown, 1.0);
+
+
 // map peer usernames to corresponding RTCPeerConnections
 let mapPeers = {};
 
@@ -56,8 +73,7 @@ const detect = async (model, detectTimer) => {
 
     if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
-            fp.Gestures.VictoryGesture,
-            fp.Gestures.ThumbsUpGesture,
+            CoinGesture,
         ]);
         const gesture = await GE.estimate(hand[0].landmarks, 4);
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
@@ -73,7 +89,7 @@ const detect = async (model, detectTimer) => {
             let result = gesture.gestures.reduce((p, c) => { 
                 return (p.score > c.score) ? p : c;
             });
-            if (result.name ==='victory' && result.score > 9) {
+            if (result.name ==='coin' && result.score > 9) {
                 testfunction(result);
                 clearInterval(detectTimer);
             }
@@ -571,13 +587,3 @@ function startAsk(productName, productId){
     runHandpose();
 }
 
-
-
-/*
-if productName
-victory => chat 
-thumbs up => yes
-thumbs down => no
-
-if yes => database order
-*/
