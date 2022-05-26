@@ -29,7 +29,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ shopitem.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ shopitem.name }}</div>
+          <div class="item__info-title"
+              onclick="window.open('/product/product-detail/'+'{{ shopitem.id }}'+'','_self');"
+              >{{ shopitem.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ shopitem.price|intcomma }}원</span>
         </div>
@@ -60,7 +62,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ top.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ top.name }}</div>
+          <div class="item__info-title"
+              onclick="window.open('/product/product-detail/'+'{{ top.id }}'+'','_self');"
+              >{{ top.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ top.price|intcomma }}원</span>
         </div>
@@ -92,7 +96,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ tteok.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ tteok.name }}</div>
+          <div class="item__info-title"
+              onclick="window.open('/product/product-detail/'+'{{ tteok.id }}'+'','_self');"
+              >{{ tteok.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ tteok.price|intcomma }}원</span>
         </div>
@@ -124,7 +130,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ f.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ f.name }}</div>
+          <div class="item__info-title"
+          onclick="window.open('/product/product-detail/'+'{{ f.id }}'+'','_self');"
+          >{{ f.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ f.price|intcomma }}원</span>
         </div>
@@ -156,7 +164,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ fruit.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ fruit.name }}</div>
+          <div class="item__info-title"
+              onclick="window.open('/product/product-detail/'+'{{ fruit.id }}'+'','_self');"
+              >{{ fruit.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ fruit.price|intcomma }}원</span>
         </div>
@@ -188,7 +198,9 @@
           class="item__poster" 
           onclick="window.open('/product/product-detail/'+'{{ n.id }}'+'','_self');" />
         <div class="item__info">
-          <div class="item__info-title">{{ n.name }}</div>
+          <div class="item__info-title"
+                onclick="window.open('/product/product-detail/'+'{{ n.id }}'+'','_self');"
+              >{{ n.name }}</div>
           <span class="item__info-dc">30%</span>
           <span>{{ n.price|intcomma }}원</span>
         </div>
