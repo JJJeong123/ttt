@@ -155,7 +155,11 @@
       </form>
         <a href="{% url 'mypage:address' %}"><i class="bi bi-geo-alt"></i></a>
         <a class="nav-link scrollto nav-cart" href="{% url 'mypage:cart' %}">
-          <i class="bi bi-cart2"><span class="cart-notification">{{ cart }}</span></i>
+          <i class="bi bi-cart2">
+            {% if request.user.id %}
+            <span class="cart-notification">{{ cart }}</span>
+            {% endif %}
+          </i>
         </a>
         {% if request.user.id %}
         <li class="dropdown">
